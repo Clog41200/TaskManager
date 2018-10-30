@@ -1,16 +1,56 @@
-const { app, BrowserWindow } = require('electron')
+const { app, BrowserWindow } = require('electron');
+const {Client} = require('pg');
   
   // Gardez une reference globale de l'objet window, si vous ne le faites pas, la fenetre sera
   // fermee automatiquement quand l'objet JavaScript sera garbage collected.
   let win
+  let connectPG;
   
   function createWindow () {
     // Créer le browser window.
-    win = new BrowserWindow({ show: false});
+    win = new BrowserWindow({ show: false, frame: false});
     win.maximize();
-    win.show();
+    connectPG = new Client({
+      user: 'postgres',
+      host: 'localhost',
+      database: 'TaskManager',
+      password: 'postgres',
+      port: 5432,
+    });
+
+    connectPG.connect((err)=>{
+      if(err){
+        console.log(err.message);
+        app.quit();
+      }
+      else{
+
+        connectPG.query('SELECT COUNT(*) FROM "Users"', (err,res)=>{
+          if(err){
+            console.log(err.stack);
+          }else{
+            var count = res.rows[0];
+            if(count>0)
+            {
+              //win.loadFile('dist/taskManager/index.html');
+              win.loadURL('http://localhost:4200/nousers');
+
+            }else{
+              //win.loadFile('dist/taskManager/index.html');
+              win.loadURL('http://localhost:4200');
+            }
+            win.show();
+          }
+        });
+
+
+      }
+    }); 
+
     // et charge le index.html de l'application.
-    win.loadFile('index.html')
+
+    
+
     
     // Émit lorsque la fenêtre est fermée.
     win.on('closed', () => {
@@ -18,6 +58,7 @@ const { app, BrowserWindow } = require('electron')
       // dans un tableau si votre application supporte le multi-fenêtre. C'est le moment
       // où vous devez supprimer l'élément correspondant.
       win = null
+      connectPG.end();
     })
   }
   
