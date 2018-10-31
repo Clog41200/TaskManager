@@ -1,0 +1,17 @@
+<div style="padding: 10px">
+  <h3 style="text-align: center">Initialisation</h3>
+  <form [formGroup]="initform" (ngSubmit)="submit()" style="margin-top:70px;display: flex;flex-direction: column; height: 100px; justify-content: space-between">
+
+    <div style="display: flex;flex-direction: row">
+      <span style="flex-grow: 1; align-self: center;">eMail</span>
+      <input type="text" style="width:70%" [ngStyle]="{'box-shadow':(initform.get('login').valid)?'unset':'0 0 1px 1px red'}" formControlName="login">
+    </div>
+    <div style="display: flex;flex-direction: row">
+      <span style="flex-grow: 1;align-self: center;">Password</span>
+      <input type="password" style="width:70%" [ngStyle]="{'box-shadow':(initform.get('password').valid)?'unset':'0 0 1px 1px red'}" formControlName="password"> 
+    </div>
+
+    <button type="submit" [disabled]="!initform.valid" >Créer le premier utilisateur</button>
+
+  </form>
+</div>

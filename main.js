@@ -1,4 +1,4 @@
-const { app, BrowserWindow } = require('electron');
+const { app, BrowserWindow, ipcMain } = require('electron');
 const {Client} = require('pg');
   
   // Gardez une reference globale de l'objet window, si vous ne le faites pas, la fenetre sera
@@ -25,21 +25,22 @@ const {Client} = require('pg');
       }
       else{
 
-        connectPG.query('SELECT COUNT(*) FROM "Users"', (err,res)=>{
+        connectPG.query('SELECT COUNT(*) as nb FROM "Users"', (err,res)=>{
           if(err){
             console.log(err.stack);
           }else{
-            var count = res.rows[0];
-            if(count>0)
+            var count = res.rows[0].nb;
+            if(count==0)
             {
               //win.loadFile('dist/taskManager/index.html');
               win.loadURL('http://localhost:4200/nousers');
 
+
             }else{
               //win.loadFile('dist/taskManager/index.html');
               win.loadURL('http://localhost:4200');
+              win.show();
             }
-            win.show();
           }
         });
 
@@ -61,7 +62,20 @@ const {Client} = require('pg');
       connectPG.end();
     })
   }
-  
+
+  ipcMain.on('query', (event, uuid, args) => {
+
+    connectPG.query(args, (err, res) => {
+        try {
+            if (!event.sender.isDestroyed())
+                event.sender.send(uuid, JSON.stringify(res));
+        } catch (e) {
+            console.log(e);
+        }
+
+    });
+
+  });
   // Cette méthode sera appelée quant Electron aura fini
   // de s'initialiser et sera prêt à créer des fenêtres de navigation.
   // Certaines APIs peuvent être utilisées uniquement quand cet événement est émit.

@@ -1,7 +1,13 @@
 <div  style="display:flex;flex-direction:row;background-color:darkgrey;height:30px;-webkit-app-region: drag;">
-    <span style="flex-grow: 1;align-self: center">Titre application</span>
-    <button onclick="window.close();">
-    <fa name="close"></fa>
+    
+    <button style="cursor:pointer" >
+        <fa name="bars" style="cursor:pointer"></fa>
+    </button>
+
+    <span style="flex-grow: 1"></span>
+
+    <button  onclick="window.close();" style="cursor:pointer">
+        <fa name="close" style="cursor:pointer"></fa>
     </button>
 </div>
 <router-outlet></router-outlet>
