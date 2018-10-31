@@ -13,7 +13,6 @@ export class UsersService {
     return new Promise((resolve,reject)=>{
       var uuid = this.pg.guid();
       ipcRenderer.emit('Users_Add',{uuid:uuid,data:user});
-      
       ipcRenderer.once(uuid,(retour)=>{
         resolve(retour);
       });

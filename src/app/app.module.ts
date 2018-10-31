@@ -8,6 +8,7 @@ import { AppComponent } from './app.component';
 
 import { AngularFontAwesomeModule } from 'angular-font-awesome';
 import { NgxElectronModule } from 'ngx-electron';
+import { MainComponent } from './main/main.component';
 
 @NgModule({
   declarations: [

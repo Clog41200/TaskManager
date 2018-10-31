@@ -35,11 +35,9 @@ const {Client} = require('pg');
               //win.loadFile('dist/taskManager/index.html');
               win.loadURL('http://localhost:4200/nousers');
 
-
             }else{
               //win.loadFile('dist/taskManager/index.html');
               win.loadURL('http://localhost:4200');
-              win.show();
             }
           }
         });
@@ -63,18 +61,31 @@ const {Client} = require('pg');
     })
   }
 
-  ipcMain.on('query', (event, uuid, args) => {
-
-    connectPG.query(args, (err, res) => {
-        try {
-            if (!event.sender.isDestroyed())
-                event.sender.send(uuid, JSON.stringify(res));
-        } catch (e) {
-            console.log(e);
-        }
-
+  ipcMain.on('initialisation', (event, uuid, args) => {
+    connectPG.query('select * from "Rights" where label=$1',['Administrateur']).then((exists)=>{
+      if(exists.rows.length>0)
+      {
+          connectPG.query('INSERT INTO "Users" (mail,password) VALUES($1,$2) RETURNING id',[args.login,args.password]).then((resuser)=>{
+            connectPG.query('INSERT INTO "UsersRights" ("idRight","idUser") VALUES ($1,$2)',[exists.rows[0].id,resuser.rows[0].id]).then((res)=>{
+              win.hide();
+              win.loadURL('http://localhost:4200');
+    
+            });        
+          });
+      }
+      else{
+        connectPG.query('insert into "Rights" (label) VALUES($1) returning id',['Administrateur']).then((resrights)=>{
+          connectPG.query('INSERT INTO "Users" (mail,password) VALUES($1,$2) RETURNING id',[args.login,args.password]).then((resuser)=>{
+            connectPG.query('INSERT INTO "UsersRights" ("idRight","idUser") VALUES ($1,$2)',[resrights.rows[0].id,resuser.rows[0].id]).then((res)=>{
+              win.hide();
+              win.loadURL('http://localhost:4200');
+    
+            });        
+          });
+        });   
+      }
     });
-
+    
   });
   // Cette méthode sera appelée quant Electron aura fini
   // de s'initialiser et sera prêt à créer des fenêtres de navigation.

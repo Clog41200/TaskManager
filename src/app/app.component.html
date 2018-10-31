@@ -1,12 +1,12 @@
 <div  style="display:flex;flex-direction:row;background-color:darkgrey;height:30px;-webkit-app-region: drag;">
     
-    <button style="cursor:pointer" >
+    <button style="cursor:pointer;-webkit-app-region:no-drag;" >
         <fa name="bars" style="cursor:pointer"></fa>
     </button>
 
-    <span style="flex-grow: 1"></span>
+    <span style="flex-grow: 1" (dblclick)="toggleMaximize()"></span>
 
-    <button  onclick="window.close();" style="cursor:pointer">
+    <button  onclick="window.close();" style="cursor:pointer;-webkit-app-region:no-drag;">
         <fa name="close" style="cursor:pointer"></fa>
     </button>
 </div>
