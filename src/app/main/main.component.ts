@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ElectronService } from 'ngx-electron';
+import { Users } from '../users.service';
 
 @Component({
   selector: 'app-main',
@@ -8,9 +9,12 @@ import { ElectronService } from 'ngx-electron';
 })
 export class MainComponent implements OnInit {
 
+  public currentUser: Users;
+
   constructor(private elec: ElectronService) { }
 
   ngOnInit() {
+    this.currentUser = JSON.parse(localStorage.getItem('user'));
     this.elec.remote.getCurrentWindow().maximize();
     this.elec.remote.getCurrentWindow().show();
   }

@@ -1,0 +1,24 @@
+<div style="display: flex;flex-direction: column; padding:10px">
+  <div style="display: flex;flex-direction: row">
+    <h2>Gestion des utilisateurs</h2>
+    <button (click)="ajouter()" style="width:100px;margin-left:10px;height:30px;align-self: center">
+      <fa name="plus"></fa>
+      Ajouter
+    </button>
+  </div>
+
+  <div style="display: flex;flex-direction: row;" *ngFor="let user of users" >
+    <div style="align-self: center">
+      <button type="button">
+        <fa name="trash"></fa>
+        Supprimer
+      </button>
+      <button type="button">
+          <fa name="edit"></fa>
+          Modifier
+        </button>
+    </div>
+    <div style="padding: 0px 5px;align-self: center">{{user.id}}</div>
+    <div style="align-self: center">{{user.mail}}</div>
+  </div>
+</div>

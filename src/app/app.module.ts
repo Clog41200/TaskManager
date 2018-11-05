@@ -1,3 +1,9 @@
+import {
+  MatButtonModule,
+  MatIconModule,
+  MatMenuModule
+} from '@angular/material';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { BrowserModule } from '@angular/platform-browser';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
@@ -8,21 +14,22 @@ import { AppComponent } from './app.component';
 
 import { AngularFontAwesomeModule } from 'angular-font-awesome';
 import { NgxElectronModule } from 'ngx-electron';
-import { MainComponent } from './main/main.component';
+import { UserDialogComponent } from './user-dialog/user-dialog.component';
 
 @NgModule({
-  declarations: [
-    AppComponent
-  ],
+  declarations: [AppComponent],
   imports: [
     BrowserModule,
     FormsModule,
     ReactiveFormsModule,
     AppRoutingModule,
     AngularFontAwesomeModule,
-    NgxElectronModule
+    NgxElectronModule,
+    MatButtonModule,
+    BrowserAnimationsModule,
+    MatMenuModule
   ],
   providers: [],
   bootstrap: [AppComponent]
 })
-export class AppModule { }
+export class AppModule {}

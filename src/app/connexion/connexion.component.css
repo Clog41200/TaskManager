@@ -1,0 +1,9 @@
+.divErreur {
+    padding: 10px;
+    border: 1px solid red;
+    background: #ff72728a;
+    color: darkred;
+    text-align: center;
+    transition: opacity 0.5s;
+}
+
