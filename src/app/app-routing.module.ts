@@ -14,7 +14,9 @@ import {
   MatDialogModule,
   MatInputModule,
   MatFormFieldModule,
-  MatButtonModule
+  MatButtonModule,
+  MatToolbarModule,
+  MatTableModule
 } from '@angular/material';
 import { UsersService } from './users.service';
 
@@ -45,7 +47,9 @@ const routes: Routes = [
     MatInputModule,
     MatButtonModule,
     MatFormFieldModule,
-    BrowserAnimationsModule
+    BrowserAnimationsModule,
+    MatToolbarModule,
+    MatTableModule
   ],
   exports: [RouterModule],
   providers: [UsersService],

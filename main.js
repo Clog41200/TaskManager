@@ -52,6 +52,12 @@ function createWindow() {
   });
 }
 
+ipcMain.on("query",(event,uuid,query,args)=>{
+  connectPG.query(query,args).then((res)=>{
+    event.sender.send(uuid,res.rows);
+  });
+});
+
 ipcMain.on("initialisation", (event, uuid, args) => {
   connectPG
     .query("select * from rights where label=$1", ["Administrateur"])

@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { Rights, RightsService } from '../rights.service';
 
 @Component({
   selector: 'app-rights-managment',
@@ -6,10 +7,13 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./rights-managment.component.css']
 })
 export class RightsManagmentComponent implements OnInit {
+  public rights: Array<Rights>;
 
-  constructor() { }
+  constructor(private rightsService: RightsService) {}
 
   ngOnInit() {
+    this.rightsService.GetAll().then(res => {
+      this.rights = res;
+    });
   }
-
 }

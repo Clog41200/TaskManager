@@ -1,3 +1,33 @@
-<p>
-  rights-managment works!
-</p>
+<mat-toolbar style="justify-content: space-between">
+  <span>Gestion des droits</span>
+  <button mat-button (click)="ajouter()">
+    <fa name="plus"></fa> Ajouter
+  </button>
+</mat-toolbar>
+
+<mat-table [dataSource]="rights" style="width:100%">
+
+  <ng-container matColumnDef="label">
+    <mat-header-cell *matHeaderCellDef>Libellé</mat-header-cell>
+    <mat-cell *matCellDef="let right">{{right.label}}</mat-cell>
+  </ng-container>
+  <ng-container matColumnDef="action">
+    <mat-header-cell *matHeaderCellDef>Actions</mat-header-cell>
+    <mat-cell *matCellDef="let right">
+      <button mat-raised-button color="warn" (click)="delete(right)">
+        <fa name="trash"></fa>
+      </button>
+      <button mat-raised-button (click)="edit(right)">
+        <fa name="edit"></fa>
+      </button>
+    </mat-cell>
+  </ng-container>
+  <ng-container matColumnDef="id">
+    <mat-header-cell *matHeaderCellDef>Id</mat-header-cell>
+    <mat-cell *matCellDef="let right">{{right.id}}</mat-cell>
+  </ng-container>
+
+
+  <mat-header-row *matHeaderRowDef="['action','id','label']"></mat-header-row>
+  <mat-row *matRowDef="let row; columns: ['action','id','label'];"></mat-row>
+</mat-table>
