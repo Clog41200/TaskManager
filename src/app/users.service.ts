@@ -16,8 +16,9 @@ export class UsersService {
   AddUser(user: Users): Promise<Users> {
     return new Promise((resolve, reject) => {
       const uuid = this.pg.guid();
-      this.electron.ipcRenderer.emit('Users_Add', { uuid: uuid, data: user });
-      this.electron.ipcRenderer.once(uuid, retour => {
+      console.log('Ajout d\'un utilisateur');
+      this.electron.ipcRenderer.send('Users_Add', { uuid: uuid, data: user });
+      this.electron.ipcRenderer.once(uuid, (event, retour) => {
         this.zone.run(() => {
           resolve(retour);
         });
@@ -25,10 +26,31 @@ export class UsersService {
     });
   }
 
+  UpdateUser(user: Users): Promise<void> {
+    return new Promise((resolve, reject) => {
+      this.electron.ipcRenderer.send('Users_Update', user);
+      this.electron.ipcRenderer.once('Users_updated', (event, res) => {
+        this.zone.run(() => {
+          resolve(res);
+        });
+      });
+    });
+  }
+
+  Delete(user: Users): Promise<void> {
+    return new Promise((resolve, reject) => {
+      this.electron.ipcRenderer.once('deleted_user', () => {
+        this.zone.run(() => {
+          resolve();
+        });
+      });
+      this.electron.ipcRenderer.send('Delete_User', user);
+    });
+  }
+
   GetAll(): Promise<Array<Users>> {
     return new Promise((resolve, reject) => {
       this.electron.ipcRenderer.once('GetUsers', (event, data) => {
-        console.log(data);
         resolve(data);
       });
       this.electron.ipcRenderer.send('GetUsers');
@@ -37,7 +59,13 @@ export class UsersService {
 }
 
 export class Users {
-  public id: 0;
-  public mail: '';
-  public password: '';
+  public id: Number;
+  public mail: String;
+  public password: String;
+
+  constructor() {
+    this.id = 0;
+    this.mail = '';
+    this.password = '';
+  }
 }

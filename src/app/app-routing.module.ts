@@ -10,7 +10,13 @@ import { MainComponent } from './main/main.component';
 import { ConnexionComponent } from './connexion/connexion.component';
 import { UsersManagmentComponent } from './users-managment/users-managment.component';
 import { RightsManagmentComponent } from './rights-managment/rights-managment.component';
-import { MatDialogModule, MatInputModule, MatFormFieldModule, MatButtonModule } from '@angular/material';
+import {
+  MatDialogModule,
+  MatInputModule,
+  MatFormFieldModule,
+  MatButtonModule
+} from '@angular/material';
+import { UsersService } from './users.service';
 
 const routes: Routes = [
   { path: 'nousers', component: InitAppComponent },
@@ -42,6 +48,7 @@ const routes: Routes = [
     BrowserAnimationsModule
   ],
   exports: [RouterModule],
+  providers: [UsersService],
   entryComponents: [UserDialogComponent]
 })
 export class AppRoutingModule {}
