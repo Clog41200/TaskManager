@@ -16,6 +16,10 @@ export class RightsService {
   }
 
   Delete(right: Rights): Promise<any> {
+    this.pg
+    .Query('DELETE from users_rights where "idRight"=$1', [right.id])
+    .then();
+
     return this.pg.Query('delete from rights where id = $1', [right.id]);
   }
 
@@ -29,6 +33,10 @@ export class RightsService {
       right.id
     ]);
   }
+  GetById(id: number): Promise<Rights> {
+    return this.pg.Query('SELECT * FROM rights where id=$1', [id]);
+  }
+
 }
 
 export class Rights {

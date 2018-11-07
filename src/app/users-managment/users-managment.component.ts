@@ -1,3 +1,4 @@
+import { UserRightsDialogComponent } from './../user-rights-dialog/user-rights-dialog.component';
 import { UsersService, Users } from './../users.service';
 import { Component, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material';
@@ -35,7 +36,6 @@ export class UsersManagmentComponent implements OnInit {
         this.getall();
       }
     });
-
   }
 
   ajouter() {
@@ -45,5 +45,9 @@ export class UsersManagmentComponent implements OnInit {
         this.getall();
       }
     });
+  }
+
+  editRights(user) {
+    const diag = this.dialog.open(UserRightsDialogComponent, { data: user });
   }
 }

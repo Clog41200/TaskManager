@@ -10,11 +10,14 @@
   <ng-container matColumnDef="action">
     <mat-header-cell *matHeaderCellDef>Actions</mat-header-cell>
     <mat-cell *matCellDef="let user">
-      <button type="button" mat-raised-button color="warn" (click)="delete(user)">
+      <button type="button" mat-raised-button color="warn" (click)="delete(user)" title="Supprimer">
         <fa name="trash"></fa>
       </button>
-      <button type="button" mat-raised-button (click)="editer(user)">
+      <button type="button" mat-raised-button (click)="editer(user)" title="Modifier">
         <fa name="edit"></fa>
+      </button>
+      <button mat-raised-button (click)="editRights(user)" title="Gestion des droits">
+        <fa name="check-circle" style="color:green"></fa> Droits
       </button>
     </mat-cell>
   </ng-container>

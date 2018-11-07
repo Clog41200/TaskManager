@@ -1,4 +1,6 @@
-.mat-column-id,
+.mat-column-id{
+  max-width:50px;
+}
 .mat-column-action{
-  max-width:150px;
+  max-width:250px;
 }

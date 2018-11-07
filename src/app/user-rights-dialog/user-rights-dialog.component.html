@@ -1,0 +1,41 @@
+<h1 matDialogTitle>Droits utilisateur</h1>
+
+<div class="flex-column">
+  <mat-table [dataSource]="rights">
+
+    <ng-container matColumnDef="action">
+      <mat-header-cell *matHeaderCellDef>Actions</mat-header-cell>
+      <mat-cell *matCellDef="let right">
+        <button type="button" mat-raised-button color="warn" (click)="delete(right)" title="Supprimer">
+          <fa name="trash"></fa>
+        </button>
+      </mat-cell>
+    </ng-container>
+
+    <ng-container matColumnDef="mail">
+      <mat-header-cell *matHeaderCellDef>Droits</mat-header-cell>
+      <mat-cell *matCellDef="let right">{{right.label}}</mat-cell>
+    </ng-container>
+
+    <mat-header-row *matHeaderRowDef="['action','mail']"></mat-header-row>
+    <mat-row *matRowDef="let right; columns:['action','mail'];"></mat-row>
+
+  </mat-table>
+
+  <div class="flex-row" style="margin:5px 0px">
+    <div style="width:200px;align-self: center">
+      <mat-select [(ngModel)]="aajouter" placeholder="Ajout d'un droit">
+        <mat-option *ngFor="let child of allrights" [value]="child">
+          {{ child.label }}
+        </mat-option>
+      </mat-select>
+    </div>
+    <div>
+      <button mat-button (click)="ajouter()">Ajouter</button>
+    </div>
+  </div>
+
+  <div class="flex-row" style="justify-content: flex-end">
+    <button mat-button matDialogClose>Fermer</button>
+  </div>
+</div>

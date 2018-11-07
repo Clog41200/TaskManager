@@ -39,6 +39,10 @@ export class UsersService {
 
   Delete(user: Users): Promise<void> {
     return new Promise((resolve, reject) => {
+      this.pg
+        .Query('DELETE from users_rights where "idUser"=$1', [user.id])
+        .then();
+
       this.electron.ipcRenderer.once('deleted_user', () => {
         this.zone.run(() => {
           resolve();
@@ -56,12 +60,16 @@ export class UsersService {
       this.electron.ipcRenderer.send('GetUsers');
     });
   }
+
+  GetById(id: number): Promise<Users> {
+    return this.pg.Query('SELECT * FROM users where id=$1', [id]);
+  }
 }
 
 export class Users {
-  public id: Number;
-  public mail: String;
-  public password: String;
+  public id: number;
+  public mail: string;
+  public password: string;
 
   constructor() {
     this.id = 0;
