@@ -1,3 +1,5 @@
+import { ItemsManagmentComponent } from './items-managment/items-managment.component';
+import { StatesManagmentComponent } from './states-managment/states-managment.component';
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 import { InitAppComponent } from './init-app/init-app.component';
@@ -11,7 +13,9 @@ const routes: Routes = [
   { path: '', component: ConnexionComponent },
   { path: 'main', component: MainComponent },
   { path: 'manageUsers', component: UsersManagmentComponent },
-  { path: 'manageRights', component: RightsManagmentComponent }
+  { path: 'manageRights', component: RightsManagmentComponent },
+  { path: 'manageStates', component: StatesManagmentComponent },
+  { path: 'manageItems', component: ItemsManagmentComponent }
 ];
 
 @NgModule({

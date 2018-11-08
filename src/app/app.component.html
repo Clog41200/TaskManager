@@ -1,22 +1,29 @@
-<div  style="display:flex;flex-direction:row;height:40px;-webkit-app-region: drag;">
+<div style="display:flex;flex-direction:row;height:40px;-webkit-app-region: drag;">
 
-    <button mat-button *ngIf="router.url != '/nousers' && router.url!='/'" style="cursor:pointer;-webkit-app-region:no-drag;" [matMenuTriggerFor]="menuRef">
-        <fa name="bars" style="cursor:pointer"></fa>
-    </button>
+  <button mat-button *ngIf="router.url != '/nousers' && router.url!='/'" style="cursor:pointer;-webkit-app-region:no-drag;"
+    [matMenuTriggerFor]="menuRef">
+    <fa name="bars" style="cursor:pointer"></fa>
+  </button>
 
-    <span style="flex-grow: 1" (dblclick)="toggleMaximize()"></span>
+  <span style="flex-grow: 1" (dblclick)="toggleMaximize()"></span>
 
-    <button mat-mini-fab color="warn" onclick="window.close();" style="cursor:pointer;-webkit-app-region:no-drag;">
-      <fa name="close" style="cursor:pointer"></fa>
-    </button>
+  <button mat-mini-fab color="warn" onclick="window.close();" style="cursor:pointer;-webkit-app-region:no-drag;">
+    <fa name="close" style="cursor:pointer"></fa>
+  </button>
 </div>
 <router-outlet></router-outlet>
 
 <mat-menu #menuRef="matMenu">
-    <button mat-menu-item [routerLink]="['/manageUsers']" routerLinkActive="router-link-active">
-      Gestion des utilisateurs
+  <button mat-menu-item [routerLink]="['/manageUsers']" routerLinkActive="router-link-active">
+    Gestion des utilisateurs
   </button>
   <button mat-menu-item [routerLink]="['/manageRights']" routerLinkActive="router-link-active">
     Gestion des droits
-</button>
+  </button>
+  <button mat-menu-item [routerLink]="['/manageStates']" routerLinkActive="router-link-active">
+    Gestion des états
+  </button>
+  <button mat-menu-item [routerLink]="['/manageItems']" routerLinkActive="router-link-active">
+    Gestion des items
+  </button>
 </mat-menu>

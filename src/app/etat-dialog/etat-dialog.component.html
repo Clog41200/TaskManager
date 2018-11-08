@@ -1,0 +1,17 @@
+<h1 matDialogTitle>Edition d'état</h1>
+
+<mat-dialog-content>
+  <form [formGroup]="form" (ngSubmit)="onSubmit()"  class="flex-col">
+    <mat-form-field floatPlaceholder="auto">
+        <input matInput formControlName="libelle"
+               type="text"
+               required
+               placeholder="Libellé">
+    </mat-form-field>
+
+    <div class="flex-row">
+      <button mat-button>Enregistrer</button>
+      <button mat-button type="button" matDialogClose>Annuler</button>
+    </div>
+  </form>
+</mat-dialog-content>

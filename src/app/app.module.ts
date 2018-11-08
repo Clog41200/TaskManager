@@ -1,3 +1,5 @@
+import { EtatsService } from './etats.service';
+import { TasksService } from './tasks.service';
 import { RightsService } from './rights.service';
 import { UsersService } from './users.service';
 import { CommonModule } from '@angular/common';
@@ -15,7 +17,7 @@ import {
   MatFormFieldModule,
   MatToolbarModule,
   MatTableModule,
-  MatSelectModule
+  MatSelectModule, MatPaginatorModule, MatSortModule
 } from '@angular/material';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { BrowserModule } from '@angular/platform-browser';
@@ -31,6 +33,11 @@ import { NgxElectronModule } from 'ngx-electron';
 import { UserDialogComponent } from './user-dialog/user-dialog.component';
 import { RightsDialogComponent } from './rights-dialog/rights-dialog.component';
 import { UserRightsDialogComponent } from './user-rights-dialog/user-rights-dialog.component';
+import { StatesManagmentComponent } from './states-managment/states-managment.component';
+import { ItemsManagmentComponent } from './items-managment/items-managment.component';
+import { ItemsService } from './items.service';
+import { EtatDialogComponent } from './etat-dialog/etat-dialog.component';
+import { ItemDialogComponent } from './item-dialog/item-dialog.component';
 
 @NgModule({
   declarations: [
@@ -42,7 +49,12 @@ import { UserRightsDialogComponent } from './user-rights-dialog/user-rights-dial
     UsersManagmentComponent,
     RightsManagmentComponent,
     UserDialogComponent,
-    UserRightsDialogComponent
+    UserRightsDialogComponent,
+    StatesManagmentComponent,
+    ItemsManagmentComponent,
+    EtatDialogComponent,
+    ItemDialogComponent
+
   ],
   imports: [
     BrowserModule,
@@ -65,10 +77,24 @@ import { UserRightsDialogComponent } from './user-rights-dialog/user-rights-dial
     BrowserAnimationsModule,
     MatToolbarModule,
     MatTableModule,
-    MatSelectModule
+    MatSelectModule,
+    MatPaginatorModule,
+    MatSortModule
   ],
-  providers: [UsersService, RightsService],
-  entryComponents: [UserDialogComponent, RightsDialogComponent,UserRightsDialogComponent],
+  providers: [
+    UsersService,
+    RightsService,
+    ItemsService,
+    TasksService,
+    EtatsService,
+  ],
+  entryComponents: [
+    UserDialogComponent,
+    RightsDialogComponent,
+    UserRightsDialogComponent,
+    EtatDialogComponent,
+    ItemDialogComponent
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule {}
