@@ -1,3 +1,24 @@
 <mat-toolbar>
     <span>Listes des tâches</span>
 </mat-toolbar>
+
+<form [formGroup]="form" class="flex-row">
+  <mat-form-field floatPlaceholder="auto">
+      <input matInput formControlName="keywords"
+             type="text"
+             required
+             placeholder="Mots-clé">
+  </mat-form-field>
+</form>
+
+<div class="flex-row">
+
+  <div class="flex-col" class="colonne" *ngFor="let etat of etats">
+    <mat-toolbar style="justify-content: space-between">
+        <span>{{etat.libelle}}</span>
+        <button mat-mini-fab (click)="addTask()"><fa name="plus"></fa></button>
+    </mat-toolbar>
+
+  </div>
+
+</div>
