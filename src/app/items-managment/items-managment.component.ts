@@ -2,7 +2,6 @@ import { ItemDialogComponent } from './../item-dialog/item-dialog.component';
 import { MatDialog } from '@angular/material';
 import { Item, ItemsService } from './../items.service';
 import { Component, OnInit } from '@angular/core';
-import { timingSafeEqual } from 'crypto';
 
 @Component({
   selector: 'app-items-managment',
@@ -46,5 +45,33 @@ export class ItemsManagmentComponent implements OnInit {
     this.itemservice.Delete(item).then(() => {
       this.ngOnInit();
     });
+  }
+
+  moveup(item: Item) {
+    const index = this.items.indexOf(item);
+    if (index > 0) {
+      const objavant = this.items[index - 1];
+      objavant.ordre++;
+      item.ordre--;
+      this.itemservice.Update(objavant).then(() => {
+        this.itemservice.Update(item).then(() => {
+          this.ngOnInit();
+        });
+      });
+    }
+  }
+
+  movedown(item: Item) {
+    const index = this.items.indexOf(item);
+    if (index < this.items.length - 1) {
+      const objavant = this.items[index + 1];
+      objavant.ordre--;
+      item.ordre++;
+      this.itemservice.Update(objavant).then(() => {
+        this.itemservice.Update(item).then(() => {
+          this.ngOnInit();
+        });
+      });
+    }
   }
 }

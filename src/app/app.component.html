@@ -14,6 +14,9 @@
 <router-outlet></router-outlet>
 
 <mat-menu #menuRef="matMenu">
+    <button mat-menu-item [routerLink]="['/main']" routerLinkActive="router-link-active">
+      Affichage des tâches
+    </button>
   <button mat-menu-item [routerLink]="['/manageUsers']" routerLinkActive="router-link-active">
     Gestion des utilisateurs
   </button>
