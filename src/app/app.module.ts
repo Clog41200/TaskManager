@@ -17,7 +17,7 @@ import {
   MatFormFieldModule,
   MatToolbarModule,
   MatTableModule,
-  MatSelectModule, MatPaginatorModule, MatSortModule
+  MatSelectModule, MatPaginatorModule, MatSortModule, MatTabsModule
 } from '@angular/material';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { BrowserModule } from '@angular/platform-browser';
@@ -38,6 +38,7 @@ import { ItemsManagmentComponent } from './items-managment/items-managment.compo
 import { ItemsService } from './items.service';
 import { EtatDialogComponent } from './etat-dialog/etat-dialog.component';
 import { ItemDialogComponent } from './item-dialog/item-dialog.component';
+import { TacheDialogComponent } from './tache-dialog/tache-dialog.component';
 
 @NgModule({
   declarations: [
@@ -53,7 +54,8 @@ import { ItemDialogComponent } from './item-dialog/item-dialog.component';
     StatesManagmentComponent,
     ItemsManagmentComponent,
     EtatDialogComponent,
-    ItemDialogComponent
+    ItemDialogComponent,
+    TacheDialogComponent
 
   ],
   imports: [
@@ -79,7 +81,8 @@ import { ItemDialogComponent } from './item-dialog/item-dialog.component';
     MatTableModule,
     MatSelectModule,
     MatPaginatorModule,
-    MatSortModule
+    MatSortModule,
+    MatTabsModule
   ],
   providers: [
     UsersService,
@@ -93,7 +96,8 @@ import { ItemDialogComponent } from './item-dialog/item-dialog.component';
     RightsDialogComponent,
     UserRightsDialogComponent,
     EtatDialogComponent,
-    ItemDialogComponent
+    ItemDialogComponent,
+    TacheDialogComponent
   ],
   bootstrap: [AppComponent]
 })

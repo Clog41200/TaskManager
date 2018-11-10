@@ -1,9 +1,12 @@
+import { MatDialog } from '@angular/material';
 import { FormGroup, FormControl } from '@angular/forms';
 import { EtatsService } from './../etats.service';
 import { Component, OnInit } from '@angular/core';
 import { ElectronService } from 'ngx-electron';
 import { Users } from '../users.service';
 import { Etat } from '../etats.service';
+import { TacheDialogComponent } from '../tache-dialog/tache-dialog.component';
+import { Task } from '../tasks.service';
 
 @Component({
   selector: 'app-main',
@@ -20,8 +23,9 @@ export class MainComponent implements OnInit {
 
   constructor(
     private elec: ElectronService,
-    public etatService: EtatsService
-  ) {}
+    public etatService: EtatsService,
+    private dg: MatDialog
+  ) { }
 
   ngOnInit() {
     this.currentUser = JSON.parse(localStorage.getItem('user'));
@@ -30,5 +34,10 @@ export class MainComponent implements OnInit {
     this.etatService.GetAll().then(res => {
       this.etats = res;
     });
+  }
+
+  addTask() {
+    const task = new Task();
+    this.dg.open(TacheDialogComponent, { data: task });
   }
 }

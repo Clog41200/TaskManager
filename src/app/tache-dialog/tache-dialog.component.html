@@ -1,0 +1,48 @@
+<div style="width:800px;height:700px" class="flex-col">
+  <mat-toolbar style="justify-content: normal">
+
+
+    <input matInput [(ngModel)]="task.title" name="title" type="text" required placeholder="Titre de la tâche">
+
+    <button mat-button (click)="saveAll()">
+      <fa name="save"></fa>
+    </button>
+  </mat-toolbar>
+
+  <mat-tab-group  [disableRipple]="false" style="flex-grow: 1">
+    <mat-tab label="Description">
+
+      <div class="flex-row">
+        <mat-form-field floatPlaceholder="auto" style="flex-grow: 1">
+          <textarea matInput [(ngModel)]="modelName" required placeholder="Description"></textarea>
+        </mat-form-field>
+        <div class="flex-col" style="width: 200px">
+
+        </div>
+      </div>
+
+    </mat-tab>
+    <mat-tab label="Messages" class="flex-col">
+      <div class="history" style="flex-grow: 1"></div>
+      <div class="newMessage">
+
+        <form [formGroup]="formMessage" (ngSubmit)="onSubmitMessage()" class="flex-row" style="flex-grow: 1">
+          <mat-form-field floatPlaceholder="auto" style="flex-grow: 1">
+            <textarea formControlName="message" matInput required placeholder="Nouveau message..."></textarea>
+          </mat-form-field>
+          <button mat-button (click)="onClick">
+            <fa name="send"></fa> Envoyer
+          </button>
+        </form>
+
+
+      </div>
+    </mat-tab>
+    <mat-tab label="Pièces jointes">
+
+    </mat-tab>
+    <mat-tab label="Diagramme">
+
+    </mat-tab>
+  </mat-tab-group>
+</div>

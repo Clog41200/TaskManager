@@ -1,0 +1,14 @@
+.newMessage{
+  padding: 5px;
+  background: #484848;
+  box-shadow: inset 0 0 12px black;
+  display: flex;
+  flex-direction: row;
+}
+
+.history{
+  margin-bottom: 5px;
+  background: #484848;
+  box-shadow: inset 0 0 12px black;
+
+}
