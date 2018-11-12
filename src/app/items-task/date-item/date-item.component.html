@@ -1,0 +1,10 @@
+<mat-form-field>
+  <input
+    matInput
+    [(ngModel)]="item.value"
+    [matDatepicker]="datePickerRef"
+    [placeholder]="item.label"
+  />
+  <mat-datepicker-toggle matSuffix [for]="datePickerRef"></mat-datepicker-toggle>
+  <mat-datepicker #datePickerRef></mat-datepicker>
+</mat-form-field>

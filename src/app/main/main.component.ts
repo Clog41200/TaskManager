@@ -6,7 +6,8 @@ import { ElectronService } from 'ngx-electron';
 import { Users } from '../users.service';
 import { Etat } from '../etats.service';
 import { TacheDialogComponent } from '../tache-dialog/tache-dialog.component';
-import { Task } from '../tasks.service';
+import { Task, TasksService } from '../tasks.service';
+import { isFulfilled } from 'q';
 
 @Component({
   selector: 'app-main',
@@ -16,6 +17,7 @@ import { Task } from '../tasks.service';
 export class MainComponent implements OnInit {
   public etats: Array<Etat>;
   public currentUser: Users;
+  public tasks: Array<Task>;
 
   public form = new FormGroup({
     keywork: new FormControl('')
@@ -24,8 +26,11 @@ export class MainComponent implements OnInit {
   constructor(
     private elec: ElectronService,
     public etatService: EtatsService,
-    private dg: MatDialog
-  ) { }
+    private dg: MatDialog,
+    private taskService: TasksService
+  ) {
+    this.tasks = new Array<Task>();
+  }
 
   ngOnInit() {
     this.currentUser = JSON.parse(localStorage.getItem('user'));
@@ -33,11 +38,41 @@ export class MainComponent implements OnInit {
     this.elec.remote.getCurrentWindow().show();
     this.etatService.GetAll().then(res => {
       this.etats = res;
+      this.refreshTasks();
     });
   }
 
-  addTask() {
+  refreshTasks() {
+    this.taskService.GetAll(this.etats).then(taches => {
+      this.tasks = taches;
+    });
+  }
+
+  addTask(etat: number) {
     const task = new Task();
-    this.dg.open(TacheDialogComponent, { data: task });
+    task.id_etat = etat;
+    this.dg
+      .open(TacheDialogComponent, { data: task })
+      .afterClosed()
+      .subscribe(res => {
+        if (res === 'update') {
+          this.refreshTasks();
+        }
+      });
+  }
+
+  editerTache(task: Task) {
+    const copy = { ...task };
+    this.dg
+      .open(TacheDialogComponent, { data: copy })
+      .afterClosed()
+      .subscribe(res => {
+        if (res === 'update') { this.refreshTasks(); }
+      });
+  }
+
+  GetTacheByEtat(etat: Etat) {
+    const retour = this.tasks.filter(val => val.id_etat === etat.id);
+    return retour;
   }
 }

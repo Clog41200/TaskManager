@@ -1,3 +1,5 @@
+import { TaskItemValueService } from './task-item-value.service';
+import { ItemsTaskModule } from './items-task/items-task.module';
 import { EtatsService } from './etats.service';
 import { TasksService } from './tasks.service';
 import { RightsService } from './rights.service';
@@ -39,6 +41,7 @@ import { ItemsService } from './items.service';
 import { EtatDialogComponent } from './etat-dialog/etat-dialog.component';
 import { ItemDialogComponent } from './item-dialog/item-dialog.component';
 import { TacheDialogComponent } from './tache-dialog/tache-dialog.component';
+import { DynamicTaskItemComponent } from './dynamic-task-item/dynamic-task-item.component';
 
 @NgModule({
   declarations: [
@@ -68,21 +71,22 @@ import { TacheDialogComponent } from './tache-dialog/tache-dialog.component';
     MatButtonModule,
     BrowserAnimationsModule,
     MatMenuModule,
-    FormsModule,
-    ReactiveFormsModule,
-    CommonModule,
     AngularFontAwesomeModule,
     MatDialogModule,
-    MatInputModule,
     MatButtonModule,
+    CommonModule,
+    FormsModule,
+    ReactiveFormsModule,
+    MatInputModule,
+    MatSelectModule,
     MatFormFieldModule,
     BrowserAnimationsModule,
     MatToolbarModule,
     MatTableModule,
-    MatSelectModule,
     MatPaginatorModule,
     MatSortModule,
-    MatTabsModule
+    MatTabsModule,
+    ItemsTaskModule
   ],
   providers: [
     UsersService,
@@ -90,6 +94,7 @@ import { TacheDialogComponent } from './tache-dialog/tache-dialog.component';
     ItemsService,
     TasksService,
     EtatsService,
+    TaskItemValueService
   ],
   entryComponents: [
     UserDialogComponent,

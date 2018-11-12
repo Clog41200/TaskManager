@@ -55,6 +55,8 @@ function createWindow() {
 ipcMain.on("query",(event,uuid,query,args)=>{
   connectPG.query(query,args).then((res)=>{
     event.sender.send(uuid,res.rows);
+  }).catch(error=>{
+    console.log(error);
   });
 });
 

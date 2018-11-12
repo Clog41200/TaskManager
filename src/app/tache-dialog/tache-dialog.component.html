@@ -14,9 +14,10 @@
 
       <div class="flex-row">
         <mat-form-field floatPlaceholder="auto" style="flex-grow: 1">
-          <textarea matInput [(ngModel)]="modelName" required placeholder="Description"></textarea>
+          <textarea matInput [(ngModel)]="task.description" required placeholder="Description"></textarea>
         </mat-form-field>
-        <div class="flex-col" style="width: 200px">
+        <div class="flex-col" style="width: 200px;margin-left:5px">
+          <app-dynamic-task-item *ngFor="let item of items" [item]="item" ></app-dynamic-task-item>
 
         </div>
       </div>

@@ -46,6 +46,8 @@ export class Item {
   public ordre: number;
   public label: string;
 
+  public value: any;
+
   constructor() {
     this.id = 0;
     this.type = '';
