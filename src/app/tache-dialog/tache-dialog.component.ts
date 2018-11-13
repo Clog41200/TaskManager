@@ -45,7 +45,7 @@ export class TacheDialogComponent implements OnInit {
     private userService: UsersService,
     private assignedUsersService: AssignedUsersService,
     private messageService: MessagesService,
-    private taskMessageService: TaskMessageService  ) {
+    private taskMessageService: TaskMessageService) {
     this.task = data;
   }
 
@@ -85,10 +85,20 @@ export class TacheDialogComponent implements OnInit {
     this.formTitle.patchValue(this.task);
   }
 
+  changementTab(event) {
+
+    if (event.index === 1) {
+      this.loadMessage();
+    }
+  }
+
   loadMessage() {
     if (this.task.id !== 0) {
       this.messageService.GetAllByTask(this.task).then(messages => {
         this.messages = messages;
+        // for (const message of this.messages) {
+        //   message.text = this.markdownService.compile(message.text);
+        // }
       });
     }
   }
@@ -146,5 +156,18 @@ export class TacheDialogComponent implements OnInit {
     this.taskService
       .Delete(this.task)
       .then(() => this.dialogRef.close('update'));
+  }
+
+  getPseudo(userId: number) {
+    const index = this.users.findIndex(user => userId == user.id);
+    if (index >= 0) {
+      return this.users[index].pseudo;
+    }
+    return '';
+  }
+
+  formatDH(timestamp: number) {
+    const date = new Date(timestamp);
+    return date.toLocaleString('fr');
   }
 }

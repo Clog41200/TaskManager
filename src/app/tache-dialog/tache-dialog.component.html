@@ -13,7 +13,7 @@
     <button mat-button (click)="saveAll()"><fa name="save"></fa></button>
   </mat-toolbar>
 
-  <mat-tab-group [disableRipple]="false" style="flex-grow: 1">
+  <mat-tab-group [disableRipple]="false" style="flex-grow: 1" (selectedTabChange)="changementTab($event)">
     <mat-tab label="Description">
       <div class="flex-row">
         <div class="flex-col" style="flex-grow: 1">
@@ -40,7 +40,7 @@
             ></textarea>
           </mat-form-field>
         </div>
-        <div class="flex-col" style="width: 200px;margin-left:5px">
+        <div class="flex-col" style="width: 204px;margin-left:5px">
           <app-dynamic-task-item
             *ngFor="let item of items"
             [item]="item"
@@ -49,10 +49,10 @@
       </div>
     </mat-tab>
     <mat-tab label="Messages" class="flex-col">
-      <div class="history" style="flex-grow: 1;padding:6px;overflow:auto; max-height: 480px" #scrollMe [scrollTop]="scrollMe.scrollHeight">
-        <div *ngFor="let message of messages" class="flex-col" style="border-bottom:1px solid rgba(20,20,20,0.5);" style="user-select:text">
-          <div>{{ message.date_heure }} :</div>
-          <div style="white-space: pre-wrap" Markdown>{{message.text}}</div>
+      <div class="history" style="flex-grow: 1;padding:6px;overflow:auto; max-height: 420px" #scrollMe [scrollTop]="scrollMe.scrollHeight">
+        <div *ngFor="let message of messages" class="flex-col" style="border-bottom:1px solid rgba(20,20,20,1);user-select:text;" >
+          <div class="titleMessage">{{ getPseudo(message.id_user)+' le '+formatDH(message.date_heure) }} :</div>
+          <div style="white-space: pre-wrap" [innerHTML]="message.text" markdown ngPreserveWhitespaces></div>
         </div>
       </div>
       <div class="newMessage">

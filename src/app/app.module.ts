@@ -47,7 +47,36 @@ import { ItemsService } from './items.service';
 import { EtatDialogComponent } from './etat-dialog/etat-dialog.component';
 import { ItemDialogComponent } from './item-dialog/item-dialog.component';
 import { TacheDialogComponent } from './tache-dialog/tache-dialog.component';
-import { MarkdownModule } from 'angular2-markdown';
+import { MarkdownModule, MarkedOptions, MarkedRenderer } from 'ngx-markdown';
+
+// function that returns `MarkedOptions` with renderer override
+export function markedOptionsFactory(): MarkedOptions {
+  const renderer = new MarkedRenderer();
+
+  renderer.link = (href: string, title: string, text: string) => {
+    if (href.indexOf('mailto:') !== -1) {
+      return '<a href="' + href + '" title="' + title + '"  >' + text + '</a>';
+    } else {
+      return '<a href="' + href + '" title="' + title + '" target="_blank" onclick="openurl(event)" >' + text + '</a>';
+    }
+  };
+
+  renderer.blockquote = (text: string) => {
+    return '<blockquote class="blockquote"><p>' + text + '</p></blockquote>';
+  };
+
+  return {
+    renderer: renderer,
+    gfm: true,
+    tables: true,
+    breaks: false,
+    pedantic: false,
+    sanitize: false,
+    smartLists: true,
+    smartypants: false
+  };
+}
+
 
 @NgModule({
   declarations: [
@@ -92,7 +121,13 @@ import { MarkdownModule } from 'angular2-markdown';
     MatSortModule,
     MatTabsModule,
     ItemsTaskModule,
-    MarkdownModule.forRoot()
+    MarkdownModule.forRoot({
+      markedOptions: {
+        provide: MarkedOptions,
+        useFactory: markedOptionsFactory,
+      }
+    }
+    )
   ],
   providers: [
     UsersService,
@@ -115,4 +150,4 @@ import { MarkdownModule } from 'angular2-markdown';
   ],
   bootstrap: [AppComponent]
 })
-export class AppModule {}
+export class AppModule { }
