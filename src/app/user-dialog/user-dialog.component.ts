@@ -10,6 +10,7 @@ import { FormGroup, FormControl } from '@angular/forms';
 })
 export class UserDialogComponent implements OnInit {
   public form = new FormGroup({
+    pseudo: new FormControl(''),
     mail: new FormControl(''),
     password: new FormControl('')
   });
@@ -19,15 +20,11 @@ export class UserDialogComponent implements OnInit {
     @Inject(MAT_DIALOG_DATA) public data: Users,
     public usersService: UsersService
   ) {
-    console.log(data);
   }
 
   ngOnInit() {
     if (this.data !== undefined) {
-      this.form.patchValue({
-        mail: this.data.mail,
-        password: this.data.password
-      });
+      this.form.patchValue(this.data);
     }
   }
 
@@ -39,7 +36,8 @@ export class UserDialogComponent implements OnInit {
         .AddUser({
           id: 0,
           mail: this.form.value.mail,
-          password: this.form.value.password
+          password: this.form.value.password,
+          pseudo: this.form.value.pseudo
         })
         .then(() => {
           this.dialogRef.close('update');
@@ -49,7 +47,8 @@ export class UserDialogComponent implements OnInit {
         .UpdateUser({
           id: this.data.id,
           mail: this.form.value.mail,
-          password: this.form.value.password
+          password: this.form.value.password,
+          pseudo: this.form.value.pseudo
         })
         .then(() => {
           this.dialogRef.close('update');

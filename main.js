@@ -6,6 +6,11 @@ const { Client } = require("pg");
 let win;
 let connectPG;
 
+var types = require('pg').types
+types.setTypeParser(20, function (val) {
+    return parseInt(val)
+});
+
 function createWindow() {
   // Créer le browser window.
   win = new BrowserWindow({ show: false, frame: false });
@@ -34,6 +39,7 @@ function createWindow() {
           } else {
             //win.loadFile('dist/taskManager/index.html');
             win.loadURL("http://localhost:4200");
+            win.show();
           }
         }
       });

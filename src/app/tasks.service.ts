@@ -16,6 +16,12 @@ export class TasksService {
     );
   }
 
+  Delete(task: Task): Promise<void> {
+    this.pg.Query('delete from assigned_users where id_task=$1', [task.id]);
+    this.pg.Query('delete from task_items_value where id_task=$1', [task.id]);
+    return this.pg.Query('delete from tasks where id=$1', [task.id]);
+  }
+
   Update(task: Task) {
     return this.pg.Query(
       'update tasks SET title=$1, description=$2, id_etat=$3 where id=$4',

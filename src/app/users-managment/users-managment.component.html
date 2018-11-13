@@ -26,12 +26,15 @@
       <mat-header-cell *matHeaderCellDef>eMail</mat-header-cell>
       <mat-cell *matCellDef="let user">{{user.mail}}</mat-cell>
     </ng-container>
-
+    <ng-container matColumnDef="pseudo">
+        <mat-header-cell *matHeaderCellDef>Pseudo</mat-header-cell>
+        <mat-cell *matCellDef="let user">{{user.pseudo}}</mat-cell>
+      </ng-container>
     <ng-container matColumnDef="id">
         <mat-header-cell *matHeaderCellDef>Id</mat-header-cell>
         <mat-cell *matCellDef="let user">{{user.id}}</mat-cell>
       </ng-container>
-  <mat-header-row *matHeaderRowDef="['action','id','mail']"></mat-header-row>
-  <mat-row *matRowDef="let user; columns:['action','id','mail'];"></mat-row>
+  <mat-header-row *matHeaderRowDef="['action','id','mail','pseudo']"></mat-header-row>
+  <mat-row *matRowDef="let user; columns:['action','id','mail','pseudo'];"></mat-row>
 
 </mat-table>

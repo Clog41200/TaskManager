@@ -1,7 +1,6 @@
 import { ElectronService } from 'ngx-electron';
 import { Injectable, NgZone } from '@angular/core';
 import { PostgresqlService } from './postgresql.service';
-import { ipcRenderer } from 'electron';
 
 @Injectable({
   providedIn: 'root'
@@ -14,27 +13,17 @@ export class UsersService {
   ) {}
 
   AddUser(user: Users): Promise<Users> {
-    return new Promise((resolve, reject) => {
-      const uuid = this.pg.guid();
-      console.log('Ajout d\'un utilisateur');
-      this.electron.ipcRenderer.send('Users_Add', { uuid: uuid, data: user });
-      this.electron.ipcRenderer.once(uuid, (event, retour) => {
-        this.zone.run(() => {
-          resolve(retour);
-        });
-      });
-    });
+    return this.pg.Query(
+      'insert into users (mail,password,pseudo) VALUES ($1,$2,$3)',
+      [user.mail, user.password, user.pseudo]
+    );
   }
 
   UpdateUser(user: Users): Promise<void> {
-    return new Promise((resolve, reject) => {
-      this.electron.ipcRenderer.send('Users_Update', user);
-      this.electron.ipcRenderer.once('Users_updated', (event, res) => {
-        this.zone.run(() => {
-          resolve(res);
-        });
-      });
-    });
+    return this.pg.Query(
+      'update users SET mail=$1, password=$2, pseudo=$3 where id=$4',
+      [user.mail, user.password, user.pseudo, user.id]
+    );
   }
 
   Delete(user: Users): Promise<void> {
@@ -53,12 +42,7 @@ export class UsersService {
   }
 
   GetAll(): Promise<Array<Users>> {
-    return new Promise((resolve, reject) => {
-      this.electron.ipcRenderer.once('GetUsers', (event, data) => {
-        resolve(data);
-      });
-      this.electron.ipcRenderer.send('GetUsers');
-    });
+    return this.pg.Query('select * from users');
   }
 
   GetById(id: number): Promise<Users> {
@@ -70,10 +54,12 @@ export class Users {
   public id: number;
   public mail: string;
   public password: string;
+  public pseudo: string;
 
   constructor() {
     this.id = 0;
     this.mail = '';
     this.password = '';
+    this.pseudo = '';
   }
 }

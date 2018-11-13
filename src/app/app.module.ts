@@ -1,3 +1,6 @@
+import { TaskMessageService } from './task-message.service';
+import { MessagesService } from './messages.service';
+import { AssignedUsersService } from './assigned-users.service';
 import { TaskItemValueService } from './task-item-value.service';
 import { ItemsTaskModule } from './items-task/items-task.module';
 import { EtatsService } from './etats.service';
@@ -19,7 +22,10 @@ import {
   MatFormFieldModule,
   MatToolbarModule,
   MatTableModule,
-  MatSelectModule, MatPaginatorModule, MatSortModule, MatTabsModule
+  MatSelectModule,
+  MatPaginatorModule,
+  MatSortModule,
+  MatTabsModule
 } from '@angular/material';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { BrowserModule } from '@angular/platform-browser';
@@ -41,7 +47,7 @@ import { ItemsService } from './items.service';
 import { EtatDialogComponent } from './etat-dialog/etat-dialog.component';
 import { ItemDialogComponent } from './item-dialog/item-dialog.component';
 import { TacheDialogComponent } from './tache-dialog/tache-dialog.component';
-import { DynamicTaskItemComponent } from './dynamic-task-item/dynamic-task-item.component';
+import { MarkdownModule } from 'angular2-markdown';
 
 @NgModule({
   declarations: [
@@ -59,7 +65,6 @@ import { DynamicTaskItemComponent } from './dynamic-task-item/dynamic-task-item.
     EtatDialogComponent,
     ItemDialogComponent,
     TacheDialogComponent
-
   ],
   imports: [
     BrowserModule,
@@ -86,7 +91,8 @@ import { DynamicTaskItemComponent } from './dynamic-task-item/dynamic-task-item.
     MatPaginatorModule,
     MatSortModule,
     MatTabsModule,
-    ItemsTaskModule
+    ItemsTaskModule,
+    MarkdownModule.forRoot()
   ],
   providers: [
     UsersService,
@@ -94,7 +100,10 @@ import { DynamicTaskItemComponent } from './dynamic-task-item/dynamic-task-item.
     ItemsService,
     TasksService,
     EtatsService,
-    TaskItemValueService
+    TaskItemValueService,
+    AssignedUsersService,
+    MessagesService,
+    TaskMessageService
   ],
   entryComponents: [
     UserDialogComponent,
