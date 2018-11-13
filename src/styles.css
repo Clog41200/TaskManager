@@ -1,5 +1,8 @@
 /* You can add global styles to this file, and also import other style files */
 @import "~@angular/material/prebuilt-themes/pink-bluegrey.css";
+
+
+
  body, html{
     margin: 0px;
     padding: 0px;
@@ -26,36 +29,35 @@
   display: flex;
   flex-direction: column;
 }
-
 ::-webkit-scrollbar {
   width: 10px;
   height: 10px;
 }
 ::-webkit-scrollbar-button {
-  width: 0px;
-  height: 0px;
+  width: 3px;
+  height: 3px;
 }
 ::-webkit-scrollbar-thumb {
-  background: #e1e1e1;
+  background: #6f6fff;
   border: 0px none #ffffff;
   border-radius: 50px;
 }
 ::-webkit-scrollbar-thumb:hover {
-  background: #ffffff;
+  background: #4848ff;
 }
 ::-webkit-scrollbar-thumb:active {
-  background: #000000;
+  background: #1227e7;
 }
 ::-webkit-scrollbar-track {
-  background: #666666;
+  background: #808080;
   border: 0px none #ffffff;
   border-radius: 50px;
 }
 ::-webkit-scrollbar-track:hover {
-  background: #666666;
+  background: #808080;
 }
 ::-webkit-scrollbar-track:active {
-  background: #333333;
+  background: #808080;
 }
 ::-webkit-scrollbar-corner {
   background: transparent;

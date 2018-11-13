@@ -20,4 +20,5 @@
 .titleMessage{
   color: #c7c8ff;
   text-decoration: underline;
+  border-top:1px solid rgba(20,20,20,1);
 }

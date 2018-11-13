@@ -96,9 +96,7 @@ export class TacheDialogComponent implements OnInit {
     if (this.task.id !== 0) {
       this.messageService.GetAllByTask(this.task).then(messages => {
         this.messages = messages;
-        // for (const message of this.messages) {
-        //   message.text = this.markdownService.compile(message.text);
-        // }
+
       });
     }
   }
@@ -124,6 +122,12 @@ export class TacheDialogComponent implements OnInit {
   }
 
   saveAll() {
+    if (this.task.title === '') {
+      alert('Il faut un titre à la tâche.');
+      return;
+    }
+
+
     if (this.task.id === 0) {
       this.taskService.Add(this.task).then(res => {
         this.task.id = res[0].id;

@@ -6,7 +6,7 @@ import { Task } from './tasks.service';
   providedIn: 'root'
 })
 export class MessagesService {
-  constructor(private pg: PostgresqlService) {}
+  constructor(private pg: PostgresqlService) { }
 
   Add(message: Message): Promise<Message> {
     return new Promise((res, rej) => {
@@ -23,7 +23,8 @@ export class MessagesService {
 
   GetAllByTask(task: Task): Promise<Array<Message>> {
     return this.pg.Query(
-      'select messages.* from messages, task_messages where task_messages.id_task=$1 and task_messages.id_message=messages.id',
+      // tslint:disable-next-line:max-line-length
+      'select messages.* from messages, task_messages where task_messages.id_task=$1 and task_messages.id_message=messages.id order by messages.date_heure asc',
       [task.id]
     );
   }
