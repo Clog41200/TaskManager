@@ -22,3 +22,15 @@
   text-decoration: underline;
   border-top:1px solid rgba(20,20,20,1);
 }
+
+.history div>*{
+  margin: 2px;
+}
+
+.historyMessage > * {
+  margin:0px;
+}
+
+.historyMessage{
+  padding:0px;
+}

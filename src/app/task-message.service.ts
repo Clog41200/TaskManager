@@ -1,3 +1,4 @@
+import { MessagesService } from './messages.service';
 import { PostgresqlService } from './postgresql.service';
 import { Injectable } from '@angular/core';
 
@@ -5,7 +6,10 @@ import { Injectable } from '@angular/core';
   providedIn: 'root'
 })
 export class TaskMessageService {
-  constructor(private pg: PostgresqlService) {}
+  constructor(
+    private pg: PostgresqlService,
+    private messageService: MessagesService
+  ) {}
 
   Add(taskmessage: TaskMessage): Promise<TaskMessage> {
     return new Promise((res, rej) => {
@@ -16,6 +20,14 @@ export class TaskMessageService {
         )
         .then(resultat => {
           res(resultat[0]);
+
+          this.pg.Query(
+            'NOTIFY newtaskmessage' +
+              taskmessage.id_task +
+              ', \'' +
+              taskmessage.id_message +
+              '\''
+          );
         });
     });
   }

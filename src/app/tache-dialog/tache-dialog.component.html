@@ -38,7 +38,7 @@
       <div class="history" style="flex-grow: 1;padding:6px;overflow:auto; max-height: 420px" #scrollMe [scrollTop]="scrollMe.scrollHeight">
         <div *ngFor="let message of messages; index as i; first as isFirst" class="flex-col" style="user-select:text;">
           <div class="titleMessage" *ngIf="isFirst || messages[i-1].id_user!=message.id_user" >{{ getPseudo(message.id_user)+' le '+formatDH(message.date_heure) }} :</div>
-          <div [innerHTML]="message.text" markdown ngPreserveWhitespaces></div>
+          <div [innerHTML]="message.text" class="historyMessage" markdown ngPreserveWhitespaces></div>
         </div>
       </div>
       <div class="newMessage">

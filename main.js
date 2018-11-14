@@ -6,9 +6,9 @@ const { Client } = require("pg");
 let win;
 let connectPG;
 
-var types = require('pg').types
-types.setTypeParser(20, function (val) {
-    return parseInt(val)
+var types = require("pg").types;
+types.setTypeParser(20, function(val) {
+  return parseInt(val);
 });
 
 function createWindow() {
@@ -39,10 +39,15 @@ function createWindow() {
           } else {
             //win.loadFile('dist/taskManager/index.html');
             win.loadURL("http://localhost:4200");
-            win.show();
           }
         }
       });
+
+      connectPG.on("notification", msg => {
+        console.log(msg);
+        win.send(msg.channel, JSON.parse(msg.payload));
+      });
+
     }
   });
 
@@ -58,13 +63,24 @@ function createWindow() {
   });
 }
 
-ipcMain.on("query",(event,uuid,query,args)=>{
-  connectPG.query(query,args).then((res)=>{
-    event.sender.send(uuid,res.rows);
-  }).catch(error=>{
-    console.log(error);
-  });
+ipcMain.on("query", (event, uuid, query, args) => {
+  console.log(query);
+
+  connectPG
+    .query(query, args)
+    .then(res => {
+      event.sender.send(uuid, res.rows);
+    })
+    .catch(error => {
+      console.log(error);
+    });
 });
+
+ipcMain.on("listenPG", (event, notificationName) => {
+    connectPG.query("UNLISTEN "+notificationName);
+    connectPG.query("LISTEN " + notificationName).then();
+});
+
 
 ipcMain.on("initialisation", (event, uuid, args) => {
   connectPG
@@ -142,21 +158,33 @@ ipcMain.on("GetUsers", event => {
   });
 });
 
-ipcMain.on("Users_Add",(event,data)=>{
+ipcMain.on("Users_Add", (event, data) => {
   console.log("Ajout utilisateur");
 
-  connectPG.query("INSERT into users (mail,password) VALUES ($1,$2) RETURNING *",[data.data.mail,data.data.password]).then(res=>{
-    event.sender.send(data.uuid, res.rows[0]);
-  }).catch(res=>{
-    console.log(res);
-  });
+  connectPG
+    .query("INSERT into users (mail,password) VALUES ($1,$2) RETURNING *", [
+      data.data.mail,
+      data.data.password
+    ])
+    .then(res => {
+      event.sender.send(data.uuid, res.rows[0]);
+    })
+    .catch(res => {
+      console.log(res);
+    });
 });
 
-ipcMain.on("Users_Update",(event,user)=>{
-  connectPG.query("UPDATE users SET mail=$1, password =$2 where id=$3",[user.mail,user.password,user.id]).then(()=>{
-    event.sender.send("Users_updated");
-  })
-})
+ipcMain.on("Users_Update", (event, user) => {
+  connectPG
+    .query("UPDATE users SET mail=$1, password =$2 where id=$3", [
+      user.mail,
+      user.password,
+      user.id
+    ])
+    .then(() => {
+      event.sender.send("Users_updated");
+    });
+});
 
 ipcMain.on("Delete_User", (event, user) => {
   connectPG.query("DELETE FROM users WHERE id = $1", [user.id]).then(res => {

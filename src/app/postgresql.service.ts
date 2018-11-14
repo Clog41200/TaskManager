@@ -1,5 +1,6 @@
 import { Injectable, NgZone } from '@angular/core';
 import { ElectronService } from 'ngx-electron';
+import { Observable } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
@@ -12,10 +13,22 @@ export class PostgresqlService {
       const uuid = this.guid();
       this.el.ipcRenderer.once(uuid, (event, res) => {
         this.zone.run(() => {
+
           resolve(res);
         });
       });
       this.el.ipcRenderer.send('query', uuid, query, params);
+    });
+  }
+
+  Listen(notificationName: string): Observable<any> {
+    return new Observable(observer => {
+      this.el.ipcRenderer.on(notificationName, (event, result) => {
+        this.zone.run(() => {
+          observer.next(result);
+        });
+      });
+      this.el.ipcRenderer.send('listenPG', notificationName);
     });
   }
 

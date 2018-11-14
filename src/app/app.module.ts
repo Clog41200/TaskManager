@@ -48,6 +48,7 @@ import { EtatDialogComponent } from './etat-dialog/etat-dialog.component';
 import { ItemDialogComponent } from './item-dialog/item-dialog.component';
 import { TacheDialogComponent } from './tache-dialog/tache-dialog.component';
 import { MarkdownModule, MarkedOptions, MarkedRenderer } from 'ngx-markdown';
+import { DndModule } from 'ngx-drag-drop';
 
 // function that returns `MarkedOptions` with renderer override
 export function markedOptionsFactory(): MarkedOptions {
@@ -69,7 +70,7 @@ export function markedOptionsFactory(): MarkedOptions {
     renderer: renderer,
     gfm: true,
     tables: true,
-    breaks: false,
+    breaks: true,
     pedantic: false,
     sanitize: false,
     smartLists: true,
@@ -121,6 +122,7 @@ export function markedOptionsFactory(): MarkedOptions {
     MatSortModule,
     MatTabsModule,
     ItemsTaskModule,
+    DndModule,
     MarkdownModule.forRoot({
       markedOptions: {
         provide: MarkedOptions,

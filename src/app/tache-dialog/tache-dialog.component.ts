@@ -1,3 +1,4 @@
+import { Observable, Subscription } from 'rxjs';
 import { TaskMessageService, TaskMessage } from './../task-message.service';
 import { MessagesService, Message } from './../messages.service';
 import {
@@ -9,7 +10,7 @@ import { FormGroup, FormControl } from '@angular/forms';
 import { Item, ItemsService } from './../items.service';
 import { Task, TasksService } from './../tasks.service';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material';
-import { Component, OnInit, Inject } from '@angular/core';
+import { Component, OnInit, Inject, ChangeDetectorRef } from '@angular/core';
 import { Users, UsersService } from '../users.service';
 
 @Component({
@@ -36,6 +37,8 @@ export class TacheDialogComponent implements OnInit {
 
   public messages: Array<Message>;
 
+  public nouveauMessage: Subscription;
+
   constructor(
     @Inject(MAT_DIALOG_DATA) public data: Task,
     private dialogRef: MatDialogRef<TacheDialogComponent>,
@@ -45,12 +48,18 @@ export class TacheDialogComponent implements OnInit {
     private userService: UsersService,
     private assignedUsersService: AssignedUsersService,
     private messageService: MessagesService,
-    private taskMessageService: TaskMessageService) {
+    private taskMessageService: TaskMessageService
+  ) {
     this.task = data;
   }
 
-
   ngOnInit() {
+    this.dialogRef.beforeClosed().subscribe(() => {
+      if (this.nouveauMessage) {
+        this.nouveauMessage.unsubscribe();
+      }
+    });
+
     this.assignedUser = new AssignedUser();
     this.userService.GetAll().then(res => {
       this.users = res;
@@ -86,9 +95,22 @@ export class TacheDialogComponent implements OnInit {
   }
 
   changementTab(event) {
-
     if (event.index === 1) {
       this.loadMessage();
+      if (this.task.id !== 0) {
+        this.nouveauMessage = this.messageService
+          .ListenOnTask(this.task)
+          .subscribe(newMessage => {
+            this.messageService.GetById(newMessage).then(message => {
+              this.messages.push(message);
+            });
+          });
+      }
+    } else {
+      if (this.nouveauMessage) {
+        this.nouveauMessage.unsubscribe();
+        this.nouveauMessage = undefined;
+      }
     }
   }
 
@@ -96,7 +118,6 @@ export class TacheDialogComponent implements OnInit {
     if (this.task.id !== 0) {
       this.messageService.GetAllByTask(this.task).then(messages => {
         this.messages = messages;
-
       });
     }
   }
@@ -112,9 +133,7 @@ export class TacheDialogComponent implements OnInit {
         const taskmessage = new TaskMessage();
         taskmessage.id_message = res.id;
         taskmessage.id_task = this.task.id;
-        this.taskMessageService.Add(taskmessage).then(() => {
-          this.loadMessage();
-        });
+        this.taskMessageService.Add(taskmessage).then(() => {});
       });
     }
 
@@ -127,12 +146,11 @@ export class TacheDialogComponent implements OnInit {
       return;
     }
 
-
     if (this.task.id === 0) {
       this.taskService.Add(this.task).then(res => {
-        this.task.id = res[0].id;
+        this.task.id = res.id;
         for (const item of this.items) {
-          this.taskItemValueService.Add(res[0].id, item.id, item.value);
+          this.taskItemValueService.Add(res.id, item.id, item.value);
         }
         this.assignedUser.id_task = this.task.id;
         if (this.assignedUser.id_user !== 0) {
@@ -153,17 +171,15 @@ export class TacheDialogComponent implements OnInit {
         }
       });
     }
-    this.dialogRef.close('update');
+    this.dialogRef.close();
   }
 
   delete() {
-    this.taskService
-      .Delete(this.task)
-      .then(() => this.dialogRef.close('update'));
+    this.taskService.Delete(this.task).then(() => this.dialogRef.close());
   }
 
   getPseudo(userId: number) {
-    const index = this.users.findIndex(user => userId == user.id);
+    const index = this.users.findIndex(user => userId === user.id);
     if (index >= 0) {
       return this.users[index].pseudo;
     }
