@@ -14,7 +14,7 @@
   <ng-container matColumnDef="action">
     <mat-header-cell *matHeaderCellDef>Actions</mat-header-cell>
     <mat-cell *matCellDef="let right">
-      <button mat-raised-button color="warn" (click)="delete(right)">
+      <button mat-raised-button color="warn" (click)="delete(right)" [disabled]="right.label=='Administrateur'">
         <fa name="trash"></fa>
       </button>
       <button mat-raised-button (click)="edit(right)">

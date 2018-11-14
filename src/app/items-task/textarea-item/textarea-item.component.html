@@ -1,3 +1,3 @@
-<p>
-  textarea-item works!
-</p>
+<mat-form-field floatPlaceholder="auto" style="width:100%">
+    <textarea matInput [(ngModel)]="item.value" matTextareaAutosize [placeholder]="item.label"></textarea>
+</mat-form-field>

@@ -1,3 +1,4 @@
+import { UserAccountComponent } from './user-account/user-account.component';
 import { ItemsManagmentComponent } from './items-managment/items-managment.component';
 import { StatesManagmentComponent } from './states-managment/states-managment.component';
 import { NgModule } from '@angular/core';
@@ -15,6 +16,7 @@ const routes: Routes = [
   { path: 'manageUsers', component: UsersManagmentComponent },
   { path: 'manageRights', component: RightsManagmentComponent },
   { path: 'manageStates', component: StatesManagmentComponent },
+  { path: 'useraccount/:user', component: UserAccountComponent },
   { path: 'manageItems', component: ItemsManagmentComponent }
 ];
 
@@ -22,7 +24,7 @@ const routes: Routes = [
   declarations: [
   ],
   imports: [
-    RouterModule.forRoot(routes)
+    RouterModule.forRoot(routes, { useHash: true })
   ],
   exports: [RouterModule],
 })

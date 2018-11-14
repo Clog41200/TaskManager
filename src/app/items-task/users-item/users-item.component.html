@@ -1,3 +1,5 @@
-<p>
-  users-item works!
-</p>
+<mat-form-field style="width:100%">
+  <mat-select [compareWith]="testSelect" [(ngModel)]="item.value" [placeholder]="item.label" >
+    <mat-option [value]="val.id" *ngFor="let val of values">{{ val.pseudo }}</mat-option>
+  </mat-select>
+</mat-form-field>

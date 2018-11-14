@@ -25,7 +25,8 @@ import {
   MatSelectModule,
   MatPaginatorModule,
   MatSortModule,
-  MatTabsModule
+  MatTabsModule,
+  MatCheckboxModule
 } from '@angular/material';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { BrowserModule } from '@angular/platform-browser';
@@ -49,6 +50,9 @@ import { ItemDialogComponent } from './item-dialog/item-dialog.component';
 import { TacheDialogComponent } from './tache-dialog/tache-dialog.component';
 import { MarkdownModule, MarkedOptions, MarkedRenderer } from 'ngx-markdown';
 import { DndModule } from 'ngx-drag-drop';
+import { UserAccountComponent } from './user-account/user-account.component';
+import {MatSnackBarModule} from '@angular/material/snack-bar';
+import { UsersRightsService } from './users-rights.service';
 
 // function that returns `MarkedOptions` with renderer override
 export function markedOptionsFactory(): MarkedOptions {
@@ -94,7 +98,8 @@ export function markedOptionsFactory(): MarkedOptions {
     ItemsManagmentComponent,
     EtatDialogComponent,
     ItemDialogComponent,
-    TacheDialogComponent
+    TacheDialogComponent,
+    UserAccountComponent
   ],
   imports: [
     BrowserModule,
@@ -122,7 +127,9 @@ export function markedOptionsFactory(): MarkedOptions {
     MatSortModule,
     MatTabsModule,
     ItemsTaskModule,
+    MatSnackBarModule,
     DndModule,
+    MatCheckboxModule,
     MarkdownModule.forRoot({
       markedOptions: {
         provide: MarkedOptions,
@@ -140,7 +147,8 @@ export function markedOptionsFactory(): MarkedOptions {
     TaskItemValueService,
     AssignedUsersService,
     MessagesService,
-    TaskMessageService
+    TaskMessageService,
+    UsersRightsService
   ],
   entryComponents: [
     UserDialogComponent,

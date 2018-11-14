@@ -6,22 +6,24 @@
     <input matInput formControlName="label" type="text" required placeholder="Libellé du champ">
   </mat-form-field>
 
+
   <mat-form-field floatPlaceholder="auto">
     <mat-select formControlName="type" placeholder="Type de saisie">
       <mat-option value="text">Texte mono ligne</mat-option>
       <mat-option value="textarea">Texte multi-ligne</mat-option>
-      <mat-option value="richtext">Texte enrichi</mat-option>
+      <!-- <mat-option value="richtext">Texte enrichi</mat-option> -->
       <mat-option value="date">Date</mat-option>
       <mat-option value="users">Utilisateur</mat-option>
-      <mat-option value="groupusers">Groupe d'utilisateur</mat-option>
+      <!-- <mat-option value="groupusers">Groupe d'utilisateur</mat-option> -->
       <mat-option value="select">Combo-box</mat-option>
     </mat-select>
   </mat-form-field>
 
-
   <mat-form-field floatPlaceholder="auto" *ngIf="form.get('type').value=='select'">
     <textarea matInput mat-autosize matAutosizeMinRows="5" formControlName="options" placeholder="Options (retour à la ligne pour chaque valeur)"></textarea>
   </mat-form-field>
+
+  <mat-checkbox formControlName="istag" color="primary">Est un tag</mat-checkbox>
 
 
   <div class="flex-row">

@@ -12,14 +12,15 @@ export class ItemDialogComponent implements OnInit {
   public form = new FormGroup({
     label: new FormControl(''),
     type: new FormControl(''),
-    options: new FormControl('')
+    options: new FormControl(''),
+    istag: new FormControl(false)
   });
 
   constructor(
     private dialogRef: MatDialogRef<ItemDialogComponent>,
     @Inject(MAT_DIALOG_DATA) public data: Item,
     private itemservice: ItemsService
-  ) {}
+  ) { }
 
   ngOnInit() {
     if (this.data.id !== 0) {
