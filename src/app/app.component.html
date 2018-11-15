@@ -4,6 +4,7 @@
     [matMenuTriggerFor]="menuRef">
     <fa name="bars" style="cursor:pointer"></fa>
   </button>
+  <app-notification-indicator *ngIf="router.url != '/nousers' && router.url!='/'"></app-notification-indicator>
 
   <span style="flex-grow: 1" (dblclick)="toggleMaximize()"></span>
 
@@ -13,11 +14,11 @@
 </div>
 <router-outlet></router-outlet>
 
-<mat-menu #menuRef="matMenu">
+<mat-menu #menuRef="matMenu" >
     <button mat-menu-item [routerLink]="['/main']" routerLinkActive="router-link-active">
       Affichage des tâches
     </button>
-    <button mat-menu-item [routerLink]="['/useraccount',user.id]" routerLinkActive="router-link-active">
+    <button mat-menu-item [routerLink]="['/useraccount',connexionService.user.id]" routerLinkActive="router-link-active">
       Gérer mon compte
     </button>
   <button mat-menu-item *ngIf="isAdmin()" [routerLink]="['/manageUsers']" routerLinkActive="router-link-active">

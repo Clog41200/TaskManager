@@ -1,3 +1,8 @@
+import { ConnexionService } from './../connexion.service';
+import {
+  NotificationsService,
+  Notification
+} from './../notifications/notifications.service';
 import { Observable, Subscription } from 'rxjs';
 import { TaskMessageService, TaskMessage } from './../task-message.service';
 import { MessagesService, Message } from './../messages.service';
@@ -39,8 +44,14 @@ export class TacheDialogComponent implements OnInit {
 
   public nouveauMessage: Subscription;
 
+  private ancienAssignedUser: AssignedUser;
+
+  public currentPage: number;
+
+  public descriptionEdit: boolean;
+
   constructor(
-    @Inject(MAT_DIALOG_DATA) public data: Task,
+    @Inject(MAT_DIALOG_DATA) public data: any,
     private dialogRef: MatDialogRef<TacheDialogComponent>,
     private taskService: TasksService,
     private itemservice: ItemsService,
@@ -48,9 +59,30 @@ export class TacheDialogComponent implements OnInit {
     private userService: UsersService,
     private assignedUsersService: AssignedUsersService,
     private messageService: MessagesService,
-    private taskMessageService: TaskMessageService
+    private taskMessageService: TaskMessageService,
+    private notificationService: NotificationsService,
+    private connexionservice: ConnexionService
   ) {
-    this.task = data;
+    this.descriptionEdit = false;
+    this.currentPage = 0;
+    if (data.tache) {
+      this.task = data.tache;
+      if (data.page) {
+        this.currentPage = data.page;
+      }
+    } else {
+      this.task = data;
+    }
+
+    if (this.currentPage === 1) {
+      this.nouveauMessage = this.messageService
+        .ListenOnTask(this.task)
+        .subscribe(newMessage => {
+          this.messageService.GetById(newMessage).then(message => {
+            this.messages.push(message);
+          });
+        });
+    }
   }
 
   ngOnInit() {
@@ -84,6 +116,7 @@ export class TacheDialogComponent implements OnInit {
         this.assignedUsersService.GetByTask(this.task.id).then(retour => {
           if (retour.length > 0) {
             this.assignedUser = retour[0];
+            this.ancienAssignedUser = this.assignedUser;
           }
         });
 
@@ -128,12 +161,25 @@ export class TacheDialogComponent implements OnInit {
     } else {
       const message = new Message();
       message.text = this.formMessage.value.message;
-      message.id_user = JSON.parse(localStorage.getItem('user')).id;
+      message.id_user = this.connexionservice.user.id;
       this.messageService.Add(message).then(res => {
         const taskmessage = new TaskMessage();
         taskmessage.id_message = res.id;
         taskmessage.id_task = this.task.id;
         this.taskMessageService.Add(taskmessage).then(() => {});
+
+        if (this.assignedUser.id !== 0) {
+          if (message.id_user !== this.assignedUser.id_user) {
+            const notification = new Notification();
+            notification.text = 'Message pour la tâche ' + this.task.title;
+            notification.id_user = this.assignedUser.id_user;
+            notification.data = {
+              type: 'taskMessage',
+              id_task: this.assignedUser.id_task
+            };
+            this.notificationService.AddNotification(notification);
+          }
+        }
       });
     }
 
@@ -154,7 +200,17 @@ export class TacheDialogComponent implements OnInit {
         }
         this.assignedUser.id_task = this.task.id;
         if (this.assignedUser.id_user !== 0) {
-          this.assignedUsersService.Add(this.assignedUser);
+          this.assignedUsersService.Add(this.assignedUser).then(() => {
+            const notification = new Notification();
+            notification.text =
+              'Nouvelle tâche assignée (' + this.task.title + ')';
+            notification.id_user = this.assignedUser.id_user;
+            notification.data = {
+              type: 'task',
+              id_task: this.assignedUser.id_task
+            };
+            this.notificationService.AddNotification(notification);
+          });
         }
       });
     } else {
@@ -163,11 +219,34 @@ export class TacheDialogComponent implements OnInit {
           this.taskItemValueService.Update(this.task.id, item.id, item.value);
         }
         this.assignedUser.id_task = this.task.id;
-
-        if (this.assignedUser.id !== 0) {
-          this.assignedUsersService.Update(this.assignedUser);
-        } else {
-          this.assignedUsersService.Add(this.assignedUser);
+        if (this.assignedUser.id_user !== 0) {
+          if (this.assignedUser.id !== 0) {
+            this.assignedUsersService.Update(this.assignedUser).then(() => {
+              if (this.assignedUser.id_user !== this.connexionservice.user.id) {
+                const notification = new Notification();
+                notification.text = 'Tâche modifiée (' + this.task.title + ')';
+                notification.id_user = this.assignedUser.id_user;
+                notification.data = {
+                  type: 'task',
+                  id_task: this.assignedUser.id_task
+                };
+                this.notificationService.AddNotification(notification);
+              }
+            });
+          } else {
+            this.assignedUsersService.Add(this.assignedUser).then(() => {
+              if (this.assignedUser.id_user !== this.connexionservice.user.id) {
+                const notification = new Notification();
+                notification.text = 'Tâche assignée (' + this.task.title + ')';
+                notification.id_user = this.assignedUser.id_user;
+                notification.data = {
+                  type: 'task',
+                  id_task: this.assignedUser.id_task
+                };
+                this.notificationService.AddNotification(notification);
+              }
+            });
+          }
         }
       });
     }

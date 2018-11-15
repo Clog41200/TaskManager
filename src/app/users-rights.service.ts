@@ -36,6 +36,7 @@ export class UsersRightsService {
     ]);
   }
   GetRightsByUser(user: Users): Promise<Array<Rights>> {
+
     return this.pg.Query(
       'select rights.* from rights, users_rights where users_rights."idUser"=$1 AND rights.id = users_rights."idRight"',
       [user.id]

@@ -1,0 +1,11 @@
+<button [matMenuTriggerFor]="menuRef" mat-icon-button matBadgePosition="belowe after" matBadgeSize="medium" [matBadgeHidden]="notifications.length==0" [matBadge]="notifications.length">
+    <fa name="envelope" *ngIf="notifications.length>0" ></fa>
+    <fa name="envelope-open" *ngIf="notifications.length==0"></fa>
+</button>
+
+
+<mat-menu #menuRef="matMenu" (closed)="clearNotification()">
+    <button mat-menu-item *ngFor="let notif of notifications" (click)="actionNotification(notif)">
+        {{notif.text}}
+    </button>
+</mat-menu>

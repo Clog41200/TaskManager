@@ -1,8 +1,10 @@
+import { MatDialog } from '@angular/material';
 import { MessagesService } from './messages.service';
 import { Observable } from 'rxjs';
-import { Injectable } from '@angular/core';
+import { Injectable, ComponentRef, TemplateRef } from '@angular/core';
 import { PostgresqlService } from './postgresql.service';
 import { Etat } from './etats.service';
+import { ComponentType } from '@angular/core/src/render3';
 
 @Injectable({
   providedIn: 'root'
@@ -10,13 +12,18 @@ import { Etat } from './etats.service';
 export class TasksService {
   constructor(
     private pg: PostgresqlService,
-    private messageService: MessagesService
+    private messageService: MessagesService,
+    private dialog: MatDialog
   ) {}
 
   GetById(id: number): Promise<Task> {
     return new Promise((res, rej) => {
       this.pg.Query('SELECT * FROM tasks where id =$1', [id]).then(resultat => {
-        res(resultat[0]);
+        if (resultat.length > 0) {
+          res(resultat[0]);
+        } else {
+          res(undefined);
+        }
       });
     });
   }
@@ -89,6 +96,18 @@ export class TasksService {
       }
     }
     return this.pg.Query(requete, tableau);
+  }
+
+  EditTask(id: number, dialog: any, message = false) {
+    this.GetById(id).then(tache => {
+      if (tache) {
+        this.dialog.open(dialog, {
+          data: { tache: tache, page: message ? 1 : 0 }
+        });
+      } else {
+        alert('Cette tâche n\'existe plus.');
+      }
+    });
   }
 }
 

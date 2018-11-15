@@ -1,16 +1,24 @@
 <div style="width:800px;height:700px" class="flex-col">
   <mat-toolbar style="justify-content: normal;min-height: 64px;">
-    <input matInput [(ngModel)]="task.title" name="title" type="text" required placeholder="Titre de la tâche" />
-    <button mat-button (click)="delete()">
-      <fa name="trash"></fa>
-    </button>
+    <input
+      matInput
+      [(ngModel)]="task.title"
+      name="title"
+      type="text"
+      required
+      placeholder="Titre de la tâche"
+    />
+    <button mat-button (click)="delete()"><fa name="trash"></fa></button>
 
-    <button mat-button (click)="saveAll()">
-      <fa name="save"></fa>
-    </button>
+    <button mat-button (click)="saveAll()"><fa name="save"></fa></button>
   </mat-toolbar>
 
-  <mat-tab-group [disableRipple]="false" style="flex-grow: 1" (selectedTabChange)="changementTab($event)">
+  <mat-tab-group
+    [disableRipple]="false"
+    [(selectedIndex)]="currentPage"
+    style="flex-grow: 1"
+    (selectedTabChange)="changementTab($event)"
+  >
     <mat-tab label="Description">
       <div class="flex-row">
         <div class="flex-col" style="flex-grow: 1">
@@ -18,40 +26,98 @@
             Crée le : {{ datecreation }}
           </div>
           <mat-form-field floatPlaceholder="auto">
-            <mat-select [(ngModel)]="assignedUser.id_user" placeholder="Utilisateur assigné">
+            <mat-select
+              [(ngModel)]="assignedUser.id_user"
+              placeholder="Utilisateur assigné"
+            >
               <mat-option [value]="user.id" *ngFor="let user of users">{{
                 user.pseudo
-                }}</mat-option>
+              }}</mat-option>
             </mat-select>
           </mat-form-field>
 
-          <mat-form-field floatPlaceholder="always">
-            <textarea matTextareaAutosize matInput [(ngModel)]="task.description" placeholder="Description"></textarea>
-          </mat-form-field>
+          <div class="flex-row" style="align-items: center;min-height:37px">
+            <div style="flex-grow: 1">Description :</div>
+            <button mat-button (click)="descriptionEdit = !descriptionEdit">
+              <fa name="edit"></fa>
+            </button>
+          </div>
+          <div
+            style="box-shadow: inset 0px 0px 5px black;          background: #4e4e4e;          padding: 5px;"
+          >
+            <mat-form-field floatPlaceholder="none" *ngIf="descriptionEdit" style="width:100%">
+              <textarea
+                matTextareaAutosize
+                matInput
+                [(ngModel)]="task.description"
+                placeholder=""
+              ></textarea>
+            </mat-form-field>
+            <div
+              style="user-select: text"
+              markdown
+              [innerHTML]="task.description"
+              *ngIf="!descriptionEdit"
+            ></div>
+          </div>
         </div>
         <div class="flex-col" style="width: 204px;margin-left:5px">
-          <app-dynamic-task-item *ngFor="let item of items" [item]="item"></app-dynamic-task-item>
+          <app-dynamic-task-item
+            *ngFor="let item of items"
+            [item]="item"
+          ></app-dynamic-task-item>
         </div>
       </div>
     </mat-tab>
     <mat-tab label="Messages" class="flex-col">
-      <div class="history" style="flex-grow: 1;padding:6px;overflow:auto; max-height: 420px" #scrollMe [scrollTop]="scrollMe.scrollHeight">
-        <div *ngFor="let message of messages; index as i; first as isFirst" class="flex-col" style="user-select:text;">
-          <div class="titleMessage" *ngIf="isFirst || messages[i-1].id_user!=message.id_user" >{{ getPseudo(message.id_user)+' le '+formatDH(message.date_heure) }} :</div>
-          <div [innerHTML]="message.text" class="historyMessage" markdown ngPreserveWhitespaces></div>
+      <div
+        class="history"
+        style="flex-grow: 1;padding:6px;overflow:auto; max-height: 420px"
+        #scrollMe
+        [scrollTop]="scrollMe.scrollHeight"
+      >
+        <div
+          *ngFor="let message of messages; index as i; first as isFirst"
+          class="flex-col"
+          style="user-select:text;"
+        >
+          <div
+            class="titleMessage"
+            *ngIf="isFirst || messages[i - 1].id_user != message.id_user"
+          >
+            {{
+              getPseudo(message.id_user) + " le " + formatDH(message.date_heure)
+            }}
+            :
+          </div>
+          <div
+            [innerHTML]="message.text"
+            class="historyMessage"
+            markdown
+            ngPreserveWhitespaces
+          ></div>
         </div>
       </div>
       <div class="newMessage">
-        <form [formGroup]="formMessage" (ngSubmit)="onSubmitMessage()" class="flex-row" style="flex-grow: 1">
+        <form
+          [formGroup]="formMessage"
+          (ngSubmit)="onSubmitMessage()"
+          class="flex-row"
+          style="flex-grow: 1"
+        >
           <mat-form-field floatLabel="always" style="flex-grow: 1">
-            <textarea style="font-size: 12px" matInput formControlName="message" required placeholder="Nouveau message"
-              matTextareaAutosize matAutosizeMinRows=7></textarea>
+            <textarea
+              style="font-size: 12px"
+              matInput
+              formControlName="message"
+              required
+              placeholder="Nouveau message"
+              matTextareaAutosize
+              matAutosizeMinRows="7"
+            ></textarea>
           </mat-form-field>
 
-
-          <button mat-button>
-            <fa name="send"></fa> Envoyer
-          </button>
+          <button mat-button><fa name="send"></fa> Envoyer</button>
         </form>
       </div>
     </mat-tab>

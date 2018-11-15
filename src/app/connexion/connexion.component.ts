@@ -1,3 +1,4 @@
+import { ConnexionService } from './../connexion.service';
 import { Component, OnInit, NgZone } from '@angular/core';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { ElectronService } from 'ngx-electron';
@@ -25,7 +26,8 @@ export class ConnexionComponent implements OnInit {
     private elec: ElectronService,
     private pg: PostgresqlService,
     private zone: NgZone,
-    private router: Router
+    private router: Router,
+    private connexionService: ConnexionService
   ) {}
 
   ngOnInit() {
@@ -44,22 +46,27 @@ export class ConnexionComponent implements OnInit {
   }
 
   submit() {
-    this.elec.ipcRenderer.once('connexion_erreur', (event, retour) => {
-      this.zone.run(() => {
-        this.showError = true;
-        this.messageErreur = retour;
+    this.connexionService
+      .Connexion(this.initform.value.login, this.initform.value.password)
+      .then(res => {
+        if (res === undefined) {
+          this.showError = true;
+          this.messageErreur = 'Login incorrecte.';
+          setTimeout(() => {
+            this.zone.run(() => {
+              this.showError = false;
+            });
+          }, 4000);
+        } else {
+          this.connexionService.user = res;
+
+          localStorage.setItem('user', JSON.stringify(res));
+
+          this.connexionService.GetRights();
+
+          this.elec.remote.getCurrentWindow().hide();
+          this.router.navigate(['/main']);
+        }
       });
-
-      setTimeout(() => {
-        this.zone.run(() => {
-          this.showError = false;
-        });
-      }, 4000);
-    });
-
-    this.elec.ipcRenderer.send('connexion', this.pg.guid(), {
-      login: this.initform.value.login,
-      password: this.initform.value.password
-    });
   }
 }

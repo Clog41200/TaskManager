@@ -1,3 +1,4 @@
+import { ConnexionService } from './connexion.service';
 import { TaskMessageService } from './task-message.service';
 import { MessagesService } from './messages.service';
 import { AssignedUsersService } from './assigned-users.service';
@@ -53,6 +54,7 @@ import { DndModule } from 'ngx-drag-drop';
 import { UserAccountComponent } from './user-account/user-account.component';
 import {MatSnackBarModule} from '@angular/material/snack-bar';
 import { UsersRightsService } from './users-rights.service';
+import { NotificationsModule } from './notifications/notifications.module';
 
 // function that returns `MarkedOptions` with renderer override
 export function markedOptionsFactory(): MarkedOptions {
@@ -136,7 +138,8 @@ export function markedOptionsFactory(): MarkedOptions {
         useFactory: markedOptionsFactory,
       }
     }
-    )
+    ),
+    NotificationsModule
   ],
   providers: [
     UsersService,
@@ -148,7 +151,8 @@ export function markedOptionsFactory(): MarkedOptions {
     AssignedUsersService,
     MessagesService,
     TaskMessageService,
-    UsersRightsService
+    UsersRightsService,
+    ConnexionService
   ],
   entryComponents: [
     UserDialogComponent,

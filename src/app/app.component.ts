@@ -4,6 +4,7 @@ import { ElectronService } from 'ngx-electron';
 import { Router } from '@angular/router';
 import { Rights } from './rights.service';
 import { UsersRightsService } from './users-rights.service';
+import { ConnexionService } from './connexion.service';
 
 @Component({
   selector: 'app-root',
@@ -12,21 +13,23 @@ import { UsersRightsService } from './users-rights.service';
 })
 export class AppComponent {
   title = 'taskManager';
-  public user: Users;
+
   public showMenu = false;
   public showMenuButton = false;
 
-  public droitUtilisateur: Array<Rights>;
 
-  constructor(private electron: ElectronService, private router: Router, private userrightservice: UsersRightsService) {
-    this.user = JSON.parse(localStorage.getItem('user'));
-    this.userrightservice.GetRightsByUser(this.user).then(res => {
-      this.droitUtilisateur = res;
-    });
+
+  constructor(
+    private electron: ElectronService,
+    private router: Router,
+    private userrightservice: UsersRightsService,
+    private connexionService: ConnexionService
+  ) {
+
   }
 
   isAdmin() {
-    const index = this.droitUtilisateur.findIndex((droit) => {
+    const index = this.connexionService.rights.findIndex(droit => {
       return droit.label === 'Administrateur';
     });
     return index !== -1;
