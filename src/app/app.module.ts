@@ -1,3 +1,4 @@
+import { FilesModule } from './files/files.module';
 import { ConnexionService } from './connexion.service';
 import { TaskMessageService } from './task-message.service';
 import { MessagesService } from './messages.service';
@@ -139,7 +140,8 @@ export function markedOptionsFactory(): MarkedOptions {
       }
     }
     ),
-    NotificationsModule
+    NotificationsModule,
+    FilesModule
   ],
   providers: [
     UsersService,

@@ -37,7 +37,7 @@
           </mat-form-field>
 
           <div class="flex-row" style="align-items: center;min-height:37px">
-            <div style="flex-grow: 1">Description :</div>
+            <div style="flex-grow: 1" >Description :</div>
             <button mat-button (click)="descriptionEdit = !descriptionEdit">
               <fa name="edit"></fa>
             </button>
@@ -45,8 +45,8 @@
           <div
             style="box-shadow: inset 0px 0px 5px black;          background: #4e4e4e;          padding: 5px;"
           >
-            <mat-form-field floatPlaceholder="none" *ngIf="descriptionEdit" style="width:100%">
-              <textarea
+            <mat-form-field floatPlaceholder="none" *ngIf="descriptionEdit" style="width:100%" >
+              <textarea appDropZone
                 matTextareaAutosize
                 matInput
                 [(ngModel)]="task.description"

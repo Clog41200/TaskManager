@@ -16,9 +16,9 @@ export class ConnexionService {
     private userrights: UsersRightsService
   ) {
     const test = localStorage.getItem('user');
+    this.rights = [];
     if (!test) {
       this.user = new Users();
-      this.rights = [];
     } else {
       this.user = JSON.parse(test);
       this.GetRights();

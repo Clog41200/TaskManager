@@ -269,4 +269,5 @@ export class TacheDialogComponent implements OnInit {
     const date = new Date(timestamp);
     return date.toLocaleString('fr');
   }
+
 }
