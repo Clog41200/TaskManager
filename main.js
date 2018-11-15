@@ -28,12 +28,10 @@ function createWindow() {
 
   connectPG.connect(err => {
     if (err) {
-      console.log(err.message);
       app.quit();
     } else {
       connectPG.query("SELECT COUNT(*) as nb FROM users", (err, res) => {
         if (err) {
-          console.log(err.stack);
         } else {
           var count = res.rows[0].nb;
           if (count == 0) {
@@ -47,7 +45,6 @@ function createWindow() {
       });
 
       connectPG.on("notification", msg => {
-        console.log(msg);
         win.send(msg.channel, JSON.parse(msg.payload));
       });
 
@@ -67,7 +64,6 @@ function createWindow() {
 }
 
 ipcMain.on("query", (event, uuid, query, args) => {
-  console.log(query);
 
   connectPG
     .query(query, args)
@@ -134,7 +130,6 @@ ipcMain.on("initialisation", (event, uuid, args) => {
 });
 
 ipcMain.on("connexion", (event, uuid, data) => {
-  console.log("connexion");
   connectPG
     .query("SELECT * FROM users WHERE mail = $1", [data.login])
     .then(res => {
@@ -151,7 +146,6 @@ ipcMain.on("connexion", (event, uuid, data) => {
       }
     })
     .catch(res => {
-      console.log(res);
     });
 });
 
@@ -162,7 +156,6 @@ ipcMain.on("GetUsers", event => {
 });
 
 ipcMain.on("Users_Add", (event, data) => {
-  console.log("Ajout utilisateur");
 
   connectPG
     .query("INSERT into users (mail,password) VALUES ($1,$2) RETURNING *", [
@@ -173,7 +166,6 @@ ipcMain.on("Users_Add", (event, data) => {
       event.sender.send(data.uuid, res.rows[0]);
     })
     .catch(res => {
-      console.log(res);
     });
 });
 

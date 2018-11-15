@@ -15,7 +15,7 @@ import { TaskItemValueService } from './../task-item-value.service';
 import { FormGroup, FormControl } from '@angular/forms';
 import { Item, ItemsService } from './../items.service';
 import { Task, TasksService } from './../tasks.service';
-import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material';
+import { MAT_DIALOG_DATA, MatDialogRef, MatTableDataSource, MatTable } from '@angular/material';
 import { Component, OnInit, Inject, ChangeDetectorRef, ViewChild, ElementRef } from '@angular/core';
 import { Users, UsersService } from '../users.service';
 import { File } from '../files/files.service';
@@ -54,7 +54,7 @@ export class TacheDialogComponent implements OnInit {
 
   public descriptionEdit: boolean;
 
-  public piecesJointes: Array<File>;
+  public piecesJointes: MatTableDataSource<File>;
   public descriptionMarkdown: string;
 
   constructor(
@@ -71,7 +71,7 @@ export class TacheDialogComponent implements OnInit {
     private connexionservice: ConnexionService,
     private fileservice: FilesService
   ) {
-    this.piecesJointes = [];
+    this.piecesJointes = new MatTableDataSource<File>();
 
     this.currentPage = 0;
     if (data.tache) {
@@ -101,10 +101,8 @@ export class TacheDialogComponent implements OnInit {
         this.nouveauMessage.unsubscribe();
       }
     });
-    console.log(this.descriptionMarkdown);
-    console.log(this.task.description);
+
     this.toggleDescription();
-    console.log(this.descriptionMarkdown);
 
     this.assignedUser = new AssignedUser();
     this.userService.GetAll().then(res => {
@@ -154,7 +152,7 @@ export class TacheDialogComponent implements OnInit {
           });
       }
     } else if (event.index === 2) {
-      this.fileservice.GetAllWithoutData().then(res => this.piecesJointes = res);
+      this.fileservice.GetAllWithoutData().then(res => this.piecesJointes.data = res);
     } else {
       if (this.nouveauMessage) {
         this.nouveauMessage.unsubscribe();
@@ -298,7 +296,11 @@ export class TacheDialogComponent implements OnInit {
         tableauImageId.push(match);
       }
 
-      console.log(tableauImageId);
+      if (tableauImageId.length === 0) {
+        res();
+        return;
+      }
+
 
       const tableauFichier = [];
       for (const imageId of tableauImageId) {
@@ -306,12 +308,28 @@ export class TacheDialogComponent implements OnInit {
           tableauFichier.push(file);
 
           if (tableauFichier.length == tableauImageId.length) {
+            const tableauChaine = [];
+            const tableauID = [];
+
+            let indicedepart = 0;
+
             for (let i = 0; i < tableauImageId.length; i++) {
-              const indexFichier = tableauFichier.findIndex(fic => fic.id == tableauImageId[i][1]);
-              this.descriptionMarkdown = this.descriptionMarkdown.substring(0,
-                tableauImageId[i].index) + tableauFichier[indexFichier].data +
-                this.descriptionMarkdown.substring(tableauImageId[i].index + tableauImageId[i][0].length);
+              tableauChaine.push(this.descriptionMarkdown.substring(indicedepart, tableauImageId[i].index));
+
+              indicedepart = tableauImageId[i].index + tableauImageId[i][0].length;
+              tableauID.push(tableauImageId[i][1]);
             }
+            tableauChaine.push(this.descriptionMarkdown.substring(indicedepart));
+
+            this.descriptionMarkdown = '';
+            for (let i = 0; i < tableauChaine.length - 1; i++) {
+              const chaine = tableauChaine[i];
+              this.descriptionMarkdown += chaine;
+              const indexFichier = tableauFichier.findIndex(fic => fic.id == tableauID[i]);
+              this.descriptionMarkdown += tableauFichier[indexFichier].data;
+            }
+            this.descriptionMarkdown += tableauChaine[tableauChaine.length - 1];
+
             res();
           }
         });
@@ -328,14 +346,26 @@ export class TacheDialogComponent implements OnInit {
   }
 
   fileUpload(file: File) {
-    const startPos = this.descriptionMessage.nativeElement.selectionStart;
-    const endPos = this.descriptionMessage.nativeElement.selectionEnd;
-    this.task.description = this.descriptionMessage.nativeElement.value.substring(0, startPos)
-      + '![' + file.filename + '](image://' + file.id + ')'
-      + this.descriptionMessage.nativeElement.value.substring(endPos, this.descriptionMessage.nativeElement.value.length);
+
+
+    if (file.filename.indexOf('.jpg') || file.filename.indexOf('.jpeg') || file.filename.indexOf('.png') || file.filename.indexOf('.gif')) {
+      const startPos = this.descriptionMessage.nativeElement.selectionStart;
+      const endPos = this.descriptionMessage.nativeElement.selectionEnd;
+      this.task.description = this.descriptionMessage.nativeElement.value.substring(0, startPos)
+        + '![' + file.filename + '](image://' + file.id + ')'
+        + this.descriptionMessage.nativeElement.value.substring(endPos, this.descriptionMessage.nativeElement.value.length);
+    }
   }
 
   ouvrirFichier(file: File) {
     this.fileservice.open(file);
+  }
+
+  supprimerFichier(file: File) {
+    this.fileservice.Delete(file).then(() => {
+      this.piecesJointes.data.splice(this.piecesJointes.data.findIndex(fichier => fichier.id === file.id), 1);
+      this.piecesJointes.data = this.piecesJointes.data;
+      // this.piecesJointes.connect(); // = new MatTableDataSource<File>(this.piecesJointes.data);
+    });
   }
 }

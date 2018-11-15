@@ -41,7 +41,5 @@ export class AppComponent {
     } else {
       this.electron.remote.getCurrentWindow().maximize();
     }
-
-    console.log(this.electron.remote.getCurrentWindow().isMaximized());
   }
 }

@@ -94,8 +94,6 @@ export class MainComponent implements OnInit {
   }
 
   onDrop(event, etat_id: number) {
-    console.log(event, etat_id);
-
     event.data.id_etat = etat_id;
     this.taskService.Update(event.data);
   }

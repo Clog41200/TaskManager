@@ -72,10 +72,13 @@
     <mat-tab label="Pièces jointes">
       <mat-table [dataSource]="piecesJointes">
         <ng-container matColumnDef="action">
-          <mat-header-cell *matHeaderCellDef style="max-width: 50px">Voir</mat-header-cell>
-          <mat-cell *matCellDef="let file" style="max-width: 50px;text-align: center">
+          <mat-header-cell *matHeaderCellDef >Voir</mat-header-cell>
+          <mat-cell *matCellDef="let file" style="text-align: center">
             <button mat-icon-button (click)="ouvrirFichier(file)">
               <fa name="download"></fa>
+            </button>
+            <button mat-icon-button (click)="supprimerFichier(file)">
+              <fa name="trash"></fa>
             </button>
           </mat-cell>
         </ng-container>

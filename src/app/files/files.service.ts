@@ -45,10 +45,11 @@ export class FilesService {
       document.body.appendChild(a);
       a.click();
       document.body.removeChild(a);
-
     });
+  }
 
-
+  Delete(file: File): Promise<void> {
+    return this.pg.Query('delete from files where id=$1', [file.id]);
   }
 }
 

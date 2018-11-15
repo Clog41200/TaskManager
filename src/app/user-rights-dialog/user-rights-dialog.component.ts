@@ -22,7 +22,6 @@ export class UserRightsDialogComponent implements OnInit {
     private usersRightsService: UsersRightsService,
     private rightsService: RightsService
   ) {
-    console.log(user);
     this.rightsService.GetAll().then(res => {
       this.allrights = res;
     });

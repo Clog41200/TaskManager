@@ -10,7 +10,6 @@
   <link rel="icon" type="image/x-icon" href="favicon.ico">
   <script>
     function openurl(event){
-      console.log(event);
       event.preventDefault();
       require('electron').shell.openExternal(event.target.href);
     }

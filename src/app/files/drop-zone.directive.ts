@@ -18,7 +18,7 @@ export class DropZoneDirective {
 
       const file = new File();
       file.filename = nomFichier;
-      file.data = ev.target.result;
+      file.data = (ev.target as any).result;
 
       this.filesservice.Add(file).then((id) => {
         file.id = id;
