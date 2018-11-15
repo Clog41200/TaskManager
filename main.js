@@ -1,5 +1,7 @@
 const { app, BrowserWindow, ipcMain } = require("electron");
+
 const { Client } = require("pg");
+
 
 // Gardez une reference globale de l'objet window, si vous ne le faites pas, la fenetre sera
 // fermee automatiquement quand l'objet JavaScript sera garbage collected.
@@ -7,7 +9,7 @@ let win;
 let connectPG;
 
 var types = require("pg").types;
-types.setTypeParser(20, function(val) {
+types.setTypeParser(20, function (val) {
   return parseInt(val);
 });
 
@@ -15,6 +17,7 @@ function createWindow() {
   // Créer le browser window.
   win = new BrowserWindow({ show: false, frame: false });
   win.maximize();
+
   connectPG = new Client({
     user: "postgres",
     host: "localhost",
@@ -77,8 +80,8 @@ ipcMain.on("query", (event, uuid, query, args) => {
 });
 
 ipcMain.on("listenPG", (event, notificationName) => {
-    connectPG.query("UNLISTEN "+notificationName);
-    connectPG.query("LISTEN " + notificationName).then();
+  connectPG.query("UNLISTEN " + notificationName);
+  connectPG.query("LISTEN " + notificationName).then();
 });
 
 

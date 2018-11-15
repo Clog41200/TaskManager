@@ -1,19 +1,32 @@
-import { Directive, ElementRef, HostListener } from '@angular/core';
+import { File, FilesService } from './files.service';
+import { Directive, ElementRef, HostListener, Output, EventEmitter } from '@angular/core';
 
 @Directive({
   selector: '[appDropZone]'
 })
 export class DropZoneDirective {
-  constructor(el: ElementRef) {}
+  constructor(el: ElementRef, private filesservice: FilesService) { }
+
+  @Output() onFileSaved = new EventEmitter<File>();
 
   @HostListener('drop', ['$event'])
   onDrop(event) {
+
+    const nomFichier = event.dataTransfer.files[0].name;
     const reader = new FileReader();
-    reader.onloadend = (ev: any) => {
-      // ev.target.result;
+    reader.onloadend = (ev) => {
+
+      const file = new File();
+      file.filename = nomFichier;
+      file.data = ev.target.result;
+
+      this.filesservice.Add(file).then((id) => {
+        file.id = id;
+        this.onFileSaved.emit(file);
+      });
     };
-    reader.readAsArrayBuffer(event.dataTransfer.files[0]);
-    console.log(event.dataTransfer.files[0]);
+    reader.readAsDataURL(event.dataTransfer.files[0]);
+
   }
 
   @HostListener('dragover', ['$event'])

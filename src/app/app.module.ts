@@ -53,13 +53,19 @@ import { TacheDialogComponent } from './tache-dialog/tache-dialog.component';
 import { MarkdownModule, MarkedOptions, MarkedRenderer } from 'ngx-markdown';
 import { DndModule } from 'ngx-drag-drop';
 import { UserAccountComponent } from './user-account/user-account.component';
-import {MatSnackBarModule} from '@angular/material/snack-bar';
+import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { UsersRightsService } from './users-rights.service';
 import { NotificationsModule } from './notifications/notifications.module';
 
 // function that returns `MarkedOptions` with renderer override
 export function markedOptionsFactory(): MarkedOptions {
   const renderer = new MarkedRenderer();
+
+  renderer.image = (href: string, title: string, text: string): string => {
+
+    return '<img src="' + href + '" style="max-width:300px;max-height:300px" title="' + text + '"/>';
+
+  };
 
   renderer.link = (href: string, title: string, text: string) => {
     if (href.indexOf('mailto:') !== -1) {

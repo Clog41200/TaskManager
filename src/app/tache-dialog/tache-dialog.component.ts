@@ -1,3 +1,4 @@
+import { FilesService } from './../files/files.service';
 import { ConnexionService } from './../connexion.service';
 import {
   NotificationsService,
@@ -15,8 +16,9 @@ import { FormGroup, FormControl } from '@angular/forms';
 import { Item, ItemsService } from './../items.service';
 import { Task, TasksService } from './../tasks.service';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material';
-import { Component, OnInit, Inject, ChangeDetectorRef } from '@angular/core';
+import { Component, OnInit, Inject, ChangeDetectorRef, ViewChild, ElementRef } from '@angular/core';
 import { Users, UsersService } from '../users.service';
+import { File } from '../files/files.service';
 
 @Component({
   selector: 'app-tache-dialog',
@@ -32,6 +34,8 @@ export class TacheDialogComponent implements OnInit {
   public formMessage = new FormGroup({
     message: new FormControl('')
   });
+
+  @ViewChild('descriptionMessage') descriptionMessage: ElementRef;
 
   public users: Array<Users>;
 
@@ -50,6 +54,9 @@ export class TacheDialogComponent implements OnInit {
 
   public descriptionEdit: boolean;
 
+  public piecesJointes: Array<File>;
+  public descriptionMarkdown: string;
+
   constructor(
     @Inject(MAT_DIALOG_DATA) public data: any,
     private dialogRef: MatDialogRef<TacheDialogComponent>,
@@ -61,9 +68,11 @@ export class TacheDialogComponent implements OnInit {
     private messageService: MessagesService,
     private taskMessageService: TaskMessageService,
     private notificationService: NotificationsService,
-    private connexionservice: ConnexionService
+    private connexionservice: ConnexionService,
+    private fileservice: FilesService
   ) {
-    this.descriptionEdit = false;
+    this.piecesJointes = [];
+
     this.currentPage = 0;
     if (data.tache) {
       this.task = data.tache;
@@ -73,6 +82,7 @@ export class TacheDialogComponent implements OnInit {
     } else {
       this.task = data;
     }
+    this.descriptionEdit = true;
 
     if (this.currentPage === 1) {
       this.nouveauMessage = this.messageService
@@ -91,6 +101,10 @@ export class TacheDialogComponent implements OnInit {
         this.nouveauMessage.unsubscribe();
       }
     });
+    console.log(this.descriptionMarkdown);
+    console.log(this.task.description);
+    this.toggleDescription();
+    console.log(this.descriptionMarkdown);
 
     this.assignedUser = new AssignedUser();
     this.userService.GetAll().then(res => {
@@ -139,6 +153,8 @@ export class TacheDialogComponent implements OnInit {
             });
           });
       }
+    } else if (event.index === 2) {
+      this.fileservice.GetAllWithoutData().then(res => this.piecesJointes = res);
     } else {
       if (this.nouveauMessage) {
         this.nouveauMessage.unsubscribe();
@@ -166,7 +182,7 @@ export class TacheDialogComponent implements OnInit {
         const taskmessage = new TaskMessage();
         taskmessage.id_message = res.id;
         taskmessage.id_task = this.task.id;
-        this.taskMessageService.Add(taskmessage).then(() => {});
+        this.taskMessageService.Add(taskmessage).then(() => { });
 
         if (this.assignedUser.id !== 0) {
           if (message.id_user !== this.assignedUser.id_user) {
@@ -270,4 +286,56 @@ export class TacheDialogComponent implements OnInit {
     return date.toLocaleString('fr');
   }
 
+  prepareForMarkdown(): Promise<void> {
+    return new Promise((res, rej) => {
+      this.descriptionMarkdown = this.task.description;
+
+      const reg = /image:\/\/([0-9]+)/g;
+      let match;
+
+      const tableauImageId = [];
+      while (match = reg.exec(this.descriptionMarkdown)) {
+        tableauImageId.push(match);
+      }
+
+      console.log(tableauImageId);
+
+      const tableauFichier = [];
+      for (const imageId of tableauImageId) {
+        this.fileservice.GetById(imageId[1]).then(file => {
+          tableauFichier.push(file);
+
+          if (tableauFichier.length == tableauImageId.length) {
+            for (let i = 0; i < tableauImageId.length; i++) {
+              const indexFichier = tableauFichier.findIndex(fic => fic.id == tableauImageId[i][1]);
+              this.descriptionMarkdown = this.descriptionMarkdown.substring(0,
+                tableauImageId[i].index) + tableauFichier[indexFichier].data +
+                this.descriptionMarkdown.substring(tableauImageId[i].index + tableauImageId[i][0].length);
+            }
+            res();
+          }
+        });
+      }
+    });
+  }
+
+  toggleDescription() {
+    if (this.descriptionEdit) {
+      this.prepareForMarkdown().then(() => this.descriptionEdit = !this.descriptionEdit);
+    } else {
+      this.descriptionEdit = !this.descriptionEdit;
+    }
+  }
+
+  fileUpload(file: File) {
+    const startPos = this.descriptionMessage.nativeElement.selectionStart;
+    const endPos = this.descriptionMessage.nativeElement.selectionEnd;
+    this.task.description = this.descriptionMessage.nativeElement.value.substring(0, startPos)
+      + '![' + file.filename + '](image://' + file.id + ')'
+      + this.descriptionMessage.nativeElement.value.substring(endPos, this.descriptionMessage.nativeElement.value.length);
+  }
+
+  ouvrirFichier(file: File) {
+    this.fileservice.open(file);
+  }
 }
