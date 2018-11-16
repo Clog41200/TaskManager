@@ -1,3 +1,5 @@
+import { ChatModule } from './../chat/chat.module';
+import { MaterialImportModule } from './../material-import/material-import.module';
 import { FilesModule } from './files/files.module';
 import { ConnexionService } from './connexion.service';
 import { TaskMessageService } from './task-message.service';
@@ -15,22 +17,6 @@ import { UsersManagmentComponent } from './users-managment/users-managment.compo
 import { ConnexionComponent } from './connexion/connexion.component';
 import { MainComponent } from './main/main.component';
 import { InitAppComponent } from './init-app/init-app.component';
-import {
-  MatButtonModule,
-  MatIconModule,
-  MatMenuModule,
-  MatDialogModule,
-  MatInputModule,
-  MatFormFieldModule,
-  MatToolbarModule,
-  MatTableModule,
-  MatSelectModule,
-  MatPaginatorModule,
-  MatSortModule,
-  MatTabsModule,
-  MatCheckboxModule
-} from '@angular/material';
-import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { BrowserModule } from '@angular/platform-browser';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
@@ -53,7 +39,6 @@ import { TacheDialogComponent } from './tache-dialog/tache-dialog.component';
 import { MarkdownModule, MarkedOptions, MarkedRenderer } from 'ngx-markdown';
 import { DndModule } from 'ngx-drag-drop';
 import { UserAccountComponent } from './user-account/user-account.component';
-import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { UsersRightsService } from './users-rights.service';
 import { NotificationsModule } from './notifications/notifications.module';
 
@@ -117,28 +102,12 @@ export function markedOptionsFactory(): MarkedOptions {
     AppRoutingModule,
     AngularFontAwesomeModule,
     NgxElectronModule,
-    MatButtonModule,
-    BrowserAnimationsModule,
-    MatMenuModule,
-    AngularFontAwesomeModule,
-    MatDialogModule,
-    MatButtonModule,
     CommonModule,
     FormsModule,
     ReactiveFormsModule,
-    MatInputModule,
-    MatSelectModule,
-    MatFormFieldModule,
-    BrowserAnimationsModule,
-    MatToolbarModule,
-    MatTableModule,
-    MatPaginatorModule,
-    MatSortModule,
-    MatTabsModule,
     ItemsTaskModule,
-    MatSnackBarModule,
     DndModule,
-    MatCheckboxModule,
+    MaterialImportModule,
     MarkdownModule.forRoot({
       markedOptions: {
         provide: MarkedOptions,
@@ -147,7 +116,8 @@ export function markedOptionsFactory(): MarkedOptions {
     }
     ),
     NotificationsModule,
-    FilesModule
+    FilesModule,
+    ChatModule
   ],
   providers: [
     UsersService,

@@ -40,6 +40,7 @@ function createWindow() {
           } else {
             //win.loadFile('dist/taskManager/index.html');
             win.loadURL("http://localhost:4200");
+            win.show();
           }
         }
       });

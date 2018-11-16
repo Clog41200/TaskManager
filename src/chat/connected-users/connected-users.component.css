@@ -1,0 +1,27 @@
+:host{
+  min-width: 300px;
+  box-shadow: -1px 11px 20px black;
+  background-color: #2f2f2f;
+}
+
+.pseudo{
+  flex-grow: 1;
+  padding:0px 5px;
+}
+
+.avatar > img{
+  max-width: 40px;
+  max-height:40px;
+  border-radius:50%;
+}
+
+.ligneUser{
+  cursor:pointer;
+  align-items: center;
+  padding:0px 10px;
+  margin:5px 0px;
+}
+
+.ligneUser:hover{
+  background:rgba(0,0,0,0.2);
+}

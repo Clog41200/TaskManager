@@ -53,6 +53,7 @@
     "ngx-drag-drop": "^1.1.0",
     "protractor": "~5.4.0",
     "rxjs-compat": "^6.3.3",
+    "ts-md5": "^1.2.4",
     "ts-node": "~7.0.0",
     "tslint": "~5.11.0",
     "typescript": "~3.1.1"

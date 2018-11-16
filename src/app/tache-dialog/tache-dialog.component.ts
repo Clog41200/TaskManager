@@ -1,3 +1,4 @@
+import { FilesListComponent } from './../files/files-list/files-list.component';
 import { FilesService } from './../files/files.service';
 import { ConnexionService } from './../connexion.service';
 import {
@@ -36,6 +37,7 @@ export class TacheDialogComponent implements OnInit {
   });
 
   @ViewChild('descriptionMessage') descriptionMessage: ElementRef;
+  @ViewChild('listeFichier') listeFichier: FilesListComponent;
 
   public users: Array<Users>;
 
@@ -54,7 +56,6 @@ export class TacheDialogComponent implements OnInit {
 
   public descriptionEdit: boolean;
 
-  public piecesJointes: MatTableDataSource<File>;
   public descriptionMarkdown: string;
 
   constructor(
@@ -71,7 +72,6 @@ export class TacheDialogComponent implements OnInit {
     private connexionservice: ConnexionService,
     private fileservice: FilesService
   ) {
-    this.piecesJointes = new MatTableDataSource<File>();
 
     this.currentPage = 0;
     if (data.tache) {
@@ -152,7 +152,7 @@ export class TacheDialogComponent implements OnInit {
           });
       }
     } else if (event.index === 2) {
-      this.fileservice.GetAllWithoutData().then(res => this.piecesJointes.data = res);
+      this.listeFichier.Refresh();
     } else {
       if (this.nouveauMessage) {
         this.nouveauMessage.unsubscribe();
@@ -307,7 +307,7 @@ export class TacheDialogComponent implements OnInit {
         this.fileservice.GetById(imageId[1]).then(file => {
           tableauFichier.push(file);
 
-          if (tableauFichier.length == tableauImageId.length) {
+          if (tableauFichier.length === tableauImageId.length) {
             const tableauChaine = [];
             const tableauID = [];
 
@@ -357,15 +357,5 @@ export class TacheDialogComponent implements OnInit {
     }
   }
 
-  ouvrirFichier(file: File) {
-    this.fileservice.open(file);
-  }
 
-  supprimerFichier(file: File) {
-    this.fileservice.Delete(file).then(() => {
-      this.piecesJointes.data.splice(this.piecesJointes.data.findIndex(fichier => fichier.id === file.id), 1);
-      this.piecesJointes.data = this.piecesJointes.data;
-      // this.piecesJointes.connect(); // = new MatTableDataSource<File>(this.piecesJointes.data);
-    });
-  }
 }

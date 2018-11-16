@@ -19,8 +19,7 @@ export class UserDialogComponent implements OnInit {
     public dialogRef: MatDialogRef<UserDialogComponent>,
     @Inject(MAT_DIALOG_DATA) public data: Users,
     public usersService: UsersService
-  ) {
-  }
+  ) {}
 
   ngOnInit() {
     if (this.data !== undefined) {
@@ -29,7 +28,6 @@ export class UserDialogComponent implements OnInit {
   }
 
   onSubmit() {
-
     // ajout si l'id est à 0 sinon update.
     if (this.data.id === 0) {
       this.usersService
@@ -37,7 +35,9 @@ export class UserDialogComponent implements OnInit {
           id: 0,
           mail: this.form.value.mail,
           password: this.form.value.password,
-          pseudo: this.form.value.pseudo
+          pseudo: this.form.value.pseudo,
+          avatar: undefined,
+          est_connecte: false
         })
         .then(() => {
           this.dialogRef.close('update');
@@ -48,7 +48,9 @@ export class UserDialogComponent implements OnInit {
           id: this.data.id,
           mail: this.form.value.mail,
           password: this.form.value.password,
-          pseudo: this.form.value.pseudo
+          pseudo: this.form.value.pseudo,
+          avatar: undefined,
+          est_connecte: false
         })
         .then(() => {
           this.dialogRef.close('update');

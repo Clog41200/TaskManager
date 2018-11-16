@@ -1,0 +1,6 @@
+<div *ngFor="let user of users"  class="ligneUser flex-row" (dblclick)="ouvrirChat(user)" >
+  <div class="avatar">
+    <img [src]="getAvatar(user)"/>
+  </div>
+  <div class="pseudo">{{user.pseudo}}</div>
+</div>

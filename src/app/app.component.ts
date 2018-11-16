@@ -17,16 +17,12 @@ export class AppComponent {
   public showMenu = false;
   public showMenuButton = false;
 
-
-
   constructor(
     private electron: ElectronService,
     private router: Router,
     private userrightservice: UsersRightsService,
     private connexionService: ConnexionService
-  ) {
-
-  }
+  ) {}
 
   isAdmin() {
     const index = this.connexionService.rights.findIndex(droit => {
@@ -41,5 +37,11 @@ export class AppComponent {
     } else {
       this.electron.remote.getCurrentWindow().maximize();
     }
+  }
+
+  close() {
+    this.connexionService.Deconnexion().then(() => {
+      window.close();
+    });
   }
 }

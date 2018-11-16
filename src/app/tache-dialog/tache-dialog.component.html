@@ -70,33 +70,7 @@
       </div>
     </mat-tab>
     <mat-tab label="Pièces jointes">
-      <mat-table [dataSource]="piecesJointes">
-        <ng-container matColumnDef="action">
-          <mat-header-cell *matHeaderCellDef >Voir</mat-header-cell>
-          <mat-cell *matCellDef="let file" style="text-align: center">
-            <button mat-icon-button (click)="ouvrirFichier(file)">
-              <fa name="download"></fa>
-            </button>
-            <button mat-icon-button (click)="supprimerFichier(file)">
-              <fa name="trash"></fa>
-            </button>
-          </mat-cell>
-        </ng-container>
-
-        <ng-container matColumnDef="id">
-          <mat-header-cell *matHeaderCellDef style="max-width: 30px">Id</mat-header-cell>
-          <mat-cell *matCellDef="let file" style="max-width: 30px">{{file.id}}</mat-cell>
-        </ng-container>
-        <ng-container matColumnDef="filename">
-          <mat-header-cell *matHeaderCellDef>Fichier</mat-header-cell>
-          <mat-cell *matCellDef="let file">{{file.filename}}</mat-cell>
-        </ng-container>
-
-        <mat-header-row *matHeaderRowDef="['action','id','filename']"></mat-header-row>
-        <mat-row *matRowDef="let user; columns:['action','id','filename'];"></mat-row>
-
-      </mat-table>
-
+      <files-list #listeFichier [task]="task"></files-list>
     </mat-tab>
     <mat-tab label="Diagramme"> </mat-tab>
   </mat-tab-group>

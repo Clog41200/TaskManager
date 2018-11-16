@@ -4,3 +4,6 @@
 .mat-column-action{
   max-width:270px;
 }
+:host{
+  flex-grow:1;
+}

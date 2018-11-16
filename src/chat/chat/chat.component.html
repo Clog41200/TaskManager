@@ -1,0 +1,17 @@
+<div class="history"></div>
+<div class="divSaisie">
+  <form (ngSubmit)="onSubmit()" [formGroup]="form" class="flex-row" style="flex-grow: 1">
+    <mat-form-field floatLabel="always" style="flex-grow: 1">
+      <textarea
+        matInput
+        formControlName="message"
+        required
+        placeholder="Nouveau message"
+        matTextareaAutosize
+        matAutosizeMinRows="3"
+      ></textarea>
+    </mat-form-field>
+    <button mat-button >
+      <fa name="send"></fa> Envoyer</button>
+  </form>
+</div>

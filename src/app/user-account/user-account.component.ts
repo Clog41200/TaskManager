@@ -23,7 +23,7 @@ export class UserAccountComponent implements OnInit {
     this.activeRoute.params.subscribe(params => {
 
       this.userservice.GetById(params.user).then(res => {
-        this.user = res[0];
+        this.user = res;
       });
     });
   }

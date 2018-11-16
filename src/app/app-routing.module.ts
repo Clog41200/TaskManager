@@ -1,3 +1,4 @@
+import { ChatComponent } from './../chat/chat/chat.component';
 import { UserAccountComponent } from './user-account/user-account.component';
 import { ItemsManagmentComponent } from './items-managment/items-managment.component';
 import { StatesManagmentComponent } from './states-managment/states-managment.component';
@@ -17,6 +18,7 @@ const routes: Routes = [
   { path: 'manageRights', component: RightsManagmentComponent },
   { path: 'manageStates', component: StatesManagmentComponent },
   { path: 'useraccount/:user', component: UserAccountComponent },
+  { path: 'chat/:user', component: ChatComponent },
   { path: 'manageItems', component: ItemsManagmentComponent }
 ];
 

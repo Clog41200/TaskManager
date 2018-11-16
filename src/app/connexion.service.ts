@@ -36,6 +36,21 @@ export class ConnexionService {
     this.userrights.GetRightsByUser(this.user).then(res => (this.rights = res));
   }
 
+  Deconnexion(): Promise<void> {
+    return new Promise((res, rej) => {
+      this.pg
+        .Query('update users set est_connecte=false where id=$1', [
+          this.user.id
+        ])
+        .then(() => {
+          this.pg.Query('notify userconnexions, \'' + this.user.id + '\'');
+          this.user = new Users();
+          localStorage.removeItem('user');
+          res();
+        });
+    });
+  }
+
   Connexion(login: string, mdp: string): Promise<Users> {
     return new Promise((res, rej) => {
       this.pg
@@ -45,7 +60,17 @@ export class ConnexionService {
         ])
         .then(resultat => {
           if (resultat.length > 0) {
-            res(resultat[0]);
+            this.pg
+              .Query('update users set est_connecte=true where id=$1', [
+                resultat[0].id
+              ])
+              .then(() => {
+                this.pg.Query(
+                  'notify userconnexions, \'' + resultat[0].id + '\''
+                );
+                resultat[0].est_connecte = true;
+                res(resultat[0]);
+              });
           } else {
             res(undefined);
           }

@@ -46,7 +46,23 @@ export class UsersService {
   }
 
   GetById(id: number): Promise<Users> {
-    return this.pg.Query('SELECT * FROM users where id=$1', [id]);
+    return new Promise((res, rej) => {
+      this.pg.Query('SELECT * FROM users where id=$1', [id]).then(resultat => {
+        if (resultat.length > 0) {
+          res(resultat[0]);
+        } else {
+          res(undefined);
+        }
+      });
+    });
+  }
+
+  GetConnected(): Promise<Array<Users>> {
+    return this.pg.Query('select * from users where est_connecte=true');
+  }
+
+  ListenConnected() {
+    return this.pg.Listen('userconnexions');
   }
 }
 
@@ -55,11 +71,14 @@ export class Users {
   public mail: string;
   public password: string;
   public pseudo: string;
+  public avatar: Uint8Array;
+  public est_connecte: boolean;
 
   constructor() {
     this.id = 0;
     this.mail = '';
     this.password = '';
     this.pseudo = '';
+    this.est_connecte = false;
   }
 }

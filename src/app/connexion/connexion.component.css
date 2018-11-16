@@ -7,3 +7,6 @@
     transition: opacity 0.5s;
 }
 
+:host{
+  flex-grow:1;
+}
