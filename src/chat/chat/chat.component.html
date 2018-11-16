@@ -1,4 +1,7 @@
-<div class="history"></div>
+<div class="history" #scrollMe [scrollTop]="scrollMe.scrollHeight">
+  <div markdown [innerHTML]="message.text" *ngFor="let message of messages" ></div>
+
+</div>
 <div class="divSaisie">
   <form (ngSubmit)="onSubmit()" [formGroup]="form" class="flex-row" style="flex-grow: 1">
     <mat-form-field floatLabel="always" style="flex-grow: 1">

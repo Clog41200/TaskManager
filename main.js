@@ -46,7 +46,7 @@ function createWindow() {
       });
 
       connectPG.on("notification", msg => {
-        win.send(msg.channel, JSON.parse(msg.payload));
+        win.send(msg.channel, msg.payload);
       });
 
     }

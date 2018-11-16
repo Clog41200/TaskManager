@@ -1,3 +1,4 @@
+import { MarkdownModule } from 'ngx-markdown';
 import { MaterialImportModule } from './../material-import/material-import.module';
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
@@ -6,7 +7,7 @@ import { ChatComponent } from './chat/chat.component';
 import { ReactiveFormsModule } from '@angular/forms';
 
 @NgModule({
-  imports: [CommonModule, MaterialImportModule, ReactiveFormsModule],
+  imports: [CommonModule, MaterialImportModule, ReactiveFormsModule, MarkdownModule],
   exports: [ConnectedUsersComponent, ChatComponent],
   declarations: [ConnectedUsersComponent, ChatComponent]
 })

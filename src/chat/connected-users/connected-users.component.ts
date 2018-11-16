@@ -1,6 +1,8 @@
+import { Subscription } from 'rxjs';
+import { MessagesService, UserMessage } from './../../app/messages.service';
 import { ConnexionService } from './../../app/connexion.service';
-import { Router } from '@angular/router';
-import { Component, OnInit } from '@angular/core';
+import { Router, ActivatedRoute, ActivationEnd } from '@angular/router';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { Users, UsersService } from 'src/app/users.service';
 import { Md5 } from 'ts-md5';
 
@@ -9,16 +11,48 @@ import { Md5 } from 'ts-md5';
   templateUrl: './connected-users.component.html',
   styleUrls: ['./connected-users.component.css']
 })
-export class ConnectedUsersComponent implements OnInit {
+export class ConnectedUsersComponent implements OnInit, OnDestroy {
   protected users: Array<Users>;
+
+  private links: Array<UserMessage>;
+
+  private currentUserChat: number;
+  private messagerieSubscription: Subscription;
 
   constructor(
     private userservices: UsersService,
     private route: Router,
-    private connexionservice: ConnexionService
-  ) {}
+    private messageservice: MessagesService
+  ) {
+    this.links = [];
+    this.currentUserChat = 0;
+    this.route.events.subscribe(event => {
+      if (event instanceof ActivationEnd) {
+        this.currentUserChat = 0;
+        if (event.snapshot.url[0].path === 'chat') {
+          this.currentUserChat = parseInt(event.snapshot.params.user, 10);
+        }
+      }
+    });
+  }
+
+  ngOnDestroy() {
+    if (this.messagerieSubscription) {
+      this.messagerieSubscription.unsubscribe();
+    }
+  }
 
   ngOnInit() {
+    this.messageservice.GetMyWaitingMessages().then(result => {
+      this.links = result;
+    });
+
+    this.messagerieSubscription = this.messageservice.ListenMessage().subscribe(id_link_message => {
+      this.messageservice.GetMyWaitingMessages().then(result => {
+        this.links = result;
+      });
+    });
+
     this.userservices.GetConnected().then(res => {
       this.users = res;
       console.log(this.users);
@@ -40,6 +74,10 @@ export class ConnectedUsersComponent implements OnInit {
     });
   }
 
+  isCurrentChat(user: Users) {
+    return (user.id === this.currentUserChat);
+  }
+
   getAvatar(user: Users) {
     const email = Md5.hashStr(user.mail.trim().toLowerCase());
     return 'https://www.gravatar.com/avatar/' + email;
@@ -47,7 +85,11 @@ export class ConnectedUsersComponent implements OnInit {
 
   ouvrirChat(user: Users) {
     //if (this.connexionservice.user.id !== user.id) {
-      this.route.navigate(['/chat', user.id]);
+    this.route.navigate(['/chat', user.id]);
     //}
+  }
+
+  getNotifs(user: Users) {
+    return this.links.filter(link => link.id_from === user.id).length;
   }
 }

@@ -1,6 +1,6 @@
-<div *ngFor="let user of users"  class="ligneUser flex-row" (dblclick)="ouvrirChat(user)" >
-  <div class="avatar">
-    <img [src]="getAvatar(user)"/>
+<div *ngFor="let user of users" [ngClass]="isCurrentChat(user)?'active':''"  class="ligneUser flex-row" (dblclick)="ouvrirChat(user)" >
+  <div class="avatar" [matBadge]="getNotifs(user)" #test [matBadgeHidden]="getNotifs(user)===0">
+    <img [src]="getAvatar(user)" />
   </div>
   <div class="pseudo">{{user.pseudo}}</div>
 </div>
