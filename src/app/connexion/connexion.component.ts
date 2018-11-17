@@ -65,7 +65,10 @@ export class ConnexionComponent implements OnInit {
           this.connexionService.GetRights();
 
           this.elec.remote.getCurrentWindow().hide();
+          this.elec.remote.getCurrentWindow().maximize();
           this.router.navigate(['/main']);
+          this.elec.remote.getCurrentWindow().show();
+
         }
       });
   }

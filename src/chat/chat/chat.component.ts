@@ -1,3 +1,5 @@
+import { Users } from './../../app/users.service';
+import { UsersService } from 'src/app/users.service';
 import { ConnexionService } from './../../app/connexion.service';
 import { Subscription } from 'rxjs';
 import { MessagesService, Message } from './../../app/messages.service';
@@ -18,12 +20,13 @@ export class ChatComponent implements OnInit, OnDestroy {
 
   public iduser: number;
   public subscription: Subscription;
-
+  public users: Array<Users>;
   public messages: Array<Message>;
 
   constructor(
     private activeRoute: ActivatedRoute,
     private messageservice: MessagesService,
+    private userservice: UsersService,
     private connexionservice: ConnexionService
   ) {
     this.messages = [];
@@ -35,6 +38,15 @@ export class ChatComponent implements OnInit, OnDestroy {
       if (this.subscription) {
         this.subscription.unsubscribe();
       }
+      this.users = [];
+      this.users.push(this.connexionservice.user);
+
+
+      this.userservice.GetById(this.iduser).then(user => {
+        this.users.push(user);
+        this.messageservice.ignoreMessageFrom = user;
+
+      });
 
       this.messageservice.GetAllFromUser(this.iduser).then(res => {
         this.messages = res;
@@ -55,6 +67,7 @@ export class ChatComponent implements OnInit, OnDestroy {
     if (this.subscription) {
       this.subscription.unsubscribe();
     }
+    this.messageservice.ignoreMessageFrom = undefined;
   }
 
   onSubmit() {

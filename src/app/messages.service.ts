@@ -12,6 +12,8 @@ export class MessagesService {
   constructor(private pg: PostgresqlService,
     private connexionservice: ConnexionService) { }
 
+  public ignoreMessageFrom: Users;
+
   Add(message: Message): Promise<Message> {
     return new Promise((res, rej) => {
       this.pg

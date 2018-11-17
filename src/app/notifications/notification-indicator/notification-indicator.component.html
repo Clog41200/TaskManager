@@ -1,4 +1,4 @@
-<button [matMenuTriggerFor]="menuRef" mat-icon-button matBadgePosition="belowe after" matBadgeSize="medium" [matBadgeHidden]="notifications.length==0" [matBadge]="notifications.length">
+<button style="-webkit-app-region:no-drag;" [matMenuTriggerFor]="menuRef" mat-icon-button matBadgePosition="belowe after" matBadgeSize="medium" [matBadgeHidden]="notifications.length==0" [matBadge]="notifications.length">
     <fa name="envelope" *ngIf="notifications.length>0" ></fa>
     <fa name="envelope-open" *ngIf="notifications.length==0"></fa>
 </button>

@@ -49,7 +49,12 @@ export class ConnectedUsersComponent implements OnInit, OnDestroy {
 
     this.messagerieSubscription = this.messageservice.ListenMessage().subscribe(id_link_message => {
       this.messageservice.GetMyWaitingMessages().then(result => {
-        this.links = result;
+        if (this.messageservice.ignoreMessageFrom) {
+          this.links = result.filter(link => link.id_from !== this.messageservice.ignoreMessageFrom.id);
+          this.messageservice.ReadMessageOf(this.messageservice.ignoreMessageFrom.id);
+        } else {
+          this.links = result;
+        }
       });
     });
 

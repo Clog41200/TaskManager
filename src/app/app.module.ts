@@ -1,9 +1,8 @@
+import { MessagesModule } from './../messages/messages.module';
 import { ChatModule } from './../chat/chat.module';
 import { MaterialImportModule } from './../material-import/material-import.module';
 import { FilesModule } from './files/files.module';
 import { ConnexionService } from './connexion.service';
-import { TaskMessageService } from './task-message.service';
-import { MessagesService } from './messages.service';
 import { AssignedUsersService } from './assigned-users.service';
 import { TaskItemValueService } from './task-item-value.service';
 import { ItemsTaskModule } from './items-task/items-task.module';
@@ -19,12 +18,9 @@ import { MainComponent } from './main/main.component';
 import { InitAppComponent } from './init-app/init-app.component';
 import { BrowserModule } from '@angular/platform-browser';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-
 import { NgModule } from '@angular/core';
-
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
-
 import { AngularFontAwesomeModule } from 'angular-font-awesome';
 import { NgxElectronModule } from 'ngx-electron';
 import { UserDialogComponent } from './user-dialog/user-dialog.component';
@@ -42,9 +38,12 @@ import { UserAccountComponent } from './user-account/user-account.component';
 import { UsersRightsService } from './users-rights.service';
 import { NotificationsModule } from './notifications/notifications.module';
 
+
 // function that returns `MarkedOptions` with renderer override
 export function markedOptionsFactory(): MarkedOptions {
   const renderer = new MarkedRenderer();
+
+
 
   renderer.image = (href: string, title: string, text: string): string => {
 
@@ -117,7 +116,8 @@ export function markedOptionsFactory(): MarkedOptions {
     ),
     NotificationsModule,
     FilesModule,
-    ChatModule
+    ChatModule,
+    MessagesModule
   ],
   providers: [
     UsersService,
@@ -127,8 +127,6 @@ export function markedOptionsFactory(): MarkedOptions {
     EtatsService,
     TaskItemValueService,
     AssignedUsersService,
-    MessagesService,
-    TaskMessageService,
     UsersRightsService,
     ConnexionService
   ],

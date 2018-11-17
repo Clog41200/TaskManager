@@ -18,3 +18,31 @@
   display: flex;
   flex-direction: column;
 }
+
+.tag{
+  flex-grow: 0;
+  margin: 2px;
+  box-shadow: 0 0 18px black;
+  padding: 2px 4px;
+  background-color: #424242;
+  font-size: 12px;
+}
+
+.choixUser{
+  position: fixed;
+  background: #353535;
+  top: 141.5px;
+  left: 79px;
+  padding: 5px;
+  border-radius: 0px 10px 10px 10px;
+  box-shadow: 0px 8px 20px black;
+}
+
+.choixUser>div{
+  padding: 3px;
+
+}
+
+.choixUser>div:hover{
+  background: #505050;
+}

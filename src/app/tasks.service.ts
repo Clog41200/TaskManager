@@ -1,3 +1,4 @@
+import { AssignedUser } from './assigned-users.service';
 import { MatDialog } from '@angular/material';
 import { MessagesService } from './messages.service';
 import { Observable } from 'rxjs';
@@ -14,7 +15,7 @@ export class TasksService {
     private pg: PostgresqlService,
     private messageService: MessagesService,
     private dialog: MatDialog
-  ) {}
+  ) { }
 
   GetById(id: number): Promise<Task> {
     return new Promise((res, rej) => {
@@ -96,6 +97,45 @@ export class TasksService {
       }
     }
     return this.pg.Query(requete, tableau);
+  }
+
+  GetTagsByTasks(task: Array<Task>) {
+    let requete = 'select task_items_value.* from task_items_value, task_items ';
+    const tableau = [];
+    if (task.length > 0) {
+      requete += 'where (';
+
+      for (let i = 0; i < task.length; i++) {
+        if (i > 0) {
+          requete += ' OR ';
+        }
+        requete += 'task_items_value.id_task = $' + (i + 1);
+        tableau.push(task[i].id);
+      }
+      requete += ')';
+    }
+    requete += ' and task_items.id = task_items_value.id_item and task_items.est_tag=true';
+    return this.pg.Query(requete, tableau);
+
+  }
+
+  GetAssignedUsersByTasks(task: Array<Task>): Promise<Array<AssignedUser>> {
+    let requete = 'select * from assigned_users ';
+    const tableau = [];
+    if (task.length > 0) {
+      requete += 'where (';
+
+      for (let i = 0; i < task.length; i++) {
+        if (i > 0) {
+          requete += ' OR ';
+        }
+        requete += 'id_task = $' + (i + 1);
+        tableau.push(task[i].id);
+      }
+      requete += ')';
+    }
+    return this.pg.Query(requete, tableau);
+
   }
 
   EditTask(id: number, dialog: any, message = false) {

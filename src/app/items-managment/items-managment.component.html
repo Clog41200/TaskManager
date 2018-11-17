@@ -32,7 +32,14 @@
       <mat-cell *matCellDef="let item">{{item.label}}</mat-cell>
     </ng-container>
 
-  <mat-header-row *matHeaderRowDef="['action','id','libelle']"></mat-header-row>
-  <mat-row *matRowDef="let row; columns:['action','id','libelle']"></mat-row>
+    <ng-container matColumnDef="isTag">
+        <mat-header-cell *matHeaderCellDef>Tag</mat-header-cell>
+        <mat-cell *matCellDef="let item">
+          <mat-checkbox [(ngModel)]="item.est_tag" disableRipple="true" onclick="event.preventDefault()" color="primary"></mat-checkbox>
+        </mat-cell>
+      </ng-container>
+
+    <mat-header-row *matHeaderRowDef="['action','id','isTag','libelle']"></mat-header-row>
+  <mat-row *matRowDef="let row; columns:['action','id','isTag','libelle']"></mat-row>
 
 </mat-table>

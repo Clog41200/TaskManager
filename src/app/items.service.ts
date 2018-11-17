@@ -5,7 +5,7 @@ import { PostgresqlService } from './postgresql.service';
   providedIn: 'root'
 })
 export class ItemsService {
-  constructor(private pg: PostgresqlService) {}
+  constructor(private pg: PostgresqlService) { }
 
   GetAll(): Promise<Array<Item>> {
     return this.pg.Query('select * from task_items order by ordre asc');
@@ -17,8 +17,8 @@ export class ItemsService {
         item.ordre = result[0].nb;
         this.pg
           .Query(
-            'insert into task_items (label,type,options,ordre) VALUES ($1,$2,$3,$4) returning id',
-            [item.label, item.type, item.options, item.ordre]
+            'insert into task_items (label,type,options,ordre,est_tag) VALUES ($1,$2,$3,$4,$5) returning id',
+            [item.label, item.type, item.options, item.ordre, item.est_tag]
           )
           .then(resultat => {
             res(resultat[0].id);
@@ -29,8 +29,8 @@ export class ItemsService {
 
   Update(item: Item): Promise<void> {
     return this.pg.Query(
-      'update task_items set label=$1, type=$2, options=$3, ordre=$4 where id=$5',
-      [item.label, item.type, item.options, item.ordre, item.id]
+      'update task_items set label=$1, type=$2, options=$3, ordre=$4, est_tag=$6 where id=$5',
+      [item.label, item.type, item.options, item.ordre, item.id, item.est_tag]
     );
   }
 
@@ -45,7 +45,7 @@ export class Item {
   public options: string;
   public ordre: number;
   public label: string;
-
+  public est_tag: boolean;
   public value: any;
 
   constructor() {
@@ -54,5 +54,6 @@ export class Item {
     this.options = '';
     this.ordre = 0;
     this.label = '';
+    this.est_tag = false;
   }
 }

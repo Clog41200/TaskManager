@@ -271,19 +271,6 @@ export class TacheDialogComponent implements OnInit {
     this.taskService.Delete(this.task).then(() => this.dialogRef.close());
   }
 
-  getPseudo(userId: number) {
-    const index = this.users.findIndex(user => userId === user.id);
-    if (index >= 0) {
-      return this.users[index].pseudo;
-    }
-    return '';
-  }
-
-  formatDH(timestamp: number) {
-    const date = new Date(timestamp);
-    return date.toLocaleString('fr');
-  }
-
   prepareForMarkdown(): Promise<void> {
     return new Promise((res, rej) => {
       this.descriptionMarkdown = this.task.description;
