@@ -63,6 +63,9 @@
     <mat-tab label="Pièces jointes">
       <files-list #listeFichier [task]="task"></files-list>
     </mat-tab>
-    <mat-tab label="Diagramme"> </mat-tab>
+    <mat-tab label="Diagramme">
+      <uml-tool [(uml)]="uml"></uml-tool>
+
+    </mat-tab>
   </mat-tab-group>
 </div>

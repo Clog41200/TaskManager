@@ -15,7 +15,7 @@ types.setTypeParser(20, function (val) {
 
 function createWindow() {
   // Créer le browser window.
-  win = new BrowserWindow({ show: false, frame: false });
+  win = new BrowserWindow({ show: false, frame: false, webPreferences:{experimentalFeatures:true, experimentalCanvasFeatures:true} });
   win.maximize();
 
   connectPG = new Client({

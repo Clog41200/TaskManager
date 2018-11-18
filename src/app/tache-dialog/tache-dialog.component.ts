@@ -1,3 +1,4 @@
+import { UML, UMLTable, UMLParameter, UMLType } from './../../umltool/umlmodels';
 import { FilesListComponent } from './../files/files-list/files-list.component';
 import { FilesService } from './../files/files.service';
 import { ConnexionService } from './../connexion.service';
@@ -58,6 +59,8 @@ export class TacheDialogComponent implements OnInit {
 
   public descriptionMarkdown: string;
 
+  public uml: UML;
+
   constructor(
     @Inject(MAT_DIALOG_DATA) public data: any,
     private dialogRef: MatDialogRef<TacheDialogComponent>,
@@ -72,6 +75,24 @@ export class TacheDialogComponent implements OnInit {
     private connexionservice: ConnexionService,
     private fileservice: FilesService
   ) {
+    this.uml = new UML();
+
+    const nouvelletable = new UMLTable();
+    nouvelletable.x = 10;
+    nouvelletable.y = 10;
+    nouvelletable.name = 'Test';
+
+    let champ = new UMLParameter();
+    champ.name = 'Champ1';
+    champ.type = { name: 'string' };
+    nouvelletable.fields.push(champ);
+
+    champ = new UMLParameter();
+    champ.name = 'Champ2';
+    champ.type = { name: 'bool' };
+    nouvelletable.fields.push(champ);
+
+    this.uml.tables.push(nouvelletable);
 
     this.currentPage = 0;
     if (data.tache) {

@@ -37,6 +37,7 @@ import { DndModule } from 'ngx-drag-drop';
 import { UserAccountComponent } from './user-account/user-account.component';
 import { UsersRightsService } from './users-rights.service';
 import { NotificationsModule } from './notifications/notifications.module';
+import { UMLToolModule } from 'src/umltool/umltool.module';
 
 
 // function that returns `MarkedOptions` with renderer override
@@ -117,7 +118,8 @@ export function markedOptionsFactory(): MarkedOptions {
     NotificationsModule,
     FilesModule,
     ChatModule,
-    MessagesModule
+    MessagesModule,
+    UMLToolModule
   ],
   providers: [
     UsersService,
