@@ -45,13 +45,14 @@
       </div>
     </mat-tab>
     <mat-tab label="Messages" class="flex-col">
-      <history-message [messages]="messages" [users]="users" style="padding:0px;max-height:460px"></history-message>
-
-      <div class="newMessage">
+      <div style="flex-grow: 1" class="flex-col" >
+        <history-message [messages]="messages" [users]="users" style="padding:0px;"></history-message>
+      </div>
+      <div class="newMessage" style="min-height:80px;max-height:80px;overflow-y: auto">
         <form [formGroup]="formMessage" (ngSubmit)="onSubmitMessage()" class="flex-row" style="flex-grow: 1">
           <mat-form-field floatLabel="always" style="flex-grow: 1">
             <textarea style="font-size: 12px" matInput formControlName="message" required placeholder="Nouveau message"
-              matTextareaAutosize matAutosizeMinRows="7"></textarea>
+              matTextareaAutosize ></textarea>
           </mat-form-field>
 
           <button mat-button>

@@ -1,4 +1,4 @@
-import { UMLRenderCanvasDirective, Rectangle } from './../umlrender-classes';
+import { UMLRenderCanvasDirective, Rectangle, Texte, Line } from './../umlrender-classes';
 import { UMLTable } from './../umlmodels';
 import { Observable } from 'rxjs';
 import {
@@ -22,9 +22,9 @@ export class UmlToolComponent implements OnInit, OnChanges {
   @ViewChild('canvas') public canvas: UMLRenderCanvasDirective;
   private cx: CanvasRenderingContext2D;
   private cv: UMLRenderCanvasDirective;
-  constructor() {}
+  constructor() { }
 
-  ngOnChanges() {}
+  ngOnChanges() { }
 
   ngOnInit() {
     this.drawCanvas();
@@ -45,12 +45,48 @@ export class UmlToolComponent implements OnInit, OnChanges {
 
         this.canvas.draw();
       });
+
+      rect.onDoubleClick.subscribe(() => {
+        console.log(table.name);
+      });
+
+      const title = new Texte(table.name);
+      title.SetPosition(5, 5);
+      let dim = title.GetDimensions();
+      rect.childs.push(title);
+
+      let y = 10 + dim.h;
+      const hauteurLigne = y;
+      y += 5;
+      for (const field of table.fields) {
+        const libelle = new Texte(field.name + ': ' + field.type.name);
+        dim = libelle.GetDimensions();
+        libelle.SetPosition(5, y);
+
+        y += dim.h;
+        y += 5;
+
+
+        if (dim.w + 10 > rect.width) {
+          rect.width = dim.w + 10;
+        }
+
+        rect.childs.push(libelle);
+      }
+
+      const line = new Line(0, hauteurLigne, rect.width, hauteurLigne);
+      line.SetStrokeColor('#000000');
+      rect.childs.push(line);
+
+      rect.height = y;
+      console.log(y, rect.height);
     }
 
     this.canvas.draw();
+
   }
 
-  doubleclick(event) {}
+
 
   addTable() {
     const table = new UMLTable();
