@@ -1,3 +1,4 @@
+import { UMLRenderCanvasDirective } from './umlrender-classes';
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { UmlToolComponent } from './uml-tool/uml-tool.component';
@@ -7,6 +8,6 @@ import { UmlToolComponent } from './uml-tool/uml-tool.component';
     CommonModule
   ],
   exports: [UmlToolComponent],
-  declarations: [UmlToolComponent]
+  declarations: [UmlToolComponent, UMLRenderCanvasDirective]
 })
 export class UMLToolModule { }

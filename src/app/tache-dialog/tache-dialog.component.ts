@@ -78,8 +78,6 @@ export class TacheDialogComponent implements OnInit {
     this.uml = new UML();
 
     const nouvelletable = new UMLTable();
-    nouvelletable.x = 10;
-    nouvelletable.y = 10;
     nouvelletable.name = 'Test';
 
     let champ = new UMLParameter();
