@@ -1,5 +1,11 @@
-import { UMLRenderCanvasDirective, Rectangle, Texte, Line } from './../umlrender-classes';
-import { UMLTable } from './../umlmodels';
+import { MatDialog } from '@angular/material';
+import {
+  UMLRenderCanvasDirective,
+  Rectangle,
+  Texte,
+  Line
+} from './../umlrender-classes';
+import { UMLTable, UMLClasses } from './../umlmodels';
 import { Observable } from 'rxjs';
 import {
   Component,
@@ -10,6 +16,7 @@ import {
   Input
 } from '@angular/core';
 import { UML } from '../umlmodels';
+import { UMLTableComponent } from '../umltable/umltable.component';
 
 @Component({
   selector: 'uml-tool',
@@ -22,9 +29,11 @@ export class UmlToolComponent implements OnInit, OnChanges {
   @ViewChild('canvas') public canvas: UMLRenderCanvasDirective;
   private cx: CanvasRenderingContext2D;
   private cv: UMLRenderCanvasDirective;
-  constructor() { }
+  constructor(private matdialog: MatDialog) {}
 
-  ngOnChanges() { }
+  ngOnChanges() {
+    this.drawCanvas();
+  }
 
   ngOnInit() {
     this.drawCanvas();
@@ -47,7 +56,12 @@ export class UmlToolComponent implements OnInit, OnChanges {
       });
 
       rect.onDoubleClick.subscribe(() => {
-        console.log(table.name);
+        this.matdialog
+          .open(UMLTableComponent, { data: table })
+          .afterClosed()
+          .subscribe(result => {
+            this.drawCanvas();
+          });
       });
 
       const title = new Texte(table.name);
@@ -66,7 +80,6 @@ export class UmlToolComponent implements OnInit, OnChanges {
         y += dim.h;
         y += 5;
 
-
         if (dim.w + 10 > rect.width) {
           rect.width = dim.w + 10;
         }
@@ -83,15 +96,19 @@ export class UmlToolComponent implements OnInit, OnChanges {
     }
 
     this.canvas.draw();
-
   }
-
-
 
   addTable() {
     const table = new UMLTable();
     table.name = 'nouvelle table';
     this.uml.tables.push(table);
+    this.drawCanvas();
+  }
+
+  addClasse() {
+    const classe = new UMLClasses();
+    classe.name = 'Nouvelle Classe';
+    this.uml.classes.push(classe);
     this.drawCanvas();
   }
 }

@@ -1,3 +1,4 @@
+import { DiagrammesService } from './diagrammes.service';
 import { MessagesModule } from './../messages/messages.module';
 import { ChatModule } from './../chat/chat.module';
 import { MaterialImportModule } from './../material-import/material-import.module';
@@ -130,7 +131,8 @@ export function markedOptionsFactory(): MarkedOptions {
     TaskItemValueService,
     AssignedUsersService,
     UsersRightsService,
-    ConnexionService
+    ConnexionService,
+    DiagrammesService
   ],
   entryComponents: [
     UserDialogComponent,

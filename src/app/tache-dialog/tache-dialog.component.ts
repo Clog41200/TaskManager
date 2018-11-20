@@ -1,4 +1,10 @@
-import { UML, UMLTable, UMLParameter, UMLType } from './../../umltool/umlmodels';
+import { DiagrammesService } from './../diagrammes.service';
+import {
+  UML,
+  UMLTable,
+  UMLParameter,
+  UMLType
+} from './../../umltool/umlmodels';
 import { FilesListComponent } from './../files/files-list/files-list.component';
 import { FilesService } from './../files/files.service';
 import { ConnexionService } from './../connexion.service';
@@ -17,8 +23,20 @@ import { TaskItemValueService } from './../task-item-value.service';
 import { FormGroup, FormControl } from '@angular/forms';
 import { Item, ItemsService } from './../items.service';
 import { Task, TasksService } from './../tasks.service';
-import { MAT_DIALOG_DATA, MatDialogRef, MatTableDataSource, MatTable } from '@angular/material';
-import { Component, OnInit, Inject, ChangeDetectorRef, ViewChild, ElementRef } from '@angular/core';
+import {
+  MAT_DIALOG_DATA,
+  MatDialogRef,
+  MatTableDataSource,
+  MatTable
+} from '@angular/material';
+import {
+  Component,
+  OnInit,
+  Inject,
+  ChangeDetectorRef,
+  ViewChild,
+  ElementRef
+} from '@angular/core';
 import { Users, UsersService } from '../users.service';
 import { File } from '../files/files.service';
 
@@ -73,24 +91,10 @@ export class TacheDialogComponent implements OnInit {
     private taskMessageService: TaskMessageService,
     private notificationService: NotificationsService,
     private connexionservice: ConnexionService,
-    private fileservice: FilesService
+    private fileservice: FilesService,
+    private diagrammeservice: DiagrammesService
   ) {
     this.uml = new UML();
-
-    const nouvelletable = new UMLTable();
-    nouvelletable.name = 'Test';
-
-    let champ = new UMLParameter();
-    champ.name = 'Champ1';
-    champ.type = { name: 'string' };
-    nouvelletable.fields.push(champ);
-
-    champ = new UMLParameter();
-    champ.name = 'Champ2';
-    champ.type = { name: 'bool' };
-    nouvelletable.fields.push(champ);
-
-    this.uml.tables.push(nouvelletable);
 
     this.currentPage = 0;
     if (data.tache) {
@@ -134,6 +138,11 @@ export class TacheDialogComponent implements OnInit {
       this.datecreation = new Date(this.task.dh_creation).toLocaleDateString();
 
       if (this.task.id !== 0) {
+        this.diagrammeservice.GetByTaskId(this.task.id).then(diagramme => {
+          console.log(diagramme);
+          this.uml = (diagramme as any).contenu;
+          console.log(this.uml);
+        });
         for (const item of this.items) {
           this.taskItemValueService
             .GetValue(this.task.id, item.id)
@@ -199,7 +208,7 @@ export class TacheDialogComponent implements OnInit {
         const taskmessage = new TaskMessage();
         taskmessage.id_message = res.id;
         taskmessage.id_task = this.task.id;
-        this.taskMessageService.Add(taskmessage).then(() => { });
+        this.taskMessageService.Add(taskmessage).then(() => {});
 
         if (this.assignedUser.id !== 0) {
           if (message.id_user !== this.assignedUser.id_user) {
@@ -228,6 +237,9 @@ export class TacheDialogComponent implements OnInit {
     if (this.task.id === 0) {
       this.taskService.Add(this.task).then(res => {
         this.task.id = res.id;
+
+        this.diagrammeservice.SaveUMLForTask(this.uml, this.task.id);
+
         for (const item of this.items) {
           this.taskItemValueService.Add(res.id, item.id, item.value);
         }
@@ -247,6 +259,8 @@ export class TacheDialogComponent implements OnInit {
         }
       });
     } else {
+      this.diagrammeservice.SaveUMLForTask(this.uml, this.task.id);
+
       this.taskService.Update(this.task).then(res => {
         for (const item of this.items) {
           this.taskItemValueService.Update(this.task.id, item.id, item.value);
@@ -298,7 +312,7 @@ export class TacheDialogComponent implements OnInit {
       let match;
 
       const tableauImageId = [];
-      while (match = reg.exec(this.descriptionMarkdown)) {
+      while ((match = reg.exec(this.descriptionMarkdown))) {
         tableauImageId.push(match);
       }
 
@@ -306,7 +320,6 @@ export class TacheDialogComponent implements OnInit {
         res();
         return;
       }
-
 
       const tableauFichier = [];
       for (const imageId of tableauImageId) {
@@ -320,18 +333,28 @@ export class TacheDialogComponent implements OnInit {
             let indicedepart = 0;
 
             for (let i = 0; i < tableauImageId.length; i++) {
-              tableauChaine.push(this.descriptionMarkdown.substring(indicedepart, tableauImageId[i].index));
+              tableauChaine.push(
+                this.descriptionMarkdown.substring(
+                  indicedepart,
+                  tableauImageId[i].index
+                )
+              );
 
-              indicedepart = tableauImageId[i].index + tableauImageId[i][0].length;
+              indicedepart =
+                tableauImageId[i].index + tableauImageId[i][0].length;
               tableauID.push(tableauImageId[i][1]);
             }
-            tableauChaine.push(this.descriptionMarkdown.substring(indicedepart));
+            tableauChaine.push(
+              this.descriptionMarkdown.substring(indicedepart)
+            );
 
             this.descriptionMarkdown = '';
             for (let i = 0; i < tableauChaine.length - 1; i++) {
               const chaine = tableauChaine[i];
               this.descriptionMarkdown += chaine;
-              const indexFichier = tableauFichier.findIndex(fic => fic.id == tableauID[i]);
+              const indexFichier = tableauFichier.findIndex(
+                fic => fic.id == tableauID[i]
+              );
               this.descriptionMarkdown += tableauFichier[indexFichier].data;
             }
             this.descriptionMarkdown += tableauChaine[tableauChaine.length - 1];
@@ -345,23 +368,34 @@ export class TacheDialogComponent implements OnInit {
 
   toggleDescription() {
     if (this.descriptionEdit) {
-      this.prepareForMarkdown().then(() => this.descriptionEdit = !this.descriptionEdit);
+      this.prepareForMarkdown().then(
+        () => (this.descriptionEdit = !this.descriptionEdit)
+      );
     } else {
       this.descriptionEdit = !this.descriptionEdit;
     }
   }
 
   fileUpload(file: File) {
-
-
-    if (file.filename.indexOf('.jpg') || file.filename.indexOf('.jpeg') || file.filename.indexOf('.png') || file.filename.indexOf('.gif')) {
+    if (
+      file.filename.indexOf('.jpg') ||
+      file.filename.indexOf('.jpeg') ||
+      file.filename.indexOf('.png') ||
+      file.filename.indexOf('.gif')
+    ) {
       const startPos = this.descriptionMessage.nativeElement.selectionStart;
       const endPos = this.descriptionMessage.nativeElement.selectionEnd;
-      this.task.description = this.descriptionMessage.nativeElement.value.substring(0, startPos)
-        + '![' + file.filename + '](image://' + file.id + ')'
-        + this.descriptionMessage.nativeElement.value.substring(endPos, this.descriptionMessage.nativeElement.value.length);
+      this.task.description =
+        this.descriptionMessage.nativeElement.value.substring(0, startPos) +
+        '![' +
+        file.filename +
+        '](image://' +
+        file.id +
+        ')' +
+        this.descriptionMessage.nativeElement.value.substring(
+          endPos,
+          this.descriptionMessage.nativeElement.value.length
+        );
     }
   }
-
-
 }

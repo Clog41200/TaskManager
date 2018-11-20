@@ -1,40 +1,55 @@
 <mat-toolbar style="justify-content: space-between">
-    <span>Gestion des utilisateurs</span>
-    <button mat-button (click)="ajouter()">
-      <fa name="plus"></fa> Ajouter
-    </button>
+  <span>Gestion des utilisateurs</span>
+  <button mat-button (click)="ajouter()"><fa name="plus"></fa> Ajouter</button>
 </mat-toolbar>
 
 <mat-table [dataSource]="users">
-
   <ng-container matColumnDef="action">
     <mat-header-cell *matHeaderCellDef>Actions</mat-header-cell>
     <mat-cell *matCellDef="let user">
-      <button type="button" mat-raised-button color="warn" (click)="delete(user)" title="Supprimer">
+      <button
+        type="button"
+        mat-raised-button
+        color="warn"
+        (click)="delete(user)"
+        title="Supprimer"
+      >
         <fa name="trash"></fa>
       </button>
-      <button type="button" mat-raised-button (click)="editer(user)" title="Modifier">
+      <button
+        type="button"
+        mat-raised-button
+        (click)="editer(user)"
+        title="Modifier"
+      >
         <fa name="edit"></fa>
       </button>
-      <button mat-raised-button (click)="editRights(user)" title="Gestion des droits">
+      <button
+        mat-raised-button
+        (click)="editRights(user)"
+        title="Gestion des droits"
+      >
         <fa name="check-circle" style="color:green"></fa> Droits
       </button>
     </mat-cell>
   </ng-container>
 
   <ng-container matColumnDef="mail">
-      <mat-header-cell *matHeaderCellDef>eMail</mat-header-cell>
-      <mat-cell *matCellDef="let user">{{user.mail}}</mat-cell>
-    </ng-container>
-    <ng-container matColumnDef="pseudo">
-        <mat-header-cell *matHeaderCellDef>Pseudo</mat-header-cell>
-        <mat-cell *matCellDef="let user">{{user.pseudo}}</mat-cell>
-      </ng-container>
-    <ng-container matColumnDef="id">
-        <mat-header-cell *matHeaderCellDef>Id</mat-header-cell>
-        <mat-cell *matCellDef="let user">{{user.id}}</mat-cell>
-      </ng-container>
-  <mat-header-row *matHeaderRowDef="['action','id','mail','pseudo']"></mat-header-row>
-  <mat-row *matRowDef="let user; columns:['action','id','mail','pseudo'];"></mat-row>
-
+    <mat-header-cell *matHeaderCellDef>eMail</mat-header-cell>
+    <mat-cell *matCellDef="let user">{{ user.mail }}</mat-cell>
+  </ng-container>
+  <ng-container matColumnDef="pseudo">
+    <mat-header-cell *matHeaderCellDef>Pseudo</mat-header-cell>
+    <mat-cell *matCellDef="let user">{{ user.pseudo }}</mat-cell>
+  </ng-container>
+  <ng-container matColumnDef="id">
+    <mat-header-cell *matHeaderCellDef>Id</mat-header-cell>
+    <mat-cell *matCellDef="let user">{{ user.id }}</mat-cell>
+  </ng-container>
+  <mat-header-row
+    *matHeaderRowDef="['action', 'id', 'mail', 'pseudo']"
+  ></mat-header-row>
+  <mat-row
+    *matRowDef="let user; columns: ['action', 'id', 'mail', 'pseudo']"
+  ></mat-row>
 </mat-table>

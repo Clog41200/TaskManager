@@ -9,7 +9,7 @@ import { Task } from 'src/app/tasks.service';
   styleUrls: ['./files-list.component.css']
 })
 export class FilesListComponent implements OnInit {
-  protected piecesJointes: MatTableDataSource<File>;
+  public piecesJointes: MatTableDataSource<File>;
 
   @Input() task: Task;
 

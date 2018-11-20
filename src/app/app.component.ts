@@ -19,9 +19,9 @@ export class AppComponent {
 
   constructor(
     private electron: ElectronService,
-    private router: Router,
+    public router: Router,
     private userrightservice: UsersRightsService,
-    private connexionService: ConnexionService
+    public connexionService: ConnexionService
   ) {}
 
   isAdmin() {

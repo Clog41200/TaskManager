@@ -15,7 +15,7 @@ export class TasksService {
     private pg: PostgresqlService,
     private messageService: MessagesService,
     private dialog: MatDialog
-  ) { }
+  ) {}
 
   GetById(id: number): Promise<Task> {
     return new Promise((res, rej) => {
@@ -45,6 +45,7 @@ export class TasksService {
   }
 
   Delete(task: Task): Promise<void> {
+    this.pg.Query('delete from diagrammes where id_task=$1', [task.id]);
     this.pg.Query('delete from assigned_users where id_task=$1', [task.id]);
     this.pg.Query('delete from task_items_value where id_task=$1', [task.id]);
     this.messageService.DeleteByTask(task);
@@ -100,7 +101,8 @@ export class TasksService {
   }
 
   GetTagsByTasks(task: Array<Task>) {
-    let requete = 'select task_items_value.* from task_items_value, task_items ';
+    let requete =
+      'select task_items_value.* from task_items_value, task_items ';
     const tableau = [];
     if (task.length > 0) {
       requete += 'where (';
@@ -114,9 +116,9 @@ export class TasksService {
       }
       requete += ')';
     }
-    requete += ' and task_items.id = task_items_value.id_item and task_items.est_tag=true';
+    requete +=
+      ' and task_items.id = task_items_value.id_item and task_items.est_tag=true';
     return this.pg.Query(requete, tableau);
-
   }
 
   GetAssignedUsersByTasks(task: Array<Task>): Promise<Array<AssignedUser>> {
@@ -135,7 +137,6 @@ export class TasksService {
       requete += ')';
     }
     return this.pg.Query(requete, tableau);
-
   }
 
   EditTask(id: number, dialog: any, message = false) {

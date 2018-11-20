@@ -35,12 +35,12 @@ function createWindow() {
         } else {
           var count = res.rows[0].nb;
           if (count == 0) {
-            //win.loadFile('dist/taskManager/index.html');
+            //win.loadFile('dist/taskManager/#/nousers');
             win.loadURL("http://localhost:4200/nousers");
           } else {
             //win.loadFile('dist/taskManager/index.html');
-            win.loadURL("http://localhost:4200");
-            win.show();
+            win.loadURL("http://localhost:4200/");
+            //win.show();
           }
         }
       });

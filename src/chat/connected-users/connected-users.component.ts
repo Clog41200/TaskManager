@@ -12,7 +12,7 @@ import { Md5 } from 'ts-md5';
   styleUrls: ['./connected-users.component.css']
 })
 export class ConnectedUsersComponent implements OnInit, OnDestroy {
-  protected users: Array<Users>;
+  public users: Array<Users>;
 
   private links: Array<UserMessage>;
 

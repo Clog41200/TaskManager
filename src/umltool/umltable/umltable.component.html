@@ -1,0 +1,61 @@
+<mat-form-field floatPlaceholder="auto">
+  <input
+    matInput
+    [(ngModel)]="data.name"
+    type="text"
+    required
+    placeholder="Nom de la table"
+    name="tablename"
+  />
+</mat-form-field>
+
+<mat-table [dataSource]="dataSource">
+  <ng-container matColumnDef="action">
+    <mat-header-cell *matHeaderCellDef></mat-header-cell>
+    <mat-cell *matCellDef="let field">
+      <button mat-icon-button (click)="supprimer(field)">
+        <fa name="trash"></fa>
+      </button>
+      <button mat-icon-button (click)="moveup(field)">
+        <fa name="angle-up"></fa>
+      </button>
+      <button mat-icon-button (click)="movedown(field)">
+        <fa name="angle-down"></fa>
+      </button>
+    </mat-cell>
+  </ng-container>
+  <ng-container matColumnDef="type">
+    <mat-header-cell *matHeaderCellDef>Type</mat-header-cell>
+    <mat-cell *matCellDef="let field">{{ field.type.name }}</mat-cell>
+  </ng-container>
+  <ng-container matColumnDef="name">
+    <mat-header-cell *matHeaderCellDef>Nom</mat-header-cell>
+    <mat-cell *matCellDef="let field">{{ field.name }}</mat-cell>
+  </ng-container>
+  <mat-header-row
+    *matHeaderRowDef="['action', 'name', 'type']"
+  ></mat-header-row>
+  <mat-row *matRowDef="let user; columns: ['action', 'name', 'type']"></mat-row>
+</mat-table>
+
+<form (ngSubmit)="AddField()" [formGroup]="fieldform" class="flex-row">
+  <mat-form-field floatPlaceholder="auto">
+    <input
+      matInput
+      formControlName="name"
+      type="text"
+      required
+      placeholder="Nom du champ"
+    />
+  </mat-form-field>
+  <mat-form-field floatPlaceholder="auto">
+    <input
+      type="text"
+      matInput
+      formControlName="type"
+      required
+      placeholder="Type du champ"
+    />
+  </mat-form-field>
+  <button mat-button>Ajouter</button>
+</form>
