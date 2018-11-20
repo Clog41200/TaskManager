@@ -36,10 +36,14 @@ function createWindow() {
           var count = res.rows[0].nb;
           if (count == 0) {
             //win.loadFile('dist/taskManager/#/nousers');
-            win.loadURL("http://localhost:4200/nousers");
+            //win.loadURL("http://localhost:4200/nousers");
+            win.loadURL('file://' + __dirname + '/dist/taskManager/index.html#/nousers');
+
           } else {
             //win.loadFile('dist/taskManager/index.html');
-            win.loadURL("http://localhost:4200/");
+            win.loadURL('file://' + __dirname + '/dist/taskManager/index.html');
+
+            //win.loadURL("http://localhost:4200/");
             //win.show();
           }
         }
@@ -100,7 +104,7 @@ ipcMain.on("initialisation", (event, uuid, args) => {
               )
               .then(res => {
                 win.hide();
-                win.loadURL("http://localhost:4200");
+                win.loadURL('file://' + __dirname + '/dist/taskManager/index.html');
               });
           });
       } else {
@@ -122,7 +126,7 @@ ipcMain.on("initialisation", (event, uuid, args) => {
                   )
                   .then(res => {
                     win.hide();
-                    win.loadURL("http://localhost:4200");
+                    win.loadURL('file://' + __dirname + '/dist/taskManager/index.html');
                   });
               });
           });
