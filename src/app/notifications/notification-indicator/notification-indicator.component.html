@@ -1,11 +1,12 @@
-<button style="-webkit-app-region:no-drag;" [matMenuTriggerFor]="menuRef" mat-icon-button matBadgePosition="belowe after" matBadgeSize="medium" [matBadgeHidden]="notifications.length==0" [matBadge]="notifications.length">
+<button style="-webkit-app-region:no-drag;" mat-icon-button matBadgePosition="belowe after" matBadgeSize="medium" [matBadgeHidden]="notifications.length==0" [matBadge]="notifications.length"
+    (click)="menuRef.toggle()">
     <fa name="envelope" *ngIf="notifications.length>0" ></fa>
     <fa name="envelope-open" *ngIf="notifications.length==0"></fa>
 </button>
+<notification-listing #menuRef="notificationListing" [notifications]="notifications"></notification-listing>
 
-
-<mat-menu #menuRef="matMenu" (closed)="clearNotification()">
+<!-- <mat-menu #menuRef="matMenu" >
     <button mat-menu-item *ngFor="let notif of notifications" (click)="actionNotification(notif)">
         {{notif.text}}
     </button>
-</mat-menu>
+</mat-menu> -->

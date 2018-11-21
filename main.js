@@ -16,7 +16,7 @@ types.setTypeParser(20, function (val) {
 function createWindow() {
   // Créer le browser window.
   win = new BrowserWindow({ show: false, frame: false, webPreferences:{experimentalFeatures:true, experimentalCanvasFeatures:true} });
-  win.maximize();
+  //win.maximize();
 
   connectPG = new Client({
     user: "postgres",
@@ -36,14 +36,14 @@ function createWindow() {
           var count = res.rows[0].nb;
           if (count == 0) {
             //win.loadFile('dist/taskManager/#/nousers');
-            //win.loadURL("http://localhost:4200/nousers");
-            win.loadURL('file://' + __dirname + '/dist/taskManager/index.html#/nousers');
+            win.loadURL("http://localhost:4200/nousers");
+            // win.loadURL('file://' + __dirname + '/dist/taskManager/index.html#/nousers');
 
           } else {
             //win.loadFile('dist/taskManager/index.html');
-            win.loadURL('file://' + __dirname + '/dist/taskManager/index.html');
+            // win.loadURL('file://' + __dirname + '/dist/taskManager/index.html');
 
-            //win.loadURL("http://localhost:4200/");
+            win.loadURL("http://localhost:4200/");
             //win.show();
           }
         }
