@@ -1,0 +1,17 @@
+.mat-column-attribut_action{
+  max-width: 40px;
+}
+
+.mat-column-private{
+  align-items: center;
+  justify-content: center;
+}
+
+mat-cell:first-of-type, mat-footer-cell:first-of-type, mat-header-cell:first-of-type{
+  padding-left:0px;
+}
+
+:host{
+  display: flex;
+  flex-direction: column;
+}

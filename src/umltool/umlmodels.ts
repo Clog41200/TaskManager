@@ -41,6 +41,7 @@ export class UMLClassesProperty {
   public isPrivate: boolean;
   public name: string;
   public parameters: Array<UMLParameter>;
+  public type: UMLType;
 }
 
 export class UMLParameter {
