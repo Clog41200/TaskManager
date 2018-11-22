@@ -1,34 +1,39 @@
-:host{
+:host {
   display: flex;
   flex-direction: column;
-  padding:15px;
+  padding: 15px;
 }
 
-.history{
+.history {
   margin-bottom: 5px;
   background: #484848;
-  box-shadow: inset 0 0 12px black;
-  font-size:12px;
+  /* box-shadow: inset 0 0 12px black; */
+  font-size: 12px;
 }
 
 .history p {
   margin: 3px 0px !important;
 }
 
-.titleMessage{
-  color: #c7c8ff;
-  text-decoration: underline;
-  border-top:1px solid rgba(20,20,20,1);
+.titleMessage {
+  color: #acd2e2;
+  border-top: 1px solid rgba(50, 50, 50, 1);
 }
 
-.history div>*{
+.history div > * {
   margin: 2px;
 }
 
 .historyMessage > * {
-  margin:0px;
+  margin: 0px;
 }
 
-.historyMessage{
-  padding:0px;
+.historyMessage {
+  padding: 0px;
+}
+
+.avatar{
+  border-radius: 50%;
+  width:30px;
+  height:auto;
 }

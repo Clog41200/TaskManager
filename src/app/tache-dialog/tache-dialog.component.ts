@@ -1,3 +1,4 @@
+import { HistoryMessageComponent } from './../../messages/history-message/history-message.component';
 import { DiagrammesService } from './../diagrammes.service';
 import {
   UML,
@@ -57,7 +58,7 @@ export class TacheDialogComponent implements OnInit {
 
   @ViewChild('descriptionMessage') descriptionMessage: ElementRef;
   @ViewChild('listeFichier') listeFichier: FilesListComponent;
-
+  @ViewChild('history') history: HistoryMessageComponent;
   public users: Array<Users>;
 
   public assignedUser: AssignedUser;
@@ -113,6 +114,7 @@ export class TacheDialogComponent implements OnInit {
         .subscribe(newMessage => {
           this.messageService.GetById(newMessage).then(message => {
             this.messages.push(message);
+            this.history.Update();
           });
         });
     }
@@ -176,6 +178,8 @@ export class TacheDialogComponent implements OnInit {
           .subscribe(newMessage => {
             this.messageService.GetById(newMessage).then(message => {
               this.messages.push(message);
+              this.history.Update();
+
             });
           });
       }
@@ -193,6 +197,7 @@ export class TacheDialogComponent implements OnInit {
     if (this.task.id !== 0) {
       this.messageService.GetAllByTask(this.task).then(messages => {
         this.messages = messages;
+        this.history.Update();
       });
     }
   }

@@ -1,11 +1,52 @@
-<div class="history" style="flex-grow: 1;padding:6px;overflow:auto;" #scrollMe [scrollTop]="scrollMe.scrollHeight">
-  <div *ngFor="let message of messages; index as i; first as isFirst" class="flex-col" style="user-select:text;">
-    <div class="titleMessage" *ngIf="isFirst || messages[i - 1].id_user != message.id_user">
-      {{
-      getPseudo(message.id_user) + " le " + formatDH(message.date_heure)
-      }}
-      :
+<div
+  class="history"
+  style="flex-grow: 1;padding:6px;overflow:auto;"
+  #scrollMe
+  [scrollTop]="scrollMe.scrollHeight"
+>
+  <div *ngFor="let groupe of regroupement" class="flex-row">
+    <div>
+      <img class="avatar"  [src]="getAvatar(getUser(groupe.id_user))" />
     </div>
-    <div [innerHTML]="message.text" class="historyMessage" markdown ngPreserveWhitespaces></div>
+
+    <div class="flex-col" style="flex-grow: 1">
+    <div *ngFor="let message of groupe.messages; index as i; first as isFirst">
+      <div class="titleMessage" *ngIf="isFirst">
+        <span style="font-weight: bold">{{getPseudo(message.id_user)}}</span>
+        {{
+           " le " + formatDH(message.date_heure)
+        }}
+        :
+      </div>
+      <div
+        [innerHTML]="message.text"
+        class="historyMessage"
+        markdown
+        ngPreserveWhitespaces
+      ></div>
+    </div>
   </div>
+  </div>
+
+  <!--
+    <div
+      *ngFor="let message of messages; index as i; first as isFirst"
+      class="flex-col"
+      style="user-select:text;"
+    >
+      <div *ngIf="isFirst || messages[i - 1].id_user != message.id_user"><img [src]="getAvatar(getUser(message.id_user))" /></div>
+      <div
+        class="titleMessage"
+        *ngIf="isFirst || messages[i - 1].id_user != message.id_user"
+      >
+        {{ getPseudo(message.id_user) + " le " + formatDH(message.date_heure) }} :
+      </div>
+      <div
+        [innerHTML]="message.text"
+        class="historyMessage"
+        markdown
+        ngPreserveWhitespaces
+      ></div>
+    </div>
+  -->
 </div>

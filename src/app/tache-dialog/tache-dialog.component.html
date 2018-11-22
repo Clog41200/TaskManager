@@ -46,7 +46,7 @@
     </mat-tab>
     <mat-tab label="Messages" class="flex-col">
       <div style="flex-grow: 1" class="flex-col" >
-        <history-message [messages]="messages" [users]="users" style="padding:0px;"></history-message>
+        <history-message [messages]="messages" #history="historyMessage" [users]="users" style="padding:0px;flex-grow: 1"></history-message>
       </div>
       <div class="newMessage" style="min-height:80px;max-height:80px;overflow-y: auto">
         <form [formGroup]="formMessage" (ngSubmit)="onSubmitMessage()" class="flex-row" style="flex-grow: 1">

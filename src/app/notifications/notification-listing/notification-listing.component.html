@@ -1,7 +1,7 @@
 <div [hidden]="!isopen" [@openClose]="isopen?'open':'closed'" class="flex-col" style="overflow:hidden;font-size:12px;background:grey;min-width:200px;position: fixed;z-index: 100000;box-shadow: 1px 6px 8px 1px black" >
   <div style="text-align: right"><button mat-button style="line-height:20px;font-size:12px" (click)="clearAll()">Tout effacer</button></div>
-  <div *ngFor="let notif of notifications" class="flex-row" style="box-shadow: 5px 3px 10px black;background:darkgrey;justify-content:space-between;align-items:center;padding:5px;cursor:pointer" (click)="actionNotification(notif)">
-      {{notif.text}} 
+  <div *ngFor="let notif of notifications" class="flex-row" style="min-height:40px;box-shadow: 5px 3px 10px black;background:darkgrey;justify-content:space-between;align-items:center;padding:5px;" >
+      <button mat-button style="line-height:25px;font-size:12px" (click)="actionNotification(notif)">{{notif.text}}</button>
       <button mat-icon-button (click)="closeNotification(notif)" >
       <fa name="close"></fa>
     </button>

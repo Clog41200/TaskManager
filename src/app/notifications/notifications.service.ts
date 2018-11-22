@@ -7,18 +7,23 @@ import { Users } from '../users.service';
   providedIn: 'root'
 })
 export class NotificationsService {
-  constructor(private pg: PostgresqlService, private connexionService:ConnexionService) {}
+  constructor(
+    private pg: PostgresqlService,
+    private connexionService: ConnexionService
+  ) {}
 
   GetAllByUser(user: Users) {
-    return this.pg.Query('select * from notifications where vu=false and id_user=$1', [
-      this.connexionService.user.id
-    ]);
+    return this.pg.Query(
+      'select * from notifications where vu=false and id_user=$1',
+      [this.connexionService.user.id]
+    );
   }
 
   GetByUser(user: Users) {
-    return this.pg.Query('select * from notifications where vu=false and id_user=$1', [
-      this.connexionService.user.id
-    ]);
+    return this.pg.Query(
+      'select * from notifications where vu=false and id_user=$1',
+      [this.connexionService.user.id]
+    );
   }
 
   GetById(id: number): Promise<Notification> {
@@ -70,6 +75,12 @@ export class NotificationsService {
           res(resultat[0]);
         });
     });
+  }
+
+  Clear(notification: Notification) {
+    return this.pg.Query('update notifications set vu=true where id=$1', [
+      notification.id
+    ]);
   }
 
   ClearAll(user: Users) {

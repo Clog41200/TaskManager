@@ -1,4 +1,4 @@
-<history-message style="flex-grow:1" [messages]="messages" [users]="users"></history-message>
+<history-message style="flex-grow:1" #history="historyMessage" [messages]="messages" [users]="users"></history-message>
 <div class="divSaisie">
   <form (ngSubmit)="onSubmit()" [formGroup]="form" class="flex-row" style="flex-grow: 1">
     <mat-form-field floatLabel="always" style="flex-grow: 1">

@@ -7,7 +7,6 @@
 .history{
   flex-grow: 1;
   background-color: #c5c5c512;
-  box-shadow: inset 0 0 14px black;
   margin: 16px;
   overflow: auto;
   user-select: text;
@@ -17,7 +16,6 @@
 .divSaisie{
   padding:10px;
   background-color: #c5c5c512;
-  box-shadow: inset 0 0 14px black;
   margin: 16px;
   display: flex;
   flex-direction: row;

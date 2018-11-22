@@ -1,3 +1,4 @@
+import { HistoryMessageComponent } from './../../messages/history-message/history-message.component';
 import { Users } from './../../app/users.service';
 import { UsersService } from 'src/app/users.service';
 import { ConnexionService } from './../../app/connexion.service';
@@ -5,8 +6,7 @@ import { Subscription } from 'rxjs';
 import { MessagesService, Message } from './../../app/messages.service';
 import { FormGroup, FormControl } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
-import { Component, OnInit, OnDestroy } from '@angular/core';
-
+import { Component, OnInit, OnDestroy, ViewChild } from '@angular/core';
 
 @Component({
   selector: 'chat',
@@ -17,6 +17,8 @@ export class ChatComponent implements OnInit, OnDestroy {
   public form = new FormGroup({
     message: new FormControl('')
   });
+
+  @ViewChild('history') public history: HistoryMessageComponent;
 
   public iduser: number;
   public subscription: Subscription;
@@ -41,24 +43,25 @@ export class ChatComponent implements OnInit, OnDestroy {
       this.users = [];
       this.users.push(this.connexionservice.user);
 
-
       this.userservice.GetById(this.iduser).then(user => {
         this.users.push(user);
         this.messageservice.ignoreMessageFrom = user;
-
       });
 
       this.messageservice.GetAllFromUser(this.iduser).then(res => {
         this.messages = res;
 
         this.messageservice.ReadMessageOf(this.iduser);
-
       });
 
       this.subscription = this.messageservice
         .ListenOnUser(this.iduser)
         .subscribe(idnewmessage => {
-          this.messageservice.GetById(idnewmessage).then(message => this.messages.push(message));
+          console.log(idnewmessage);
+          this.messageservice.GetById(idnewmessage).then(message => {
+            this.messages.push(message);
+            this.history.Update();
+          });
         });
     });
   }
@@ -74,7 +77,7 @@ export class ChatComponent implements OnInit, OnDestroy {
     const message = new Message();
     message.id_user = this.connexionservice.user.id;
     message.text = this.form.value.message;
-    message.date_heure = (new Date()).getTime();
+    message.date_heure = new Date().getTime();
     this.messageservice.AddMessageToUser(message, this.iduser).then(() => {
       this.form.patchValue({ message: '' });
     });

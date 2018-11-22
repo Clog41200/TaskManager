@@ -47,16 +47,26 @@ export class ConnectedUsersComponent implements OnInit, OnDestroy {
       this.links = result;
     });
 
-    this.messagerieSubscription = this.messageservice.ListenMessage().subscribe(id_link_message => {
-      this.messageservice.GetMyWaitingMessages().then(result => {
-        if (this.messageservice.ignoreMessageFrom) {
-          this.links = result.filter(link => link.id_from !== this.messageservice.ignoreMessageFrom.id);
-          this.messageservice.ReadMessageOf(this.messageservice.ignoreMessageFrom.id);
-        } else {
-          this.links = result;
-        }
+    this.messagerieSubscription = this.messageservice
+      .ListenMessage()
+      .subscribe(id_link_message => {
+        this.messageservice.GetMyWaitingMessages().then(result => {
+          if (this.messageservice.ignoreMessageFrom) {
+            if (result.length > 0) {
+              this.links = result.filter(
+                link =>
+                  link.id_from !== this.messageservice.ignoreMessageFrom.id
+              );
+
+              this.messageservice.ReadMessageOf(
+                this.messageservice.ignoreMessageFrom.id
+              );
+            }
+          } else {
+            this.links = result;
+          }
+        });
       });
-    });
 
     this.userservices.GetConnected().then(res => {
       this.users = res;
@@ -80,7 +90,7 @@ export class ConnectedUsersComponent implements OnInit, OnDestroy {
   }
 
   isCurrentChat(user: Users) {
-    return (user.id === this.currentUserChat);
+    return user.id === this.currentUserChat;
   }
 
   getAvatar(user: Users) {
@@ -89,9 +99,9 @@ export class ConnectedUsersComponent implements OnInit, OnDestroy {
   }
 
   ouvrirChat(user: Users) {
-    //if (this.connexionservice.user.id !== user.id) {
+    // if (this.connexionservice.user.id !== user.id) {
     this.route.navigate(['/chat', user.id]);
-    //}
+    // }
   }
 
   getNotifs(user: Users) {
