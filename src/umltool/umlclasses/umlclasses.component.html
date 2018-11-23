@@ -1,11 +1,16 @@
 <mat-form-field floatPlaceholder="auto">
-  <input matInput [(ngModel)]="data.name" type="text" required placeholder="Nom de la classe" name="tablename" />
+  <input
+    matInput
+    [(ngModel)]="data.name"
+    type="text"
+    required
+    placeholder="Nom de la classe"
+    name="tablename"
+  />
 </mat-form-field>
-
 
 <mat-tab-group [disableRipple]="false">
   <mat-tab label="Attributs" class="flex-col">
-
     <mat-table [dataSource]="attributDS" style="max-height:500px;overflow:auto">
       <ng-container matColumnDef="attribut_action">
         <mat-header-cell *matHeaderCellDef></mat-header-cell>
@@ -18,43 +23,133 @@
       <ng-container matColumnDef="type">
         <mat-header-cell *matHeaderCellDef>Type</mat-header-cell>
         <mat-cell *matCellDef="let field">
-              <input matInput [(ngModel)]="field.type.name"
-                     type="text" name="fieldname"
-                     required
-                     placeholder="">
+          <input
+            matInput
+            [(ngModel)]="field.type.name"
+            type="text"
+            name="fieldname"
+            required
+            placeholder=""
+          />
         </mat-cell>
       </ng-container>
       <ng-container matColumnDef="name">
         <mat-header-cell *matHeaderCellDef>Nom</mat-header-cell>
         <mat-cell *matCellDef="let field">
-            <input matInput [(ngModel)]="field.name"
-            type="text" name="fieldname"
+          <input
+            matInput
+            [(ngModel)]="field.name"
+            type="text"
+            name="fieldname"
             required
-            placeholder=""></mat-cell>
+            placeholder=""
+        /></mat-cell>
       </ng-container>
       <ng-container matColumnDef="private">
         <mat-header-cell *matHeaderCellDef>Privé</mat-header-cell>
         <mat-cell *matCellDef="let field">
-          <mat-checkbox [(ngModel)]="field.isPrivate" value="" color="primary"></mat-checkbox>
+          <mat-checkbox
+            [(ngModel)]="field.isPrivate"
+            value=""
+            color="primary"
+          ></mat-checkbox>
         </mat-cell>
       </ng-container>
-      <mat-header-row *matHeaderRowDef="['attribut_action', 'name', 'type','private']"></mat-header-row>
-      <mat-row style="min-height:40px;" *matRowDef="let field; columns: ['attribut_action', 'name', 'type','private']"></mat-row>
+      <mat-header-row
+        *matHeaderRowDef="['attribut_action', 'name', 'type', 'private']"
+      ></mat-header-row>
+      <mat-row
+        style="min-height:40px;"
+        *matRowDef="
+          let field;
+          columns: ['attribut_action', 'name', 'type', 'private']
+        "
+      ></mat-row>
     </mat-table>
 
-    <form (ngSubmit)="ajouterAttribut()" [formGroup]="formAttribut" class="flex-row" style="align-items: center">
+    <form
+      (ngSubmit)="ajouterAttribut()"
+      [formGroup]="formAttribut"
+      class="flex-row"
+      style="align-items: center"
+    >
       <mat-form-field floatPlaceholder="auto">
-        <input matInput formControlName="name" type="text" required placeholder="Nom">
+        <input
+          matInput
+          formControlName="name"
+          type="text"
+          required
+          placeholder="Nom"
+        />
       </mat-form-field>
       <mat-form-field floatPlaceholder="auto">
-        <input matInput formControlName="type" type="text" required placeholder="Type">
+        <input
+          matInput
+          formControlName="type"
+          type="text"
+          required
+          placeholder="Type"
+        />
       </mat-form-field>
       <mat-checkbox formControlName="private">Privé</mat-checkbox>
       <button mat-button>Ajouter un attribut</button>
     </form>
-
   </mat-tab>
-  <mat-tab label="Méthodes" class="flex-col">
-    tabbody
+  <mat-tab label="Méthodes" class="flex-row">
+    <div class="flex-col" style="max-width: 50%;min-height:50%">
+      <mat-table [dataSource]="methodeDS">
+        <ng-container matColumnDef="action">
+          <mat-header-cell *matHeaderCellDef></mat-header-cell>
+          <mat-cell *matCellDef="let cell">
+            <button mat-icon-button (click)="supprimerMethode(cell)">
+              <fa name="trash"></fa>
+            </button>
+          </mat-cell>
+        </ng-container>
+
+        <ng-container matColumnDef="nommethode">
+          <mat-header-cell *matHeaderCellDef>Nom</mat-header-cell>
+          <mat-cell *matCellDef="let row">
+            <input type="text" name="nommethode" [(ngModel)]="row.name" matInput
+          /></mat-cell>
+        </ng-container>
+
+        <ng-container matColumnDef="typemethode">
+          <mat-header-cell *matHeaderCellDef>Type</mat-header-cell>
+          <mat-cell *matCellDef="let row">
+            <input
+              type="text"
+              name="typemethode"
+              [(ngModel)]="row.type.name"
+              matInput
+            />
+          </mat-cell>
+        </ng-container>
+        <ng-container matColumnDef="privatemethode">
+          <mat-header-cell *matHeaderCellDef>Privée</mat-header-cell>
+          <mat-cell *matCellDef="let row">
+            <mat-checkbox [(ngModel)]="row.isPrivate"></mat-checkbox>
+          </mat-cell>
+        </ng-container>
+        <mat-header-row
+          *matHeaderRowDef="[
+            'action',
+            'nommethode',
+            'typemethode',
+            'privatemethode'
+          ]"
+        ></mat-header-row>
+        <mat-row
+          *matRowDef="
+            let row;
+            columns: ['action', 'nommethode', 'typemethode', 'privatemethode']
+          "
+        ></mat-row>
+      </mat-table>
+      <button mat-button (click)="ajouterMethode()">Ajouter une méthode</button>
+    </div>
+    <div class="flex-col" style="border-left:grey 1px solid">
+
+    </div>
   </mat-tab>
 </mat-tab-group>

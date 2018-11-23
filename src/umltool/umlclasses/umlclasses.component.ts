@@ -1,7 +1,11 @@
 import { FormGroup, FormControl } from '@angular/forms';
-import { MatDialogRef, MAT_DIALOG_DATA, MatTableDataSource } from '@angular/material';
+import {
+  MatDialogRef,
+  MAT_DIALOG_DATA,
+  MatTableDataSource
+} from '@angular/material';
 import { Component, OnInit, Inject } from '@angular/core';
-import { UMLClasses, UMLClassesProperty, UMLParameter, UMLType } from '../umlmodels';
+import { UMLClasses, UMLClassesProperty, UMLType } from '../umlmodels';
 
 @Component({
   selector: 'umlclasses',
@@ -9,7 +13,6 @@ import { UMLClasses, UMLClassesProperty, UMLParameter, UMLType } from '../umlmod
   styleUrls: ['./umlclasses.component.css']
 })
 export class UMLClassesComponent implements OnInit {
-
   public formAttribut = new FormGroup({
     name: new FormControl(''),
     type: new FormControl(''),
@@ -30,11 +33,18 @@ export class UMLClassesComponent implements OnInit {
   public attributDS: MatTableDataSource<UMLClassesProperty>;
   public methodeDS: MatTableDataSource<UMLClassesProperty>;
 
-  constructor(private dialogRef: MatDialogRef<UMLClassesComponent>, @Inject(MAT_DIALOG_DATA) public data: UMLClasses) { }
+  constructor(
+    private dialogRef: MatDialogRef<UMLClassesComponent>,
+    @Inject(MAT_DIALOG_DATA) public data: UMLClasses
+  ) {}
 
   ngOnInit() {
-    this.attributDS = new MatTableDataSource<UMLClassesProperty>(this.data.properties.filter(prop => prop.isFunction === false));
-    this.methodeDS = new MatTableDataSource<UMLClassesProperty>();
+    this.attributDS = new MatTableDataSource<UMLClassesProperty>(
+      this.data.properties.filter(prop => prop.isFunction === false)
+    );
+    this.methodeDS = new MatTableDataSource<UMLClassesProperty>(
+      this.data.properties.filter(method => method.isFunction === true)
+    );
   }
 
   ajouterAttribut() {
@@ -46,12 +56,27 @@ export class UMLClassesComponent implements OnInit {
     prop.type.name = this.formAttribut.value.type;
 
     this.formAttribut.patchValue({
-      name: '', type: '', private: false
+      name: '',
+      type: '',
+      private: false
     });
 
     this.data.properties.push(prop);
     this.attributDS.data.push(prop);
     this.attributDS.data = this.attributDS.data;
+  }
+
+  ajouterMethode(){
+    const prop = new UMLClassesProperty();
+    prop.name = 'Nouvelle méthode';
+    prop.isFunction = true;
+    prop.isPrivate = false;
+    prop.type = new UMLType();
+    prop.type.name = 'void';
+
+    this.data.properties.push(prop);
+    this.methodeDS.data.push(prop);
+    this.methodeDS.data = this.methodeDS.data;
   }
 
   supprimerAttribut(field: UMLClassesProperty) {
@@ -60,4 +85,9 @@ export class UMLClassesComponent implements OnInit {
     this.attributDS.data = this.attributDS.data;
   }
 
+  supprimerMethode(methode: UMLClassesProperty) {
+    this.methodeDS.data.splice(this.methodeDS.data.indexOf(methode), 1);
+    this.data.properties.splice(this.data.properties.indexOf(methode), 1);
+    this.methodeDS.data = this.methodeDS.data;
+  }
 }

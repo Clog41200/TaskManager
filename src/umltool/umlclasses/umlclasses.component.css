@@ -1,4 +1,4 @@
-.mat-column-attribut_action{
+.mat-column-attribut_action, .mat-column-action{
   max-width: 40px;
 }
 
@@ -14,4 +14,11 @@ mat-cell:first-of-type, mat-footer-cell:first-of-type, mat-header-cell:first-of-
 :host{
   display: flex;
   flex-direction: column;
+  min-width: 900px;
+  min-height: 500px;
+}
+
+.mat-column-privatemethode {
+  max-width: 40px;
+  justify-content: center;
 }
