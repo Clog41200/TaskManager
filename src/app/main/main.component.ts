@@ -1,3 +1,4 @@
+import { ItemsService } from './../items.service';
 import { AssignedUser } from './../assigned-users.service';
 import { UsersService } from './../users.service';
 import { Subscription } from 'rxjs';
@@ -12,6 +13,7 @@ import { TacheDialogComponent } from '../tache-dialog/tache-dialog.component';
 import { Task, TasksService } from '../tasks.service';
 import { TaskItemValue } from '../task-item-value.service';
 import { offset, position, getOffset } from 'caret-pos';
+import { Item } from '../items.service';
 
 @Component({
   selector: 'app-main',
@@ -36,6 +38,8 @@ export class MainComponent implements OnInit {
   public updatedTask: Subscription;
   public tags: Array<TaskItemValue>;
 
+  public items: Array<Item>;
+
   @ViewChild('choixUser') choixUser: ElementRef;
 
   constructor(
@@ -43,15 +47,31 @@ export class MainComponent implements OnInit {
     public etatService: EtatsService,
     private dg: MatDialog,
     private taskService: TasksService,
-    private userservice: UsersService
+    private userservice: UsersService,
+    private itemservice: ItemsService
   ) {
     this.tasks = new Array<Task>();
     this.tasksAffichees = new Array<Task>();
     this.tags = new Array<TaskItemValue>();
+    this.itemservice.GetAll().then(result => {
+      this.items = result;
+
+      for (const item of this.items) {
+        try {
+          item.colors = JSON.parse(item.options);
+        } catch (e) {
+          item.colors = new Array<any>();
+          const items = item.options.split('\n');
+          for (const item2 of items) {
+            item.colors.push({ label: item2, color: '#CCCCCC' });
+          }
+        }
+      }
+    });
   }
 
   ngOnInit() {
-    this.userservice.GetAll().then(res => this.users = res);
+    this.userservice.GetAll().then(res => (this.users = res));
 
     this.currentUser = JSON.parse(localStorage.getItem('user'));
     this.etatService.GetAll().then(res => {
@@ -63,13 +83,15 @@ export class MainComponent implements OnInit {
       const index = this.tasks.findIndex(tache => tache.id === task_id);
       if (index !== -1) {
         this.tasks.splice(index, 1);
-        this.taskService.GetAssignedUsersByTasks(this.tasks).then(asssigneds => {
-          this.assignedusers = asssigneds;
-          this.taskService.GetTagsByTasks(this.tasks).then(tags => {
-            this.tags = tags;
-            this.search();
+        this.taskService
+          .GetAssignedUsersByTasks(this.tasks)
+          .then(asssigneds => {
+            this.assignedusers = asssigneds;
+            this.taskService.GetTagsByTasks(this.tasks).then(tags => {
+              this.tags = tags;
+              this.search();
+            });
           });
-        });
       }
     });
 
@@ -79,15 +101,16 @@ export class MainComponent implements OnInit {
         if (index !== -1) {
           this.tasks[index] = { ...latache };
         }
-        this.taskService.GetAssignedUsersByTasks(this.tasks).then(asssigneds => {
-          this.assignedusers = asssigneds;
+        this.taskService
+          .GetAssignedUsersByTasks(this.tasks)
+          .then(asssigneds => {
+            this.assignedusers = asssigneds;
 
-          this.taskService.GetTagsByTasks(this.tasks).then(tags => {
-            this.tags = tags;
-            this.search();
+            this.taskService.GetTagsByTasks(this.tasks).then(tags => {
+              this.tags = tags;
+              this.search();
+            });
           });
-        });
-
       });
     });
 
@@ -96,14 +119,16 @@ export class MainComponent implements OnInit {
       .subscribe(newTask => {
         this.taskService.GetById(newTask).then(task => {
           this.tasks.push(task);
-          this.taskService.GetAssignedUsersByTasks(this.tasks).then(asssigneds => {
-            this.assignedusers = asssigneds;
+          this.taskService
+            .GetAssignedUsersByTasks(this.tasks)
+            .then(asssigneds => {
+              this.assignedusers = asssigneds;
 
-            this.taskService.GetTagsByTasks(this.tasks).then(tags => {
-              this.tags = tags;
-              this.search();
+              this.taskService.GetTagsByTasks(this.tasks).then(tags => {
+                this.tags = tags;
+                this.search();
+              });
             });
-          });
         });
       });
   }
@@ -119,6 +144,26 @@ export class MainComponent implements OnInit {
         });
       });
     });
+  }
+
+  getTagColor(tag: TaskItemValue) {
+    const item = this.items.findIndex(iteme => {
+      if (iteme.type === 'select') {
+        return iteme.colors.findIndex(val => val.label === tag.valeur) !== -1;
+      }
+
+      return false;
+    });
+
+    if (item != -1) {
+      const index = this.items[item].colors.findIndex(
+        elem => elem.label == tag.valeur
+      );
+      if (index !== -1) {
+        return this.items[item].colors[index].color;
+      }
+    }
+    return '#CCCCCC';
   }
 
   addTask(etat: number) {
@@ -138,11 +183,15 @@ export class MainComponent implements OnInit {
   }
 
   GetAssignedUsers(task: Task) {
-    this.taskService.GetAssignedUsersByTasks(this.tasks).then(res => this.assignedusers = res);
+    this.taskService
+      .GetAssignedUsersByTasks(this.tasks)
+      .then(res => (this.assignedusers = res));
   }
 
   GetTags(task: Task): Array<TaskItemValue> {
-    return this.tags.filter(tag => (tag.id_task === task.id && tag.valeur != null));
+    return this.tags.filter(
+      tag => tag.id_task === task.id && tag.valeur != null
+    );
   }
 
   onDrop(event, etat_id: number) {
@@ -158,28 +207,41 @@ export class MainComponent implements OnInit {
 
       const motcles = this.form.value.keywords.split(' ');
       for (const mot of motcles) {
-        if (mot[0] === '#') { // recherche dans les tags
-          const tags = this.tags.filter(tag => tag.valeur.search(new RegExp(mot.substr(1), 'i')) === -1);
+        if (mot[0] === '#') {
+          // recherche dans les tags
+          const tags = this.tags.filter(
+            tag => tag.valeur.search(new RegExp(mot.substr(1), 'i')) === -1
+          );
           for (const tag of tags) {
-            this.tasksAffichees.splice(this.tasks.findIndex(task => task.id === tag.id_task), 1);
+            this.tasksAffichees.splice(
+              this.tasks.findIndex(task => task.id === tag.id_task),
+              1
+            );
           }
         } else if (mot[0] === '@') {
-          const assignedtask = this.assignedusers.filter(link => link.id_user !== parseInt(mot.substr(1), 10));
-          this.tasksAffichees = this.tasksAffichees.filter(task => assignedtask.findIndex(link => link.id_task === task.id) !== -1);
-
+          const assignedtask = this.assignedusers.filter(
+            link => link.id_user !== parseInt(mot.substr(1), 10)
+          );
+          this.tasksAffichees = this.tasksAffichees.filter(
+            task =>
+              assignedtask.findIndex(link => link.id_task === task.id) !== -1
+          );
         } else {
-          this.tasksAffichees = this.tasksAffichees.filter(task => task.title.search(new RegExp(mot.substr(1), 'i')) !== -1);
+          this.tasksAffichees = this.tasksAffichees.filter(
+            task => task.title.search(new RegExp(mot.substr(1), 'i')) !== -1
+          );
         }
       }
 
       // on supprime les dupliquées
-      this.tasksAffichees = this.tasksAffichees.filter((task, index, self) => index === self.findIndex(t => t.id === task.id));
+      this.tasksAffichees = this.tasksAffichees.filter(
+        (task, index, self) => index === self.findIndex(t => t.id === task.id)
+      );
     }
-
   }
 
   onKeyUp(event) {
-    const input = (event.target as HTMLInputElement);
+    const input = event.target as HTMLInputElement;
     const offsets = offset(input);
     if (event.data === '@') {
       this.choixUser.nativeElement.style.display = 'block';
@@ -187,7 +249,8 @@ export class MainComponent implements OnInit {
     if (event.data === ' ' || event.inputType.search('deleteContent') !== -1) {
       this.choixUser.nativeElement.style.display = 'none';
     }
-    this.choixUser.nativeElement.style.top = (offsets.top + offsets.height) + 'px';
+    this.choixUser.nativeElement.style.top =
+      offsets.top + offsets.height + 'px';
     this.choixUser.nativeElement.style.left = offsets.left + 'px';
   }
 

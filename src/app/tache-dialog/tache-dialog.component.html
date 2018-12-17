@@ -1,4 +1,4 @@
-<div style="width:800px;height:700px" class="flex-col">
+<div style="width:1200px;height:700px" class="flex-col">
   <mat-toolbar style="justify-content: normal;min-height: 64px;">
     <input matInput [(ngModel)]="task.title" name="title" type="text" required placeholder="Titre de la tâche" />
     <button mat-button (click)="delete()">
@@ -31,12 +31,12 @@
               <fa name="edit"></fa>
             </button>
           </div>
-          <div style="box-shadow: inset 0px 0px 5px black;background: #4e4e4e;padding: 5px;">
+          <div style="box-shadow: inset 0px 0px 5px black;background: #4e4e4e;padding: 5px;max-width:980px">
             <mat-form-field floatPlaceholder="none" *ngIf="descriptionEdit" style="width:100%">
               <textarea appDropZone (onFileSaved)="fileUpload($event)" matTextareaAutosize matInput [(ngModel)]="task.description"
                 placeholder="" #descriptionMessage></textarea>
             </mat-form-field>
-            <div style="user-select: text" markdown [innerHTML]="descriptionMarkdown" *ngIf="!descriptionEdit"></div>
+            <div style="user-select: text" markdown [data]="descriptionMarkdown" *ngIf="!descriptionEdit"></div>
           </div>
         </div>
         <div class="flex-col" style="width: 204px;margin-left:5px">

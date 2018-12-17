@@ -1,0 +1,11 @@
+.mat-row{
+  min-height:29px;
+}
+.mat-column-act {
+  max-width: 40px;
+  padding-left: 0px !important;
+}
+
+.mat-column-act > button.mat-button {
+  min-width: 30px;
+}

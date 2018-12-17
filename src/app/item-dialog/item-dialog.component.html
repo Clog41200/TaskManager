@@ -19,10 +19,36 @@
     </mat-select>
   </mat-form-field>
 
-  <mat-form-field floatPlaceholder="auto" *ngIf="form.get('type').value=='select'">
-    <textarea matInput mat-autosize matAutosizeMinRows="5" formControlName="options" placeholder="Options (retour à la ligne pour chaque valeur)"></textarea>
-  </mat-form-field>
 
+<div *ngIf="form.get('type').value=='select'" class="flex-col">
+    <mat-table [dataSource]="selectdata" >
+        <ng-container matColumnDef="act">
+            <mat-header-cell *matHeaderCellDef></mat-header-cell>
+            <mat-cell *matCellDef="let item">
+              <button mat-button (click)="supprimeroptions(item)"><fa name="trash"></fa></button>
+            </mat-cell>
+        </ng-container>
+
+      <ng-container matColumnDef="libelle">
+          <mat-header-cell *matHeaderCellDef>Libellé</mat-header-cell>
+          <mat-cell *matCellDef="let item">
+                  <input matInput [(ngModel)]="item.label" [ngModelOptions]="{standalone:true}" name="libelle" type="text" required placeholder="libellé">
+
+          </mat-cell>
+      </ng-container>
+      <ng-container matColumnDef="couleur">
+          <mat-header-cell *matHeaderCellDef>Couleur</mat-header-cell>
+          <mat-cell *matCellDef="let item">
+            <input [(colorPicker)]="item.color" [style.background]="item.color" style="border: none"/>
+          </mat-cell>
+      </ng-container>
+
+      <mat-header-row *matHeaderRowDef="['act','libelle','couleur']"></mat-header-row>
+      <mat-row *matRowDef="let row; columns:['act','libelle','couleur']"></mat-row>
+    </mat-table>
+
+    <button type="button" mat-button (click)="selectdata.data.push({'libelle':'','couleur':''}); selectdata.data = selectdata.data;">Ajouter</button>
+  </div>
   <mat-checkbox formControlName="est_tag" color="primary">Est un tag</mat-checkbox>
 
 

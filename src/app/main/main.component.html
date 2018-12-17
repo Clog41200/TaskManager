@@ -21,7 +21,7 @@
           [dndDraggable]="tache">
           <div>{{ tache.title }}</div>
           <div class="flex-row" style="flex-wrap: wrap">
-            <div class="tag" *ngFor="let tag of GetTags(tache)">{{tag.valeur}}</div>
+            <div class="tag" *ngFor="let tag of GetTags(tache)" [style.background]="getTagColor(tag)">{{tag.valeur}}</div>
           </div>
         </div>
       </div>

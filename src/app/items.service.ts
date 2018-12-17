@@ -5,7 +5,7 @@ import { PostgresqlService } from './postgresql.service';
   providedIn: 'root'
 })
 export class ItemsService {
-  constructor(private pg: PostgresqlService) { }
+  constructor(private pg: PostgresqlService) {}
 
   GetAll(): Promise<Array<Item>> {
     return this.pg.Query('select * from task_items order by ordre asc');
@@ -47,7 +47,7 @@ export class Item {
   public label: string;
   public est_tag: boolean;
   public value: any;
-
+  public colors: Array<any>;
   constructor() {
     this.id = 0;
     this.type = '';
@@ -55,5 +55,6 @@ export class Item {
     this.ordre = 0;
     this.label = '';
     this.est_tag = false;
+    this.colors = new Array<any>();
   }
 }

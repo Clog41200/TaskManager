@@ -1,5 +1,5 @@
 <mat-form-field style="width:100%">
   <mat-select [(ngModel)]="item.value" [placeholder]="item.label">
-    <mat-option [value]="val" *ngFor="let val of values">{{ val }}</mat-option>
+    <mat-option [style.background]="val.color" [value]="val.label" *ngFor="let val of values">{{ val.label }}</mat-option>
   </mat-select>
 </mat-form-field>

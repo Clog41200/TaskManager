@@ -39,25 +39,36 @@ import { UserAccountComponent } from './user-account/user-account.component';
 import { UsersRightsService } from './users-rights.service';
 import { NotificationsModule } from './notifications/notifications.module';
 import { UMLToolModule } from 'src/umltool/umltool.module';
-
+import { ColorPickerModule } from 'ngx-color-picker';
 
 // function that returns `MarkedOptions` with renderer override
 export function markedOptionsFactory(): MarkedOptions {
   const renderer = new MarkedRenderer();
 
-
-
   renderer.image = (href: string, title: string, text: string): string => {
-
-    return '<img src="' + href + '" style="max-width:300px;max-height:300px" title="' + text + '"/>';
-
+    return (
+      '<img src="' +
+      href +
+      '" style="max-width:300px;max-height:300px" title="' +
+      text +
+      '"/>'
+    );
   };
+
 
   renderer.link = (href: string, title: string, text: string) => {
     if (href.indexOf('mailto:') !== -1) {
       return '<a href="' + href + '" title="' + title + '"  >' + text + '</a>';
     } else {
-      return '<a href="' + href + '" title="' + title + '" target="_blank" onclick="openurl(event)" >' + text + '</a>';
+      return (
+        '<a href="' +
+        href +
+        '" title="' +
+        title +
+        '" target="_blank" onclick="openurl(event)" >' +
+        text +
+        '</a>'
+      );
     }
   };
 
@@ -76,7 +87,6 @@ export function markedOptionsFactory(): MarkedOptions {
     smartypants: false
   };
 }
-
 
 @NgModule({
   declarations: [
@@ -112,15 +122,15 @@ export function markedOptionsFactory(): MarkedOptions {
     MarkdownModule.forRoot({
       markedOptions: {
         provide: MarkedOptions,
-        useFactory: markedOptionsFactory,
+        useFactory: markedOptionsFactory
       }
-    }
-    ),
+    }),
     NotificationsModule,
     FilesModule,
     ChatModule,
     MessagesModule,
-    UMLToolModule
+    UMLToolModule,
+    ColorPickerModule
   ],
   providers: [
     UsersService,
@@ -144,4 +154,4 @@ export function markedOptionsFactory(): MarkedOptions {
   ],
   bootstrap: [AppComponent]
 })
-export class AppModule { }
+export class AppModule {}

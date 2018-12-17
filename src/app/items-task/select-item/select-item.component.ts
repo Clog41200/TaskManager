@@ -8,13 +8,13 @@ import { DynamicBaseItem } from '../dynamic-base-item';
 })
 export class SelectItemComponent extends DynamicBaseItem implements OnInit {
 
-  public values: Array<string>;
+  public values: Array<any>;
 
   constructor() {
     super();
   }
 
   ngOnInit() {
-    this.values = this.item.options.split('\n');
+    this.values = JSON.parse(this.item.options);
   }
-}
+  }

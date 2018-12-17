@@ -5,7 +5,7 @@
   "scripts": {
     "ng": "ng",
     "start": "ng serve",
-    "build": "ng build",
+    "build": "node_modules/.bin/ng build && node_modules/.bin/electron .",
     "test": "ng serve --open",
     "lint": "ng lint",
     "e2e": "ng e2e",
@@ -51,6 +51,7 @@
     "karma-coverage-istanbul-reporter": "~2.0.1",
     "karma-jasmine": "~1.1.2",
     "karma-jasmine-html-reporter": "^0.2.2",
+    "ngx-color-picker": "^7.2.0",
     "ngx-drag-drop": "^1.1.0",
     "protractor": "~5.4.0",
     "rxjs-compat": "^6.3.3",
