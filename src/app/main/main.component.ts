@@ -209,9 +209,13 @@ export class MainComponent implements OnInit {
       for (const mot of motcles) {
         if (mot[0] === '#') {
           // recherche dans les tags
-          const tags = this.tags.filter(
-            tag => tag.valeur.search(new RegExp(mot.substr(1), 'i')) === -1
-          );
+          const tags = this.tags.filter(tag => {
+            let retour = true;
+            if (tag.valeur != null) {
+              retour =  (tag.valeur.search(new RegExp(mot.substr(1), 'i')) === -1);
+            }
+            return retour;
+          });
           for (const tag of tags) {
             this.tasksAffichees.splice(
               this.tasks.findIndex(task => task.id === tag.id_task),

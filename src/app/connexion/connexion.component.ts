@@ -1,7 +1,6 @@
 import { ConnexionService } from './../connexion.service';
 import { Component, OnInit, NgZone } from '@angular/core';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
-import { ElectronService } from 'ngx-electron';
 import { PostgresqlService } from '../postgresql.service';
 import { Router } from '@angular/router';
 
@@ -23,7 +22,6 @@ export class ConnexionComponent implements OnInit {
   public messageErreur = '';
 
   constructor(
-    private elec: ElectronService,
     private pg: PostgresqlService,
     private zone: NgZone,
     private router: Router,
@@ -31,18 +29,7 @@ export class ConnexionComponent implements OnInit {
   ) {}
 
   ngOnInit() {
-    this.elec.remote.getCurrentWindow().setSize(350, 400);
-    this.elec.remote.getCurrentWindow().center();
-    this.elec.remote.getCurrentWindow().show();
-    this.elec.ipcRenderer.once('connexion_ok', (event, retour) => {
-      this.elec.remote.getCurrentWindow().hide();
 
-      localStorage.setItem('user', JSON.stringify(retour));
-
-      this.zone.run(() => {
-        this.router.navigate(['main']);
-      });
-    });
   }
 
   submit() {
@@ -64,10 +51,7 @@ export class ConnexionComponent implements OnInit {
 
           this.connexionService.GetRights();
 
-          this.elec.remote.getCurrentWindow().hide();
-          this.elec.remote.getCurrentWindow().maximize();
           this.router.navigate(['/main']);
-          this.elec.remote.getCurrentWindow().show();
 
         }
       });

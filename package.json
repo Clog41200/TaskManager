@@ -23,11 +23,13 @@
     "@angular/router": "~7.0.0",
     "angular-font-awesome": "^3.1.2",
     "core-js": "^2.5.4",
+    "express": "^4.17.0",
     "font-awesome": "^4.7.0",
     "ngx-electron": "^1.0.4",
     "ngx-markdown": "^7.0.1",
     "pg": "^7.6.0",
     "rxjs": "~6.3.3",
+    "ws": "^7.0.0",
     "zone.js": "~0.8.26"
   },
   "devDependencies": {
