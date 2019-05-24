@@ -5,7 +5,7 @@ import { Observable } from 'rxjs';
   providedIn: 'root'
 })
 export class PostgresqlService {
-  private ws: WebSocket;
+  public ws: WebSocket;
 
   private queryCallback: any[];
   private notificationCallback: any;

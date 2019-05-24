@@ -1,5 +1,5 @@
 <div
-  style="display:flex;flex-direction:row;height:40px;-webkit-app-region: drag;min-height:40px"
+  style="display:flex;flex-direction:row;height:40px;min-height:40px"
 >
   <button
     mat-button
@@ -13,16 +13,6 @@
     *ngIf="router.url != '/nousers' && router.url != '/'"
   ></app-notification-indicator>
 
-  <span style="flex-grow: 1" (dblclick)="toggleMaximize()"></span>
-
-  <button
-    mat-mini-fab
-    color="warn"
-    (click)="close()"
-    style="cursor:pointer;-webkit-app-region:no-drag;"
-  >
-    <fa name="close" style="cursor:pointer"></fa>
-  </button>
 </div>
 
 <div class="flex-row" style="flex-grow: 1">

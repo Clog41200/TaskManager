@@ -58,6 +58,14 @@ websocket.on('connection', (clientws) => {
 
 
     }
+    if(objet.type=='deconnexion'){
+      const userid = objet.iduser;
+
+      connectPG.query('update users set est_connecte=false where id=$1',[userid]).then(()=>{
+        connectPG.query('notify userconnexions, \'' + userid + '\'').then();
+      });
+
+    }
 
 
   });

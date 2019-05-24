@@ -23,6 +23,13 @@ export class ConnexionService {
       this.user = JSON.parse(test);
       this.GetRights();
     }
+
+    window.onunload = () => {
+      this.pg.ws.send(JSON.stringify({
+        type:'deconnexion',
+        iduser:this.user.id
+      }));
+    };
   }
 
   IsConnected() {
