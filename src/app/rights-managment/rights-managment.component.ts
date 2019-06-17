@@ -1,7 +1,7 @@
 import { RightsDialogComponent } from './../rights-dialog/rights-dialog.component';
 import { Component, OnInit } from '@angular/core';
 import { Rights, RightsService } from '../rights.service';
-import { MatDialog } from '@angular/material';
+import { MatDialog } from '@angular/material/dialog';
 
 @Component({
   selector: 'app-rights-managment',

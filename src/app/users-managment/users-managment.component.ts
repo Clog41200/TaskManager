@@ -1,7 +1,7 @@
 import { UserRightsDialogComponent } from './../user-rights-dialog/user-rights-dialog.component';
 import { UsersService, Users } from './../users.service';
 import { Component, OnInit } from '@angular/core';
-import { MatDialog } from '@angular/material';
+import { MatDialog } from '@angular/material/dialog';
 import { UserDialogComponent } from '../user-dialog/user-dialog.component';
 import { config } from 'rxjs';
 

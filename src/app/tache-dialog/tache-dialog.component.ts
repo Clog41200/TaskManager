@@ -24,12 +24,8 @@ import { TaskItemValueService } from './../task-item-value.service';
 import { FormGroup, FormControl } from '@angular/forms';
 import { Item, ItemsService } from './../items.service';
 import { Task, TasksService } from './../tasks.service';
-import {
-  MAT_DIALOG_DATA,
-  MatDialogRef,
-  MatTableDataSource,
-  MatTable
-} from '@angular/material';
+import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
+import { MatTableDataSource, MatTable } from '@angular/material/table';
 import {
   Component,
   OnInit,

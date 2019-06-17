@@ -2,7 +2,7 @@ import { ItemsService } from './../items.service';
 import { AssignedUser } from './../assigned-users.service';
 import { UsersService } from './../users.service';
 import { Subscription } from 'rxjs';
-import { MatDialog } from '@angular/material';
+import { MatDialog } from '@angular/material/dialog';
 import { FormGroup, FormControl } from '@angular/forms';
 import { EtatsService } from './../etats.service';
 import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';

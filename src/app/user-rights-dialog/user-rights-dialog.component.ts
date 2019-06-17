@@ -1,5 +1,5 @@
 import { RightsService } from './../rights.service';
-import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material';
+import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { Component, OnInit, Inject } from '@angular/core';
 import { UsersRights, UsersRightsService } from '../users-rights.service';
 import { Users } from '../users.service';

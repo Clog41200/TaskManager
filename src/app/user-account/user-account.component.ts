@@ -3,7 +3,7 @@ import { UsersService } from 'src/app/users.service';
 import { FormGroup, FormControl, NgForm } from '@angular/forms';
 import { Component, OnInit } from '@angular/core';
 import { RouterLink, ActivatedRoute } from '@angular/router';
-import { MatSnackBar } from '@angular/material';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 @Component({
   selector: 'app-user-account',

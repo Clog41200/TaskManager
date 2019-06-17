@@ -1,11 +1,8 @@
 import { FormGroup, FormControl } from '@angular/forms';
 import { Item, ItemsService } from './../items.service';
 import { Component, OnInit, Input, Inject } from '@angular/core';
-import {
-  MatDialogRef,
-  MAT_DIALOG_DATA,
-  MatTableDataSource
-} from '@angular/material';
+import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { MatTableDataSource } from '@angular/material/table';
 
 @Component({
   selector: 'app-item-dialog',

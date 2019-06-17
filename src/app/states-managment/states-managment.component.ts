@@ -1,4 +1,4 @@
-import { MatDialog } from '@angular/material';
+import { MatDialog } from '@angular/material/dialog';
 import { EtatsService, Etat } from './../etats.service';
 import { Component, OnInit } from '@angular/core';
 import { EtatDialogComponent } from '../etat-dialog/etat-dialog.component';

@@ -1,5 +1,5 @@
 import { AssignedUser } from './assigned-users.service';
-import { MatDialog } from '@angular/material';
+import { MatDialog } from '@angular/material/dialog';
 import { MessagesService } from './messages.service';
 import { Observable } from 'rxjs';
 import { Injectable, ComponentRef, TemplateRef } from '@angular/core';

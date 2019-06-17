@@ -1,5 +1,5 @@
 import { UMLClassesComponent } from './../umlclasses/umlclasses.component';
-import { MatDialog } from '@angular/material';
+import { MatDialog } from '@angular/material/dialog';
 import {
   UMLRenderCanvasDirective,
   Rectangle,

@@ -1,5 +1,5 @@
 import { File, FilesService } from './../files.service';
-import { MatTableDataSource } from '@angular/material';
+import { MatTableDataSource } from '@angular/material/table';
 import { Component, OnInit, Input } from '@angular/core';
 import { Task } from 'src/app/tasks.service';
 

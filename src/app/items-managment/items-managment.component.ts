@@ -1,5 +1,5 @@
 import { ItemDialogComponent } from './../item-dialog/item-dialog.component';
-import { MatDialog } from '@angular/material';
+import { MatDialog } from '@angular/material/dialog';
 import { Item, ItemsService } from './../items.service';
 import { Component, OnInit } from '@angular/core';
 
