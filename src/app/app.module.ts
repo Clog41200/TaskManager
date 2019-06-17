@@ -1,3 +1,4 @@
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { DiagrammesService } from './diagrammes.service';
 import { MessagesModule } from './../messages/messages.module';
 import { ChatModule } from './../chat/chat.module';
@@ -17,7 +18,6 @@ import { UsersManagmentComponent } from './users-managment/users-managment.compo
 import { ConnexionComponent } from './connexion/connexion.component';
 import { MainComponent } from './main/main.component';
 import { InitAppComponent } from './init-app/init-app.component';
-import { BrowserModule } from '@angular/platform-browser';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { NgModule } from '@angular/core';
 import { AppRoutingModule } from './app-routing.module';
@@ -40,6 +40,7 @@ import { UsersRightsService } from './users-rights.service';
 import { NotificationsModule } from './notifications/notifications.module';
 import { UMLToolModule } from 'src/umltool/umltool.module';
 import { ColorPickerModule } from 'ngx-color-picker';
+import { RecursiveCategorieComponent } from './recursive-categorie/recursive-categorie.component';
 
 // function that returns `MarkedOptions` with renderer override
 export function markedOptionsFactory(): MarkedOptions {
@@ -107,8 +108,8 @@ export function markedOptionsFactory(): MarkedOptions {
     UserAccountComponent
   ],
   imports: [
-    BrowserModule,
     FormsModule,
+    BrowserAnimationsModule,
     ReactiveFormsModule,
     AppRoutingModule,
     AngularFontAwesomeModule,

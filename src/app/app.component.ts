@@ -1,10 +1,9 @@
-import { Users } from 'src/app/users.service';
 import { Component } from '@angular/core';
-import { ElectronService } from 'ngx-electron';
 import { Router } from '@angular/router';
-import { Rights } from './rights.service';
-import { UsersRightsService } from './users-rights.service';
+import { ElectronService } from 'ngx-electron';
+
 import { ConnexionService } from './connexion.service';
+import { UsersRightsService } from './users-rights.service';
 
 @Component({
   selector: 'app-root',

@@ -1,0 +1,9 @@
+<div *ngFor="let comment of hierarchyChild">
+
+      {{ comment.libelle }}
+      <recursive-categorie style="padding-left:5px"
+        [hierarchy]="hierar"
+        [parentId]="comment.id"
+      ></recursive-categorie>
+
+</div>

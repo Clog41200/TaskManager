@@ -22,7 +22,6 @@ import { MatToolbarModule } from '@angular/material/toolbar';
 @NgModule({
   imports: [
     CommonModule,
-    BrowserAnimationsModule,
     MatButtonModule,
     MatMenuModule,
     AngularFontAwesomeModule,
@@ -44,7 +43,6 @@ import { MatToolbarModule } from '@angular/material/toolbar';
   ],
   exports: [
     CommonModule,
-    BrowserAnimationsModule,
     MatButtonModule,
     MatMenuModule,
     AngularFontAwesomeModule,

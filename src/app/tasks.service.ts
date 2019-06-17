@@ -5,7 +5,6 @@ import { Observable } from 'rxjs';
 import { Injectable, ComponentRef, TemplateRef } from '@angular/core';
 import { PostgresqlService } from './postgresql.service';
 import { Etat } from './etats.service';
-import { ComponentType } from '@angular/core/src/render3';
 
 @Injectable({
   providedIn: 'root'

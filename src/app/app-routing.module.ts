@@ -1,3 +1,4 @@
+import { PrecedureModule } from './../precedure/precedure.module';
 import { ChatComponent } from './../chat/chat/chat.component';
 import { UserAccountComponent } from './user-account/user-account.component';
 import { ItemsManagmentComponent } from './items-managment/items-managment.component';
@@ -19,7 +20,10 @@ const routes: Routes = [
   { path: 'manageStates', component: StatesManagmentComponent },
   { path: 'useraccount/:user', component: UserAccountComponent },
   { path: 'chat/:user', component: ChatComponent },
-  { path: 'manageItems', component: ItemsManagmentComponent }
+  { path: 'manageItems', component: ItemsManagmentComponent },
+
+  { path: 'procedures', loadChildren: () => PrecedureModule }
+
 ];
 
 @NgModule({
@@ -28,6 +32,6 @@ const routes: Routes = [
   imports: [
     RouterModule.forRoot(routes, { useHash: true })
   ],
-  exports: [RouterModule],
+  exports: [RouterModule]
 })
 export class AppRoutingModule {}

@@ -1,6 +1,4 @@
-<div
-  style="display:flex;flex-direction:row;height:40px;min-height:40px"
->
+<div style="display:flex;flex-direction:row;height:40px;min-height:40px">
   <button
     mat-button
     *ngIf="router.url != '/nousers' && router.url != '/'"
@@ -12,12 +10,13 @@
   <app-notification-indicator
     *ngIf="router.url != '/nousers' && router.url != '/'"
   ></app-notification-indicator>
-
 </div>
 
 <div class="flex-row" style="flex-grow: 1">
   <router-outlet></router-outlet>
-  <connected-users *ngIf="router.url != '/nousers' && router.url != '/'"></connected-users>
+  <connected-users
+    *ngIf="router.url != '/nousers' && router.url != '/'"
+  ></connected-users>
 </div>
 <mat-menu #menuRef="matMenu">
   <button
@@ -27,6 +26,11 @@
   >
     Affichage des tâches
   </button>
+  <button
+    mat-menu-item
+    [routerLink]="['/procedures']"
+    routerLinkActive="router-link-active"
+  > Procédures </button>
   <button
     mat-menu-item
     [routerLink]="['/useraccount', connexionService.user.id]"

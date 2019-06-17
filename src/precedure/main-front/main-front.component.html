@@ -1,0 +1,16 @@
+<div class="flex-col" style="flex-grow: 1">
+  <mat-toolbar style="justify-content: space-between"
+    >Procédures internes</mat-toolbar
+  >
+  <div class="flex-row">
+    <div class="flex-col">
+      <!-- Les rubriques à gauche -->
+      <recursive-categorie [hierarchy]="hierarchy" [parentId]="0"></recursive-categorie>
+      <div>
+        <input type="text" [(ngModel)]="nouveauNom"  />
+        <button mat-button (click)="ajouterRubrique()">Save</button>
+      </div>
+    </div>
+    <div></div>
+  </div>
+</div>
