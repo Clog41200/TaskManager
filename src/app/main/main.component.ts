@@ -212,7 +212,7 @@ export class MainComponent implements OnInit {
           const tags = this.tags.filter(tag => {
             let retour = true;
             if (tag.valeur != null) {
-              retour =  (tag.valeur.search(new RegExp(mot.substr(1), 'i')) === -1);
+              retour = tag.valeur.search(new RegExp(mot.substr(1), 'i')) === -1;
             }
             return retour;
           });

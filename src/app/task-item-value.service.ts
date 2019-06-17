@@ -52,4 +52,5 @@ export class TaskItemValue {
     this.id_item = 0;
     this.valeur = undefined;
   }
+
 }
