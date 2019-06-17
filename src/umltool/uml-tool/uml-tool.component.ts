@@ -27,7 +27,7 @@ import { UMLTableComponent } from '../umltable/umltable.component';
 export class UmlToolComponent implements OnInit, OnChanges {
   @Input() public uml: UML;
 
-  @ViewChild('canvas') public canvas: UMLRenderCanvasDirective;
+  @ViewChild('canvas', { static: true }) public canvas: UMLRenderCanvasDirective;
   private cx: CanvasRenderingContext2D;
   private cv: UMLRenderCanvasDirective;
   constructor(private matdialog: MatDialog) { }

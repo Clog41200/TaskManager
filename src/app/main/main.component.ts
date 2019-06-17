@@ -40,7 +40,7 @@ export class MainComponent implements OnInit {
 
   public items: Array<Item>;
 
-  @ViewChild('choixUser') choixUser: ElementRef;
+  @ViewChild('choixUser', { static: true }) choixUser: ElementRef;
 
   constructor(
     private elec: ElectronService,

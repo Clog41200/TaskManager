@@ -27,7 +27,7 @@ export class DynamicTaskItemComponent implements OnInit, OnDestroy {
   @Input() value: any;
   @Input() item: Item;
 
-  @ViewChild('container', { read: ViewContainerRef })
+  @ViewChild('container', { read: ViewContainerRef, static: true })
   container: ViewContainerRef;
 
   private componentRef: ComponentRef<{}>;

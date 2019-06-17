@@ -56,9 +56,9 @@ export class TacheDialogComponent implements OnInit {
     message: new FormControl('')
   });
 
-  @ViewChild('descriptionMessage') descriptionMessage: ElementRef;
-  @ViewChild('listeFichier') listeFichier: FilesListComponent;
-  @ViewChild('history') history: HistoryMessageComponent;
+  @ViewChild('descriptionMessage', { static: false }) descriptionMessage: ElementRef;
+  @ViewChild('listeFichier', { static: true }) listeFichier: FilesListComponent;
+  @ViewChild('history', { static: true }) history: HistoryMessageComponent;
   public users: Array<Users>;
 
   public assignedUser: AssignedUser;

@@ -18,7 +18,7 @@ export class ChatComponent implements OnInit, OnDestroy {
     message: new FormControl('')
   });
 
-  @ViewChild('history') public history: HistoryMessageComponent;
+  @ViewChild('history', { static: true }) public history: HistoryMessageComponent;
 
   public iduser: number;
   public subscription: Subscription;
